@@ -1,6 +1,17 @@
 'use client';
 
 import React from 'react';
+import { type LucideIcon } from 'lucide-react';
+
+interface StatItem {
+  icon: LucideIcon;
+  target: number;
+  suffix: string;
+  label: string;
+  sub: string;
+  color: string;
+  decimals?: number;
+}
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import Reveal from '@/components/ui/Reveal';
 import {
@@ -12,7 +23,7 @@ import {
   Award,
 } from 'lucide-react';
 
-const stats = [
+const stats: StatItem[] = [
   {
     icon: GraduationCap,
     target: 300,
