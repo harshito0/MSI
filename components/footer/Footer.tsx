@@ -240,11 +240,14 @@ export default function Footer() {
             <Link href="/about" className="hover:text-[#EFC988] transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/about" className="hover:text-[#EFC988] transition-colors">
-              Terms of Service
+            <Link href="/student/login" className="hover:text-[#EFC988] transition-colors">
+              Student Portal
             </Link>
-            <Link href="/about" className="hover:text-[#EFC988] transition-colors">
-              Mandatory Disclosure
+            <Link href="/teacher/login" className="hover:text-[#EFC988] transition-colors">
+              Faculty Portal
+            </Link>
+            <Link href="/reception/login" className="hover:text-[#EFC988] transition-colors font-semibold text-[#EFC988]">
+              Reception / VMS
             </Link>
           </div>
 

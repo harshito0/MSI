@@ -128,15 +128,15 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
 
           {/* Desktop Action Buttons */}
           <div className="hidden lg:flex items-center space-x-3 flex-shrink-0">
-            <button
-              onClick={onOpenEnquiry}
+            <Link
+              href="/student/login"
               className={`font-semibold text-[#89190E] bg-white/80 hover:bg-white border border-[#89190E]/40 hover:border-[#89190E] rounded-[13px] transition-all duration-200 shadow-sm hover:shadow active:scale-98 flex items-center space-x-1.5 ${
                 scrolled ? 'h-[40px] px-4 text-xs sm:text-sm' : 'h-[46px] px-5 text-sm'
               }`}
             >
               <User className="w-3.5 h-3.5 text-[#89190E]" />
               <span>Portal Login</span>
-            </button>
+            </Link>
 
             <button
               onClick={onOpenEnquiry}
@@ -194,15 +194,13 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
               </div>
 
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    if (onOpenEnquiry) onOpenEnquiry();
-                  }}
+                <Link
+                  href="/student/login"
+                  onClick={() => setMobileMenuOpen(false)}
                   className="w-full h-11 flex items-center justify-center font-semibold text-sm text-[#89190E] bg-white border border-[#89190E] rounded-xl hover:bg-[#FFF9EF] transition-all"
                 >
                   Portal Login
-                </button>
+                </Link>
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);

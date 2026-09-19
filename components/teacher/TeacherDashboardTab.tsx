@@ -1,0 +1,419 @@
+'use client';
+
+import React from 'react';
+import {
+  BookOpen,
+  Users,
+  Calendar,
+  Award,
+  Clock,
+  Video,
+  CheckCircle2,
+  TrendingUp,
+  ArrowRight,
+  Sparkles,
+  ChevronRight,
+  ShieldCheck,
+} from 'lucide-react';
+import {
+  TeacherProfile,
+  TeacherCourse,
+  TeacherClassSchedule,
+  AssessmentItem,
+} from './data/teacherMockData';
+import { TeacherModuleTab } from './TeacherSidebar';
+
+interface TeacherDashboardTabProps {
+  teacher: TeacherProfile;
+  courses: TeacherCourse[];
+  schedules: TeacherClassSchedule[];
+  assessments: AssessmentItem[];
+  totalStudents: number;
+  onNavigateTab: (tab: TeacherModuleTab) => void;
+  onLaunchAttendance: (session: TeacherClassSchedule) => void;
+}
+
+export default function TeacherDashboardTab({
+  teacher,
+  courses,
+  schedules,
+  assessments,
+  totalStudents,
+  onNavigateTab,
+  onLaunchAttendance,
+}: TeacherDashboardTabProps) {
+  const upcomingClasses = schedules.filter((s) => s.day === 'Today');
+
+  return (
+    <div className="space-y-7">
+      {/* 1. Faculty Welcome Banner */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-linear-to-r from-[#10233F] via-[#1c355e] to-[#89190E] text-white shadow-xl hud-bracket relative overflow-hidden">
+        <div className="absolute inset-0 blueprint-grid opacity-15 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#EFC988]/15 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="max-w-2xl">
+            <div className="flex items-center space-x-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#EFC988] animate-pulse-beacon" />
+              <span className="text-[10px] sm:text-xs font-mono tracking-widest text-[#EFC988] uppercase font-bold">
+                {teacher.department} • {teacher.stream} Discipline
+              </span>
+            </div>
+            <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-white mt-2 tracking-tight">
+              Good day, {teacher.name}
+            </h1>
+            <p className="text-white/80 text-xs sm:text-sm mt-2 leading-relaxed">
+              You have <strong className="text-[#EFC988]">{courses.length} active courses assigned</strong>, overseeing{' '}
+              <strong>{totalStudents} enrolled students</strong>. You have {upcomingClasses.length} lectures scheduled for today.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3 mt-5">
+              <button
+                onClick={() => onNavigateTab('classes')}
+                className="px-4 sm:px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-md shadow-[#89190E]/30 btn-chamfered active:scale-98 transition-all"
+              >
+                <Calendar className="w-4 h-4 text-[#EFC988]" />
+                <span>Manage Today's Classes</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={() => onNavigateTab('assessment')}
+                className="px-4 sm:px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold border border-white/20 flex items-center space-x-2 transition-all"
+              >
+                <Award className="w-4 h-4 text-[#EFC988]" />
+                <span>Create Assessment</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Quick Metrics Tile */}
+          <div className="flex flex-row md:flex-col gap-3 flex-shrink-0">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-[130px]">
+              <span className="text-[10px] font-mono tracking-wider uppercase text-white/70 block">
+                Total Enrolled
+              </span>
+              <span className="font-serif text-2xl sm:text-3xl font-bold text-[#EFC988] mt-0.5 block">
+                {totalStudents}
+              </span>
+              <span className="text-[9px] text-emerald-300 font-semibold">{teacher.stream} Students</span>
+            </div>
+
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-[130px]">
+              <span className="text-[10px] font-mono tracking-wider uppercase text-white/70 block">
+                Average Score
+              </span>
+              <span className="font-serif text-2xl sm:text-3xl font-bold text-white mt-0.5 block">
+                81.2%
+              </span>
+              <span className="text-[9px] text-[#EFC988] font-semibold">Term Diagnostics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Top Metric Cards: Assigned Courses, Subjects, Students, Classes */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Card 1: Assigned Courses */}
+        <div
+          onClick={() => onNavigateTab('content')}
+          className="p-5 rounded-3xl bg-white border border-[#E8DCCB] hover:border-[#89190E] transition-all cursor-pointer shadow-xs group"
+        >
+          <div className="flex items-center justify-between">
+            <div className="p-2.5 rounded-2xl bg-[#89190E]/10 text-[#89190E] group-hover:bg-[#89190E] group-hover:text-white transition-colors">
+              <BookOpen className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-mono font-bold text-[#89190E]">{courses.length} Active</span>
+          </div>
+          <h3 className="font-serif text-base font-bold text-[#10233F] mt-3">
+            Assigned Courses
+          </h3>
+          <p className="text-xs text-[#526174] mt-0.5">
+            {courses.map((c) => c.code).join(', ')}
+          </p>
+        </div>
+
+        {/* Card 2: Assigned Subjects */}
+        <div
+          onClick={() => onNavigateTab('content')}
+          className="p-5 rounded-3xl bg-white border border-[#E8DCCB] hover:border-[#10233F] transition-all cursor-pointer shadow-xs group"
+        >
+          <div className="flex items-center justify-between">
+            <div className="p-2.5 rounded-2xl bg-[#10233F]/10 text-[#10233F] group-hover:bg-[#10233F] group-hover:text-white transition-colors">
+              <BookOpen className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+              {teacher.assignedSubjects.length} Subjects
+            </span>
+          </div>
+          <h3 className="font-serif text-base font-bold text-[#10233F] mt-3">
+            Teaching Papers
+          </h3>
+          <p className="text-xs text-[#526174] mt-0.5 truncate">
+            {teacher.assignedSubjects[0]}
+          </p>
+        </div>
+
+        {/* Card 3: Enrolled Students */}
+        <div
+          onClick={() => onNavigateTab('monitoring')}
+          className="p-5 rounded-3xl bg-white border border-[#E8DCCB] hover:border-[#EFC988] transition-all cursor-pointer shadow-xs group"
+        >
+          <div className="flex items-center justify-between">
+            <div className="p-2.5 rounded-2xl bg-[#FFF3DD] text-[#89190E] group-hover:bg-[#EFC988] transition-colors">
+              <Users className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-mono font-bold text-emerald-700">
+              {totalStudents} Total
+            </span>
+          </div>
+          <h3 className="font-serif text-base font-bold text-[#10233F] mt-3">
+            Enrolled Students
+          </h3>
+          <p className="text-xs text-[#526174] mt-0.5">
+            Role-isolated: {teacher.stream} only
+          </p>
+        </div>
+
+        {/* Card 4: Upcoming Classes */}
+        <div
+          onClick={() => onNavigateTab('classes')}
+          className="p-5 rounded-3xl bg-white border border-[#E8DCCB] hover:border-[#89190E] transition-all cursor-pointer shadow-xs group"
+        >
+          <div className="flex items-center justify-between">
+            <div className="p-2.5 rounded-2xl bg-amber-50 text-amber-800 group-hover:bg-amber-100 transition-colors">
+              <Calendar className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-mono font-bold text-[#89190E]">
+              {upcomingClasses.length} Scheduled Today
+            </span>
+          </div>
+          <h3 className="font-serif text-base font-bold text-[#10233F] mt-3">
+            Upcoming Classes
+          </h3>
+          <p className="text-xs text-[#526174] mt-0.5">
+            Next: {upcomingClasses[0]?.time || 'Completed'}
+          </p>
+        </div>
+      </div>
+
+      {/* 3. Main Dashboard 2-Column Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
+        {/* Left Column (2 spans): Assigned Courses & Upcoming Schedule */}
+        <div className="lg:col-span-2 space-y-7">
+          
+          {/* Assigned Courses Subsection */}
+          <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
+            <div className="flex items-center justify-between pb-4 border-b border-[#E8DCCB]">
+              <div className="flex items-center space-x-2">
+                <BookOpen className="w-5 h-5 text-[#89190E]" />
+                <h3 className="font-serif text-lg font-bold text-[#10233F]">
+                  Assigned Courses & Curriculum Progress
+                </h3>
+              </div>
+              <button
+                onClick={() => onNavigateTab('content')}
+                className="text-xs font-bold text-[#89190E] hover:underline flex items-center space-x-1"
+              >
+                <span>Manage Course Content</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            <div className="divide-y divide-[#E8DCCB]/60 mt-2 space-y-4">
+              {courses.map((course) => (
+                <div key={course.id} className="pt-4 first:pt-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#FFF3DD] text-[#89190E]">
+                          {course.code}
+                        </span>
+                        <span className="text-xs font-semibold text-[#526174]">
+                          {course.batch}
+                        </span>
+                      </div>
+                      <h4 className="font-serif font-bold text-base text-[#10233F] mt-1">
+                        {course.title}
+                      </h4>
+                    </div>
+                    <div className="text-left sm:text-right">
+                      <span className="text-xs font-bold text-[#10233F]">
+                        {course.totalStudents} Students Enrolled
+                      </span>
+                      <p className="text-[11px] text-[#526174]">
+                        Next lecture: {course.nextLectureTime}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Syllabus Progress Bar */}
+                  <div className="mt-3">
+                    <div className="flex items-center justify-between text-xs text-[#526174] mb-1">
+                      <span>
+                        Lectures Delivered: <strong>{course.lecturesCompleted} / {course.totalLectures}</strong>
+                      </span>
+                      <span className="font-bold text-[#89190E]">{course.progress}% Completed</span>
+                    </div>
+                    <div className="w-full h-2 bg-[#FFF3DD] rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-[#89190E] rounded-full transition-all"
+                        style={{ width: `${course.progress}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Upcoming Classes & Electronic Register Launcher */}
+          <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
+            <div className="flex items-center justify-between pb-4 border-b border-[#E8DCCB]">
+              <div className="flex items-center space-x-2">
+                <Calendar className="w-5 h-5 text-[#89190E]" />
+                <h3 className="font-serif text-lg font-bold text-[#10233F]">
+                  Today's Teaching Schedule
+                </h3>
+              </div>
+              <button
+                onClick={() => onNavigateTab('classes')}
+                className="text-xs font-bold text-[#89190E] hover:underline"
+              >
+                Full Weekly Timetable →
+              </button>
+            </div>
+
+            <div className="space-y-3 mt-4">
+              {schedules.map((session) => (
+                <div
+                  key={session.id}
+                  className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                    session.isLiveNow
+                      ? 'bg-[#FFF9EF] border-[#89190E] ring-1 ring-[#89190E]/20'
+                      : 'bg-white border-[#E8DCCB]'
+                  }`}
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#10233F] text-white">
+                        {session.time}
+                      </span>
+                      <span className="text-xs font-semibold text-[#89190E]">{session.type}</span>
+                      {session.isLiveNow && (
+                        <span className="text-[10px] font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full animate-pulse">
+                          ● Happening Now
+                        </span>
+                      )}
+                    </div>
+                    <h4 className="font-serif font-bold text-sm sm:text-base text-[#10233F]">
+                      {session.subject}
+                    </h4>
+                    <p className="text-xs text-[#526174]">
+                      Batch: {session.batch} • Venue: {session.venue}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center space-x-2 flex-shrink-0">
+                    <button
+                      onClick={() => onLaunchAttendance(session)}
+                      className="px-3.5 py-2 rounded-xl bg-white border border-[#89190E] text-[#89190E] hover:bg-[#FFF9EF] text-xs font-bold transition-colors"
+                    >
+                      Mark Attendance
+                    </button>
+                    {session.meetLink && (
+                      <a
+                        href={session.meetLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-xs"
+                      >
+                        <Video className="w-3.5 h-3.5 text-[#EFC988]" />
+                        <span>Enter Live Session</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+        {/* Right Column (1 span): Recent Results & Diagnostic Analytics */}
+        <div className="space-y-7">
+          
+          {/* Recent Results Card */}
+          <div className="p-6 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E8DCCB]">
+              <div className="flex items-center space-x-2">
+                <Award className="w-5 h-5 text-[#89190E]" />
+                <h3 className="font-serif text-base font-bold text-[#10233F]">
+                  Recent Examination Results
+                </h3>
+              </div>
+              <span className="text-[10px] font-mono text-[#526174]">Diagnostic Cell</span>
+            </div>
+
+            <div className="divide-y divide-[#E8DCCB]/60 mt-2 space-y-3">
+              {assessments.map((asmt) => (
+                <div key={asmt.id} className="pt-3 first:pt-1">
+                  <div className="flex items-start justify-between">
+                    <h5 className="text-xs font-bold text-[#10233F] leading-snug">
+                      {asmt.title}
+                    </h5>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                      {asmt.submissionsCount} Submissions
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[#526174] mt-1">
+                    Course: {asmt.courseCode} • Max: {asmt.marks} Marks
+                  </p>
+                  {asmt.averageScore && (
+                    <div className="mt-2 p-2 rounded-xl bg-[#FFF9EF] border border-[#E8DCCB] flex items-center justify-between text-xs">
+                      <span className="text-[#526174]">Batch Average:</span>
+                      <span className="font-serif font-bold text-[#89190E]">
+                        {asmt.averageScore}%
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => onNavigateTab('assessment')}
+              className="mt-4 w-full py-2 rounded-xl bg-[#FFF9EF] hover:bg-[#89190E] text-[#89190E] hover:text-white border border-[#E8DCCB] text-xs font-bold transition-all"
+            >
+              View Detailed Scorecards →
+            </button>
+          </div>
+
+          {/* Quick Mentorship & Stream Notice */}
+          <div className="p-6 rounded-3xl bg-linear-to-br from-[#10233F] to-[#1c355e] text-white shadow-lg relative overflow-hidden">
+            <div className="relative">
+              <span className="text-[10px] font-mono tracking-widest text-[#EFC988] uppercase font-bold block">
+                Academic Integrity & Bar Council Audit
+              </span>
+              <h4 className="font-serif text-lg font-bold text-white mt-1">
+                Remedial Mentorship Active
+              </h4>
+              <p className="text-xs text-white/80 mt-1.5 leading-relaxed">
+                2 students in your assigned batches are currently below the statutory 75% attendance threshold. You can schedule 1-on-1 counsel sessions in Communication.
+              </p>
+
+              <button
+                onClick={() => onNavigateTab('communication')}
+                className="mt-4 w-full py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1.5"
+              >
+                <span>Open Mentorship Hub</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
