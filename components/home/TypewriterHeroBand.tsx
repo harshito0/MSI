@@ -113,20 +113,20 @@ export default function TypewriterHeroBand({ onOpenEnquiry }: TypewriterHeroBand
                 Coaching For
               </p>
               <h2
-                className="font-serif text-[52px] sm:text-[68px] lg:text-[80px] font-black text-white leading-[0.95] tracking-tight"
+                className="font-serif text-[36px] xs:text-[46px] sm:text-[68px] lg:text-[80px] font-black text-white leading-[0.95] tracking-tight"
               >
                 {displayed}
                 <span className="cursor-blink" />
               </h2>
               <h2
-                className="font-serif text-[52px] sm:text-[68px] lg:text-[80px] font-black text-[#EFC988] leading-[0.95] tracking-tight mt-1"
+                className="font-serif text-[36px] xs:text-[46px] sm:text-[68px] lg:text-[80px] font-black text-[#EFC988] leading-[0.95] tracking-tight mt-1"
               >
                 Excellence
               </h2>
             </div>
 
             {/* HUD tick description */}
-            <div className="hud-tick-left mt-8 mb-8">
+            <div className="hud-tick-left mt-6 sm:mt-8 mb-6 sm:mb-8">
               <p className="text-white/70 text-sm sm:text-base leading-relaxed max-w-md">
                 MSI Group of Institutes has been shaping India's finest legal
                 minds since&nbsp;<strong className="text-[#EFC988]">1995</strong>. Expert faculty,
@@ -135,10 +135,10 @@ export default function TypewriterHeroBand({ onOpenEnquiry }: TypewriterHeroBand
             </div>
 
             {/* CTA Buttons — chamfered style inspired by ChainGPT */}
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 w-full sm:w-auto">
               <button
                 onClick={onOpenEnquiry}
-                className="btn-chamfered h-12 sm:h-14 px-7 sm:px-8 bg-[#89190E] text-white font-bold text-sm sm:text-base flex items-center gap-2.5 shadow-xl shadow-[#89190E]/25"
+                className="btn-chamfered h-12 sm:h-14 px-7 sm:px-8 bg-[#89190E] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-xl shadow-[#89190E]/25 w-full sm:w-auto"
               >
                 <span>Enquire Now</span>
                 <ArrowRight className="w-4 h-4" />
@@ -146,7 +146,7 @@ export default function TypewriterHeroBand({ onOpenEnquiry }: TypewriterHeroBand
 
               <button
                 onClick={onOpenEnquiry}
-                className="btn-chamfered h-12 sm:h-14 px-7 sm:px-8 bg-transparent text-[#EFC988] font-bold text-sm sm:text-base border border-[#EFC988]/40 hover:border-[#EFC988] flex items-center gap-2.5 transition-colors duration-200"
+                className="btn-chamfered h-12 sm:h-14 px-7 sm:px-8 bg-transparent text-[#EFC988] font-bold text-sm sm:text-base border border-[#EFC988]/40 hover:border-[#EFC988] flex items-center justify-center gap-2.5 transition-colors duration-200 w-full sm:w-auto"
               >
                 <span>View Courses</span>
               </button>

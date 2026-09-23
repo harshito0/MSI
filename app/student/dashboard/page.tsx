@@ -115,7 +115,7 @@ export default function StudentDashboardPage() {
       />
 
       {/* 2. Main Portal Shell: Sidebar + Content Area */}
-      <div className="flex-1 flex flex-row">
+      <div className="flex-1 flex flex-row min-w-0">
         {/* Sidebar Navigation */}
         <StudentSidebar
           activeTab={activeTab}
@@ -126,7 +126,7 @@ export default function StudentDashboardPage() {
         />
 
         {/* Tab View Content Viewport */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full overflow-y-auto">
+        <main className="flex-1 min-w-0 p-3.5 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full overflow-y-auto">
           {activeTab === 'dashboard' && (
             <StudentDashboardTab
               student={student}

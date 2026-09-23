@@ -281,7 +281,7 @@ export default function BlueprintStencilBand() {
 
         {/* Bottom HUD data row — mimics ChainGPT's data grid cells */}
         <div
-          className={`mt-10 grid grid-cols-3 sm:grid-cols-6 gap-px bg-[#E8DCCB] rounded-2xl overflow-hidden border border-[#E8DCCB] transition-all duration-700 delay-500 ${
+          className={`mt-10 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-6 gap-px bg-[#E8DCCB] rounded-2xl overflow-hidden border border-[#E8DCCB] transition-all duration-700 delay-500 ${
             isVisible ? 'opacity-100' : 'opacity-0'
           }`}
         >
@@ -295,9 +295,9 @@ export default function BlueprintStencilBand() {
           ].map((stat, i) => (
             <div
               key={i}
-              className="bg-white px-4 py-4 text-center group hover:bg-[#10233F] transition-colors duration-300"
+              className="bg-white px-2.5 sm:px-4 py-3 sm:py-4 text-center group hover:bg-[#10233F] transition-colors duration-300"
             >
-              <div className="font-serif text-xl sm:text-2xl font-extrabold text-[#89190E] group-hover:text-[#EFC988] transition-colors leading-none mb-0.5">
+              <div className="font-serif text-lg sm:text-2xl font-extrabold text-[#89190E] group-hover:text-[#EFC988] transition-colors leading-none mb-0.5">
                 {stat.val}
               </div>
               <div className="mono-accent text-[9px] sm:text-[10px] text-[#526174] group-hover:text-white/60 uppercase tracking-widest transition-colors">

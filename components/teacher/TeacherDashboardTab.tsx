@@ -47,15 +47,15 @@ export default function TeacherDashboardTab({
   return (
     <div className="space-y-7">
       {/* 1. Faculty Welcome Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-linear-to-r from-[#10233F] via-[#1c355e] to-[#89190E] text-white shadow-xl hud-bracket relative overflow-hidden">
+      <div className="p-5 sm:p-8 rounded-3xl bg-linear-to-r from-[#10233F] via-[#1c355e] to-[#89190E] text-white shadow-xl hud-bracket relative overflow-hidden">
         <div className="absolute inset-0 blueprint-grid opacity-15 pointer-events-none" />
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#EFC988]/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl min-w-0">
             <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#EFC988] animate-pulse-beacon" />
-              <span className="text-[10px] sm:text-xs font-mono tracking-widest text-[#EFC988] uppercase font-bold">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#EFC988] animate-pulse-beacon flex-shrink-0" />
+              <span className="text-[10px] sm:text-xs font-mono tracking-wider text-[#EFC988] uppercase font-bold break-words">
                 {teacher.department} • {teacher.stream} Discipline
               </span>
             </div>
@@ -67,10 +67,10 @@ export default function TeacherDashboardTab({
               <strong>{totalStudents} enrolled students</strong>. You have {upcomingClasses.length} lectures scheduled for today.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 mt-5">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-5 w-full sm:w-auto">
               <button
                 onClick={() => onNavigateTab('classes')}
-                className="px-4 sm:px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-md shadow-[#89190E]/30 btn-chamfered active:scale-98 transition-all"
+                className="w-full sm:w-auto justify-center px-4 sm:px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-md shadow-[#89190E]/30 btn-chamfered active:scale-98 transition-all"
               >
                 <Calendar className="w-4 h-4 text-[#EFC988]" />
                 <span>Manage Today's Classes</span>
@@ -79,7 +79,7 @@ export default function TeacherDashboardTab({
 
               <button
                 onClick={() => onNavigateTab('assessment')}
-                className="px-4 sm:px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold border border-white/20 flex items-center space-x-2 transition-all"
+                className="w-full sm:w-auto justify-center px-4 sm:px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold border border-white/20 flex items-center space-x-2 transition-all"
               >
                 <Award className="w-4 h-4 text-[#EFC988]" />
                 <span>Create Assessment</span>
@@ -88,25 +88,25 @@ export default function TeacherDashboardTab({
           </div>
 
           {/* Quick Metrics Tile */}
-          <div className="flex flex-row md:flex-col gap-3 flex-shrink-0">
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-[130px]">
+          <div className="grid grid-cols-2 md:flex md:flex-col gap-2.5 sm:gap-3 w-full md:w-auto flex-shrink-0">
+            <div className="p-3 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-0">
               <span className="text-[10px] font-mono tracking-wider uppercase text-white/70 block">
                 Total Enrolled
               </span>
-              <span className="font-serif text-2xl sm:text-3xl font-bold text-[#EFC988] mt-0.5 block">
+              <span className="font-serif text-xl sm:text-3xl font-bold text-[#EFC988] mt-0.5 block">
                 {totalStudents}
               </span>
-              <span className="text-[9px] text-emerald-300 font-semibold">{teacher.stream} Students</span>
+              <span className="text-[9px] text-emerald-300 font-semibold block truncate">{teacher.stream} Students</span>
             </div>
 
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-[130px]">
+            <div className="p-3 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-0">
               <span className="text-[10px] font-mono tracking-wider uppercase text-white/70 block">
                 Average Score
               </span>
-              <span className="font-serif text-2xl sm:text-3xl font-bold text-white mt-0.5 block">
+              <span className="font-serif text-xl sm:text-3xl font-bold text-white mt-0.5 block">
                 81.2%
               </span>
-              <span className="text-[9px] text-[#EFC988] font-semibold">Term Diagnostics</span>
+              <span className="text-[9px] text-[#EFC988] font-semibold block truncate">Term Diagnostics</span>
             </div>
           </div>
         </div>
@@ -203,17 +203,17 @@ export default function TeacherDashboardTab({
         <div className="lg:col-span-2 space-y-7">
           
           {/* Assigned Courses Subsection */}
-          <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
-            <div className="flex items-center justify-between pb-4 border-b border-[#E8DCCB]">
+          <div className="p-5 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-4 border-b border-[#E8DCCB]">
               <div className="flex items-center space-x-2">
-                <BookOpen className="w-5 h-5 text-[#89190E]" />
-                <h3 className="font-serif text-lg font-bold text-[#10233F]">
+                <BookOpen className="w-5 h-5 text-[#89190E] flex-shrink-0" />
+                <h3 className="font-serif text-base sm:text-lg font-bold text-[#10233F]">
                   Assigned Courses & Curriculum Progress
                 </h3>
               </div>
               <button
                 onClick={() => onNavigateTab('content')}
-                className="text-xs font-bold text-[#89190E] hover:underline flex items-center space-x-1"
+                className="text-xs font-bold text-[#89190E] hover:underline flex items-center space-x-1 self-start sm:self-center"
               >
                 <span>Manage Course Content</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -268,17 +268,17 @@ export default function TeacherDashboardTab({
           </div>
 
           {/* Upcoming Classes & Electronic Register Launcher */}
-          <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
-            <div className="flex items-center justify-between pb-4 border-b border-[#E8DCCB]">
+          <div className="p-5 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-4 border-b border-[#E8DCCB]">
               <div className="flex items-center space-x-2">
-                <Calendar className="w-5 h-5 text-[#89190E]" />
-                <h3 className="font-serif text-lg font-bold text-[#10233F]">
+                <Calendar className="w-5 h-5 text-[#89190E] flex-shrink-0" />
+                <h3 className="font-serif text-base sm:text-lg font-bold text-[#10233F]">
                   Today's Teaching Schedule
                 </h3>
               </div>
               <button
                 onClick={() => onNavigateTab('classes')}
-                className="text-xs font-bold text-[#89190E] hover:underline"
+                className="text-xs font-bold text-[#89190E] hover:underline self-start sm:self-center"
               >
                 Full Weekly Timetable →
               </button>
@@ -294,8 +294,8 @@ export default function TeacherDashboardTab({
                       : 'bg-white border-[#E8DCCB]'
                   }`}
                 >
-                  <div className="space-y-1">
-                    <div className="flex items-center space-x-2">
+                  <div className="space-y-1 min-w-0">
+                    <div className="flex items-center space-x-2 flex-wrap gap-y-1">
                       <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#10233F] text-white">
                         {session.time}
                       </span>
@@ -314,10 +314,10 @@ export default function TeacherDashboardTab({
                     </p>
                   </div>
 
-                  <div className="flex items-center space-x-2 flex-shrink-0">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-shrink-0 w-full sm:w-auto">
                     <button
                       onClick={() => onLaunchAttendance(session)}
-                      className="px-3.5 py-2 rounded-xl bg-white border border-[#89190E] text-[#89190E] hover:bg-[#FFF9EF] text-xs font-bold transition-colors"
+                      className="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-white border border-[#89190E] text-[#89190E] hover:bg-[#FFF9EF] text-xs font-bold transition-colors text-center"
                     >
                       Mark Attendance
                     </button>
@@ -326,7 +326,7 @@ export default function TeacherDashboardTab({
                         href={session.meetLink}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-xs"
+                        className="w-full sm:w-auto justify-center px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-xs"
                       >
                         <Video className="w-3.5 h-3.5 text-[#EFC988]" />
                         <span>Enter Live Session</span>

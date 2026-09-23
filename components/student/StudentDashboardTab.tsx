@@ -57,16 +57,16 @@ export default function StudentDashboardTab({
   return (
     <div className="space-y-7">
       {/* 1. Welcome & High-Yield Banner */}
-      <div className="relative p-6 sm:p-8 rounded-3xl bg-linear-to-r from-[#10233F] via-[#162d50] to-[#89190E] text-white overflow-hidden shadow-xl hud-bracket">
+      <div className="relative p-5 sm:p-8 rounded-3xl bg-linear-to-r from-[#10233F] via-[#162d50] to-[#89190E] text-white overflow-hidden shadow-xl hud-bracket">
         {/* Tech Grid Pattern */}
         <div className="absolute inset-0 blueprint-grid opacity-15 pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#EFC988]/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl min-w-0">
             <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#EFC988] animate-pulse-beacon" />
-              <span className="text-[11px] font-mono tracking-widest text-[#EFC988] uppercase font-bold">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#EFC988] animate-pulse-beacon flex-shrink-0" />
+              <span className="text-[10px] sm:text-[11px] font-mono tracking-wider text-[#EFC988] uppercase font-bold break-words">
                 Maharaja Surajmal Institute • Academic Semester V
               </span>
             </div>
@@ -79,10 +79,10 @@ export default function StudentDashboardTab({
               <strong>{upcomingClasses.filter((c) => c.day === 'Today').length} lectures scheduled today</strong> and 1 high-yield mock test pending evaluation.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 mt-5">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-5 w-full sm:w-auto">
               <button
                 onClick={() => onNavigateTab('learning')}
-                className="px-4 sm:px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-md shadow-[#89190E]/30 btn-chamfered active:scale-98 transition-all"
+                className="w-full sm:w-auto justify-center px-4 sm:px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-md shadow-[#89190E]/30 btn-chamfered active:scale-98 transition-all"
               >
                 <BookOpen className="w-4 h-4 text-[#EFC988]" />
                 <span>Resume Learning</span>
@@ -92,7 +92,7 @@ export default function StudentDashboardTab({
               {availableTest && (
                 <button
                   onClick={() => onStartTest(availableTest)}
-                  className="px-4 sm:px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold border border-white/30 flex items-center space-x-2 backdrop-blur-xs transition-all"
+                  className="w-full sm:w-auto justify-center px-4 sm:px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold border border-white/30 flex items-center space-x-2 backdrop-blur-xs transition-all"
                 >
                   <Sparkles className="w-4 h-4 text-[#EFC988]" />
                   <span>Launch Live Mock Test</span>
@@ -102,25 +102,25 @@ export default function StudentDashboardTab({
           </div>
 
           {/* Quick Metrics Capsule */}
-          <div className="flex flex-row md:flex-col gap-3 sm:gap-4 flex-shrink-0">
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-[120px]">
+          <div className="grid grid-cols-2 md:flex md:flex-col gap-2.5 sm:gap-4 w-full md:w-auto flex-shrink-0">
+            <div className="p-3 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-0">
               <span className="text-[10px] font-mono tracking-wider uppercase text-white/70 block">
                 Attendance
               </span>
-              <span className="font-serif text-xl sm:text-2xl font-bold text-[#EFC988] mt-0.5 block">
+              <span className="font-serif text-lg sm:text-2xl font-bold text-[#EFC988] mt-0.5 block">
                 84.6%
               </span>
-              <span className="text-[9px] text-emerald-300 font-semibold">Above 75% Mandate</span>
+              <span className="text-[9px] text-emerald-300 font-semibold block truncate">Above 75% Mandate</span>
             </div>
 
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-[120px]">
+            <div className="p-3 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-0">
               <span className="text-[10px] font-mono tracking-wider uppercase text-white/70 block">
                 Batch Rank
               </span>
-              <span className="font-serif text-xl sm:text-2xl font-bold text-white mt-0.5 block">
+              <span className="font-serif text-lg sm:text-2xl font-bold text-white mt-0.5 block">
                 03 / 120
               </span>
-              <span className="text-[9px] text-[#EFC988] font-semibold">94.2 Percentile</span>
+              <span className="text-[9px] text-[#EFC988] font-semibold block truncate">94.2 Percentile</span>
             </div>
           </div>
         </div>
@@ -236,23 +236,23 @@ export default function StudentDashboardTab({
         <div className="lg:col-span-2 space-y-7">
           
           {/* Active Courses Subsection */}
-          <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
-            <div className="flex items-center justify-between pb-4 border-b border-[#E8DCCB]">
+          <div className="p-5 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-4 border-b border-[#E8DCCB]">
               <div>
                 <div className="flex items-center space-x-2">
-                  <span className="w-2 h-2 rounded-full bg-[#89190E]" />
-                  <h3 className="font-serif text-lg font-bold text-[#10233F]">
+                  <span className="w-2 h-2 rounded-full bg-[#89190E] flex-shrink-0" />
+                  <h3 className="font-serif text-base sm:text-lg font-bold text-[#10233F]">
                     Active Courses & Syllabus
                   </h3>
                 </div>
-                <p className="text-xs text-[#526174] mt-0.5">
+                <p className="text-xs text-[#526174] mt-0.5 break-words">
                   Linked to active student enrollment ID #{student.enrollmentNo}
                 </p>
               </div>
 
               <button
                 onClick={() => onNavigateTab('learning')}
-                className="text-xs font-bold text-[#89190E] hover:underline flex items-center space-x-1"
+                className="text-xs font-bold text-[#89190E] hover:underline flex items-center space-x-1 self-start sm:self-center"
               >
                 <span>View All Modules</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -307,16 +307,16 @@ export default function StudentDashboardTab({
                     )}
                   </div>
 
-                  <div className="flex-shrink-0">
+                  <div className="flex-shrink-0 w-full sm:w-auto">
                     {course.isEnrolled ? (
                       <button
                         onClick={() => onNavigateTab('learning')}
-                        className="px-4 py-2 rounded-xl bg-[#FFF9EF] hover:bg-[#89190E] text-[#89190E] hover:text-white border border-[#E8DCCB] text-xs font-bold transition-all"
+                        className="w-full sm:w-auto justify-center px-4 py-2 rounded-xl bg-[#FFF9EF] hover:bg-[#89190E] text-[#89190E] hover:text-white border border-[#E8DCCB] text-xs font-bold transition-all text-center block"
                       >
                         Enter Course
                       </button>
                     ) : (
-                      <span className="text-xs text-neutral-400 font-semibold px-3 py-1.5 border border-dashed border-neutral-300 rounded-xl">
+                      <span className="text-xs text-neutral-400 font-semibold px-3 py-1.5 border border-dashed border-neutral-300 rounded-xl text-center block">
                         Locked
                       </span>
                     )}
@@ -327,15 +327,15 @@ export default function StudentDashboardTab({
           </div>
 
           {/* Today & Upcoming Classes Timetable */}
-          <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
-            <div className="flex items-center justify-between pb-4 border-b border-[#E8DCCB]">
+          <div className="p-5 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-4 border-b border-[#E8DCCB]">
               <div className="flex items-center space-x-2">
-                <Clock className="w-5 h-5 text-[#89190E]" />
-                <h3 className="font-serif text-lg font-bold text-[#10233F]">
+                <Clock className="w-5 h-5 text-[#89190E] flex-shrink-0" />
+                <h3 className="font-serif text-base sm:text-lg font-bold text-[#10233F]">
                   Academic Timetable & Live Lectures
                 </h3>
               </div>
-              <span className="text-xs font-mono font-bold text-[#89190E] bg-[#FFF3DD] px-2.5 py-1 rounded-lg">
+              <span className="text-xs font-mono font-bold text-[#89190E] bg-[#FFF3DD] px-2.5 py-1 rounded-lg self-start sm:self-center">
                 Today: {new Date().toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' })}
               </span>
             </div>
@@ -350,8 +350,8 @@ export default function StudentDashboardTab({
                       : 'bg-white border-[#E8DCCB] hover:border-[#10233F]'
                   }`}
                 >
-                  <div className="space-y-1">
-                    <div className="flex items-center space-x-2">
+                  <div className="space-y-1 min-w-0">
+                    <div className="flex items-center space-x-2 flex-wrap gap-y-1">
                       <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#10233F] text-white">
                         {cls.time}
                       </span>
@@ -371,13 +371,13 @@ export default function StudentDashboardTab({
                     </p>
                   </div>
 
-                  <div className="flex items-center space-x-2 flex-shrink-0">
+                  <div className="flex items-center space-x-2 flex-shrink-0 w-full sm:w-auto">
                     {cls.joinLink ? (
                       <a
                         href={cls.joinLink}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-xs"
+                        className="w-full sm:w-auto justify-center px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-xs"
                       >
                         <Video className="w-3.5 h-3.5 text-[#EFC988]" />
                         <span>Join Live Hall</span>
@@ -385,7 +385,7 @@ export default function StudentDashboardTab({
                     ) : (
                       <button
                         onClick={() => onNavigateTab('learning')}
-                        className="px-4 py-2 rounded-xl bg-[#FFF9EF] hover:bg-white text-[#10233F] border border-[#E8DCCB] text-xs font-semibold transition-colors"
+                        className="w-full sm:w-auto justify-center px-4 py-2 rounded-xl bg-[#FFF9EF] hover:bg-white text-[#10233F] border border-[#E8DCCB] text-xs font-semibold transition-colors"
                       >
                         View Syllabus
                       </button>

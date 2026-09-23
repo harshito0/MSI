@@ -98,33 +98,33 @@ export default function TimedTestModal({ test, onClose, onComplete }: TimedTestM
       <div className="relative w-full max-w-4xl bg-white border border-[#E8DCCB] rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         
         {/* Test Header */}
-        <div className="bg-[#10233F] text-white px-5 sm:px-8 py-4 flex items-center justify-between border-b border-[#EFC988]/30">
-          <div className="flex items-center space-x-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#EFC988] animate-pulse-beacon" />
-            <div>
-              <div className="flex items-center space-x-2">
-                <span className="text-[10px] sm:text-xs font-mono tracking-widest text-[#EFC988] uppercase font-bold">
-                  {test.type} Examination Simulation
+        <div className="bg-[#10233F] text-white px-4 sm:px-8 py-3.5 sm:py-4 flex items-center justify-between border-b border-[#EFC988]/30 gap-2">
+          <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#EFC988] animate-pulse-beacon flex-shrink-0" />
+            <div className="min-w-0">
+              <div className="flex items-center space-x-2 flex-wrap">
+                <span className="text-[10px] sm:text-xs font-mono tracking-wider text-[#EFC988] uppercase font-bold truncate">
+                  {test.type} Exam Sim
                 </span>
-                <span className="text-white/40">•</span>
-                <span className="text-xs text-white/70">Marking: +4 / -1</span>
+                <span className="text-white/40 hidden xs:inline">•</span>
+                <span className="text-[10px] sm:text-xs text-white/70 hidden xs:inline">Marking: +4 / -1</span>
               </div>
-              <h3 className="font-serif text-base sm:text-lg font-bold text-white tracking-wide truncate max-w-md">
+              <h3 className="font-serif text-sm sm:text-lg font-bold text-white tracking-wide truncate max-w-md">
                 {test.title}
               </h3>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
             {!isSubmitted && (
-              <div className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 font-mono text-sm sm:text-base font-bold text-[#EFC988]">
-                <Clock className="w-4 h-4 text-[#EFC988]" />
+              <div className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl bg-white/10 border border-white/20 font-mono text-xs sm:text-base font-bold text-[#EFC988]">
+                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#EFC988]" />
                 <span>{formatTime(timeLeft)}</span>
               </div>
             )}
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors"
               aria-label="Close Test"
             >
               <X className="w-5 h-5" />

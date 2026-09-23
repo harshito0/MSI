@@ -20,14 +20,14 @@ export default function VideoPlayerModal({ video, onClose }: VideoPlayerModalPro
       <div className="relative w-full max-w-5xl bg-white border border-[#E8DCCB] rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         
         {/* Modal Header */}
-        <div className="bg-[#10233F] text-white px-6 py-4 flex items-center justify-between border-b border-[#EFC988]/30">
-          <div className="flex items-center space-x-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#EFC988] animate-pulse-beacon" />
-            <div>
-              <span className="text-[10px] sm:text-xs font-mono tracking-widest text-[#EFC988] uppercase font-bold">
-                MSI Digital Lecture Player • {video.subject}
+        <div className="bg-[#10233F] text-white px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between border-b border-[#EFC988]/30 gap-2">
+          <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#EFC988] animate-pulse-beacon flex-shrink-0" />
+            <div className="min-w-0">
+              <span className="text-[10px] sm:text-xs font-mono tracking-wider text-[#EFC988] uppercase font-bold truncate block">
+                MSI Digital Player • {video.subject}
               </span>
-              <h3 className="font-serif text-base sm:text-lg font-bold text-white tracking-wide truncate max-w-lg">
+              <h3 className="font-serif text-sm sm:text-lg font-bold text-white tracking-wide truncate max-w-lg">
                 {video.title}
               </h3>
             </div>
@@ -35,7 +35,7 @@ export default function VideoPlayerModal({ video, onClose }: VideoPlayerModalPro
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-1.5 sm:p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors flex-shrink-0"
             aria-label="Close Video Player"
           >
             <X className="w-5 h-5" />

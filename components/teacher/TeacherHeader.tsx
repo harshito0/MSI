@@ -55,13 +55,13 @@ export default function TeacherHeader({
               className="object-contain"
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center space-x-2">
-              <span className="font-serif font-bold text-base sm:text-lg text-[#10233F] tracking-tight leading-none">
+              <span className="font-serif font-bold text-sm sm:text-lg text-[#10233F] tracking-tight leading-none truncate block">
                 MSI Faculty Portal
               </span>
               <span
-                className={`hidden sm:inline-block px-2 py-0.5 rounded-md text-[10px] font-mono font-bold ${
+                className={`hidden sm:inline-block px-2 py-0.5 rounded-md text-[10px] font-mono font-bold flex-shrink-0 ${
                   teacher.stream === 'Law'
                     ? 'bg-[#89190E]/10 text-[#89190E] border border-[#89190E]/20'
                     : 'bg-[#10233F]/10 text-[#10233F] border border-[#10233F]/20'
@@ -70,7 +70,7 @@ export default function TeacherHeader({
                 {teacher.stream} Discipline
               </span>
             </div>
-            <p className="text-[11px] text-[#526174] tracking-wide mt-0.5 font-medium hidden sm:block">
+            <p className="text-[11px] text-[#526174] tracking-wide mt-0.5 font-medium hidden sm:block truncate">
               {teacher.department}
             </p>
           </div>
@@ -78,22 +78,22 @@ export default function TeacherHeader({
       </div>
 
       {/* Right: Stream Isolation Switcher, Student Portal, Notifications, User Menu */}
-      <div className="flex items-center space-x-2 sm:space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
         {/* Switch Faculty Demonstration Dropdown */}
         <div className="relative">
           <button
             onClick={() => setShowSwitchMenu(!showSwitchMenu)}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-[#89190E]/40 bg-[#FFF9EF] hover:bg-[#FFF3DD] text-xs font-bold text-[#89190E] transition-all shadow-xs"
+            className="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border border-[#89190E]/40 bg-[#FFF9EF] hover:bg-[#FFF3DD] text-[11px] sm:text-xs font-bold text-[#89190E] transition-all shadow-xs"
             title="Demonstrate Faculty Stream Data Isolation Rule"
           >
-            <ArrowRightLeft className="w-3.5 h-3.5" />
-            <span className="hidden md:inline">Switch Faculty Stream:</span>
-            <span className="underline">{teacher.stream} Faculty</span>
-            <ChevronDown className="w-3 h-3" />
+            <ArrowRightLeft className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="hidden md:inline">Switch Stream:</span>
+            <span className="underline">{teacher.stream}</span>
+            <ChevronDown className="w-3 h-3 flex-shrink-0" />
           </button>
 
           {showSwitchMenu && (
-            <div className="absolute right-0 mt-2 w-72 bg-white border border-[#E8DCCB] rounded-2xl shadow-xl p-3 z-50 animate-fadeIn">
+            <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-72 max-w-sm bg-white border border-[#E8DCCB] rounded-2xl shadow-xl p-3 z-50 animate-fadeIn">
               <div className="px-2 py-1.5 text-[10px] font-mono uppercase font-bold text-[#89190E] border-b border-[#E8DCCB]">
                 Role-Based Stream Isolation Test
               </div>

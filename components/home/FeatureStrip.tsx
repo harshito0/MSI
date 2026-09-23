@@ -68,21 +68,23 @@ export default function FeatureStrip() {
           ))}
         </div>
 
-        {/* Mobile: 2-column grid */}
-        <div className="md:hidden grid grid-cols-2 gap-4">
-          {FEATURE_ITEMS.map((item) => (
+        {/* Mobile: 1-col on small phones, 2-col on larger mobile */}
+        <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+          {FEATURE_ITEMS.map((item, index) => (
             <div
               key={item.id}
-              className="flex items-center space-x-3 p-2 rounded-2xl bg-white/60 border border-[#E8DCCB]/60 group"
+              className={`flex items-center space-x-3 p-2.5 rounded-2xl bg-white/70 border border-[#E8DCCB]/70 group ${
+                index === FEATURE_ITEMS.length - 1 ? 'sm:col-span-2 sm:max-w-xs sm:mx-auto w-full' : ''
+              }`}
             >
               <div className="w-10 h-10 rounded-xl bg-[#FFF3DD] border border-[#F7E5BF] flex items-center justify-center flex-shrink-0">
                 {renderIcon(item.iconName)}
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col min-w-0">
                 {item.title.split('\n').map((line, lIdx) => (
                   <span
                     key={lIdx}
-                    className="text-[#10233F] text-[13px] font-bold leading-[1.2]"
+                    className="text-[#10233F] text-[13px] sm:text-[14px] font-bold leading-[1.2] truncate"
                   >
                     {line}
                   </span>

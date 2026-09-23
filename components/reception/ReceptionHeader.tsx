@@ -77,16 +77,16 @@ export default function ReceptionHeader({
               className="object-contain"
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center space-x-2">
               <span className="font-serif font-bold text-base sm:text-lg text-[#10233F] tracking-tight leading-none">
                 MSI
               </span>
-              <span className="text-[10px] font-mono font-bold bg-[#89190E] text-white px-1.5 py-0.5 rounded uppercase tracking-wider">
+              <span className="text-[10px] font-mono font-bold bg-[#89190E] text-white px-1.5 py-0.5 rounded uppercase tracking-wider flex-shrink-0">
                 VMS Portal
               </span>
             </div>
-            <span className="text-[10px] tracking-wider text-[#89190E] font-bold uppercase block mt-0.5">
+            <span className="text-[10px] tracking-wider text-[#89190E] font-bold uppercase hidden sm:block mt-0.5 truncate">
               Reception & Visitor Management
             </span>
           </div>

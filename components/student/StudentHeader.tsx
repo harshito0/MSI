@@ -59,16 +59,16 @@ export default function StudentHeader({
               className="object-contain"
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center space-x-2">
-              <span className="font-serif font-bold text-base sm:text-lg text-[#10233F] tracking-tight leading-none">
+              <span className="font-serif font-bold text-sm sm:text-lg text-[#10233F] tracking-tight leading-none truncate block">
                 MSI Student Portal
               </span>
-              <span className="hidden sm:inline-block px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#89190E]/10 text-[#89190E] border border-[#89190E]/20">
+              <span className="hidden sm:inline-block px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#89190E]/10 text-[#89190E] border border-[#89190E]/20 flex-shrink-0">
                 Active Session
               </span>
             </div>
-            <p className="text-[11px] text-[#526174] tracking-wide mt-0.5 font-medium hidden sm:block">
+            <p className="text-[11px] text-[#526174] tracking-wide mt-0.5 font-medium hidden sm:block truncate">
               {student.batch}
             </p>
           </div>
@@ -76,7 +76,7 @@ export default function StudentHeader({
       </div>
 
       {/* Right: Back to Website, Notifications, Profile Menu */}
-      <div className="flex items-center space-x-2 sm:space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
         {/* Return to Public Website */}
         <Link
           href="/"
@@ -104,7 +104,7 @@ export default function StudentHeader({
 
           {/* Notifications Dropdown */}
           {showNotifs && (
-            <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white border border-[#E8DCCB] rounded-2xl shadow-xl p-4 z-50 animate-fadeIn">
+            <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 max-w-sm bg-white border border-[#E8DCCB] rounded-2xl shadow-xl p-4 z-50 animate-fadeIn">
               <div className="flex items-center justify-between pb-3 border-b border-[#E8DCCB]">
                 <div className="flex items-center space-x-2">
                   <span className="font-serif font-bold text-sm text-[#10233F]">Circulars & Notices</span>
@@ -161,7 +161,7 @@ export default function StudentHeader({
 
           {/* User Menu Dropdown */}
           {showUserMenu && (
-            <div className="absolute right-0 mt-2 w-64 bg-white border border-[#E8DCCB] rounded-2xl shadow-xl p-3 z-50 animate-fadeIn space-y-2">
+            <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-64 max-w-xs bg-white border border-[#E8DCCB] rounded-2xl shadow-xl p-3 z-50 animate-fadeIn space-y-2">
               <div className="px-3 py-2 bg-[#FFF9EF] rounded-xl border border-[#E8DCCB]">
                 <p className="text-xs font-bold text-[#10233F]">{student.name}</p>
                 <p className="text-[11px] text-[#526174] font-mono truncate">{student.email}</p>

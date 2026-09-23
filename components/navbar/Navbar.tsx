@@ -45,16 +45,16 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
           scrolled ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
         }`}
       >
-        <div className="flex items-center space-x-2 animate-fadeIn">
-          <span className="w-2 h-2 rounded-full bg-[#EFC988] animate-pulse-beacon" />
-          <span className="font-semibold tracking-wide">New Batch Starting Soon — 2025</span>
-          <span className="hidden sm:inline text-[#EFC988]">•</span>
-          <span className="hidden sm:inline text-white/90">
+        <div className="flex items-center space-x-2 animate-fadeIn max-w-full px-2 truncate">
+          <span className="w-2 h-2 rounded-full bg-[#EFC988] animate-pulse-beacon flex-shrink-0" />
+          <span className="font-semibold tracking-wide truncate text-[11px] sm:text-xs">New Batch Starting Soon — 2025</span>
+          <span className="hidden md:inline text-[#EFC988]">•</span>
+          <span className="hidden md:inline text-white/90">
             PCS J, CLAT, AILET, UGC NET (Law) Coaching | Kharar, Mohali
           </span>
           <button
             onClick={onOpenEnquiry}
-            className="ml-2 underline font-bold hover:text-[#EFC988] transition-colors"
+            className="ml-1 sm:ml-2 underline font-bold hover:text-[#EFC988] transition-colors whitespace-nowrap flex-shrink-0"
           >
             Enquire Now →
           </button>
@@ -70,8 +70,8 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
         <div
           className={`pointer-events-auto flex items-center justify-between transition-all duration-400 ease-out mx-auto ${
             scrolled
-              ? 'w-[94%] sm:w-[86%] lg:w-[82%] max-w-[1240px] h-[64px] rounded-[24px] px-5 sm:px-7 glass-navbar-scrolled'
-              : 'w-[96%] sm:w-[94%] lg:w-[92%] max-w-[1380px] h-[82px] sm:h-[88px] rounded-[30px] sm:rounded-[36px] px-6 sm:px-8 glass-navbar'
+              ? 'w-[95%] sm:w-[86%] lg:w-[82%] max-w-[1240px] h-[60px] sm:h-[64px] rounded-[22px] sm:rounded-[24px] px-3.5 sm:px-7 glass-navbar-scrolled'
+              : 'w-[96%] sm:w-[94%] lg:w-[92%] max-w-[1380px] h-[72px] sm:h-[88px] rounded-[24px] sm:rounded-[36px] px-4 sm:px-8 glass-navbar'
           }`}
         >
           {/* MSI Crest Logo */}
@@ -82,7 +82,7 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
           >
             <div
               className={`relative transition-all duration-400 ease-out ${
-                scrolled ? 'w-[44px] h-[44px]' : 'w-[58px] h-[58px] sm:w-[66px] sm:h-[66px]'
+                scrolled ? 'w-[40px] h-[40px] sm:w-[44px] sm:h-[44px]' : 'w-[50px] h-[50px] sm:w-[66px] sm:h-[66px]'
               }`}
             >
               <Image
@@ -93,7 +93,7 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
                 className="object-contain drop-shadow-sm group-hover:brightness-105"
               />
             </div>
-            <div className="ml-2.5 hidden sm:block">
+            <div className="ml-2 sm:ml-2.5 hidden sm:block">
               <span className="font-serif font-bold text-lg sm:text-xl tracking-tight text-[#10233F] block leading-none">
                 MSI
               </span>
@@ -127,7 +127,7 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
           </nav>
 
           {/* Desktop Action Buttons */}
-          <div className="hidden lg:flex items-center space-x-3 flex-shrink-0">
+          <div className="hidden xl:flex items-center space-x-3 flex-shrink-0">
             <Link
               href="/student/login"
               className={`font-semibold text-[#89190E] bg-white/80 hover:bg-white border border-[#89190E]/40 hover:border-[#89190E] rounded-[13px] transition-all duration-200 shadow-sm hover:shadow active:scale-98 flex items-center space-x-1.5 ${
@@ -154,13 +154,13 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
           <div className="flex xl:hidden items-center space-x-2">
             <button
               onClick={onOpenEnquiry}
-              className="inline-flex text-xs font-bold text-white bg-[#89190E] px-3.5 py-2 rounded-xl shadow-sm active:scale-95"
+              className="inline-flex text-xs font-bold text-white bg-[#89190E] px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl shadow-sm active:scale-95"
             >
               Enquire
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-[#10233F] hover:text-[#89190E] hover:bg-white/80 rounded-xl transition-colors"
+              className="p-1.5 sm:p-2 text-[#10233F] hover:text-[#89190E] hover:bg-white/80 rounded-xl transition-colors"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
