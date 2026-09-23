@@ -32,11 +32,14 @@ import {
   Layers,
   Cpu,
   Scale,
+  Send,
+  Phone,
 } from 'lucide-react';
 
 export default function HomePage() {
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState('PCS J — Punjab Civil Judge Coaching');
 
   return (
     <div className="relative min-h-screen bg-[#FFF9EF] flex flex-col selection:bg-[#EFC988] selection:text-[#89190E]">
@@ -186,29 +189,105 @@ export default function HomePage() {
                       </ul>
                     </div>
 
-                    {/* CTA — chamfered style */}
-                    <div className="flex-shrink-0 flex flex-row sm:flex-col gap-3">
+                    {/* CTA — chamfered style with Enquire Now & WhatsApp */}
+                    <div className="flex-shrink-0 flex flex-wrap sm:flex-col gap-2.5 w-full sm:w-auto">
+                      <button
+                        onClick={() => {
+                          setSelectedCourse(card.title);
+                          setIsEnquiryOpen(true);
+                        }}
+                        className="btn-chamfered h-10 sm:h-11 px-4 font-bold text-xs bg-[#89190E] hover:bg-[#65130D] text-white flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm flex-1 sm:flex-none"
+                      >
+                        <Send className="w-3.5 h-3.5" />
+                        <span>Enquire Now</span>
+                      </button>
+
+                      <a
+                        href={`https://wa.me/919815502444?text=${encodeURIComponent(
+                          `Hello MSI Admissions Team, I want to enquire about ${card.title} batch details and curriculum.`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-chamfered h-10 sm:h-11 px-4 font-bold text-xs bg-[#25D366] hover:bg-[#20ba59] text-white flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm flex-1 sm:flex-none"
+                        title="Chat on WhatsApp"
+                      >
+                        <svg
+                          className="w-3.5 h-3.5 fill-white"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M12.031 2C6.498 2 2 6.497 2 12.032c0 1.996.586 3.864 1.6 5.438L2 22l4.673-1.562a10.007 10.007 0 0 0 5.358 1.564h.005c5.531 0 10.029-4.498 10.029-10.032 0-2.68-1.043-5.2-2.935-7.093A9.96 9.96 0 0 0 12.031 2Zm0 18.361h-.004a8.318 8.318 0 0 1-4.24-1.163l-.304-.18-3.155 1.054 1.073-3.076-.197-.315a8.324 8.324 0 0 1-1.278-4.45c0-4.606 3.748-8.354 8.356-8.354 2.232 0 4.33.87 5.908 2.45a8.293 8.293 0 0 1 2.446 5.904c0 4.608-3.748 8.356-8.36 8.356Zm4.582-6.257c-.251-.126-1.487-.734-1.718-.817-.23-.084-.397-.126-.565.126-.168.251-.649.817-.796.985-.147.168-.293.189-.544.063-.251-.126-1.06-.391-2.02-1.246-.746-.665-1.25-1.488-1.397-1.74-.146-.251-.016-.387.11-.512.113-.112.251-.293.376-.44.126-.147.168-.252.252-.42.083-.168.042-.314-.021-.44-.063-.125-.565-1.362-.774-1.865-.204-.49-.411-.423-.565-.431l-.481-.008c-.168 0-.44.063-.67.314-.23.252-.88.86-.88 2.096 0 1.237.901 2.431 1.026 2.599.126.168 1.773 2.707 4.296 3.796.6.26 1.068.415 1.433.531.602.191 1.15.164 1.583.1.482-.072 1.487-.608 1.696-1.194.21-.587.21-1.09.147-1.195-.063-.105-.23-.167-.481-.293Z" />
+                        </svg>
+                        <span>WhatsApp</span>
+                      </a>
+
                       <Link
                         href="/courses"
-                        className="btn-chamfered h-11 px-5 font-bold text-xs flex items-center gap-1.5 text-white"
-                        style={{ backgroundColor: card.accentColor }}
+                        className="btn-chamfered h-10 sm:h-11 px-4 font-bold text-xs border border-[#E8DCCB] text-[#10233F] hover:border-[#89190E] hover:text-[#89190E] flex items-center justify-center gap-1 transition-all flex-1 sm:flex-none"
                       >
                         <span>Explore</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
-                      <button
-                        onClick={() => setIsEnquiryOpen(true)}
-                        className="btn-chamfered h-11 px-5 font-bold text-xs border transition-colors duration-200"
-                        style={{ borderColor: card.accentColor + '50', color: card.accentColor }}
-                      >
-                        Enquire →
-                      </button>
                     </div>
                   </div>
                 </div>
               </Reveal>
             );
           })}
+
+          {/* Under Courses Banner (Enquire Now & WhatsApp) */}
+          <Reveal direction="up" className="mt-8">
+            <div className="rounded-3xl bg-gradient-to-r from-[#10233F] via-[#162f55] to-[#10233F] p-6 sm:p-8 text-white border border-[#EFC988]/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+              <div>
+                <span className="text-xs uppercase font-bold tracking-widest text-[#EFC988] block mb-1">
+                  Admissions Consultation
+                </span>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold">
+                  Targeting PCS J, CLAT or UGC NET 2026?
+                </h3>
+                <p className="text-gray-300 text-xs sm:text-sm mt-1 max-w-lg">
+                  Speak directly with our academic mentors to choose the ideal batch and test series.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  onClick={() => {
+                    setSelectedCourse('Admissions General Enquiry');
+                    setIsEnquiryOpen(true);
+                  }}
+                  className="h-11 px-5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-xs flex items-center space-x-1.5 transition-all shadow-md cursor-pointer"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Enquire Now</span>
+                </button>
+
+                <a
+                  href="https://wa.me/919815502444?text=Hello%20MSI%20Admissions%20Team%2C%20I%20want%20to%20enquire%20about%20your%20coaching%20programs."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-11 px-5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs flex items-center space-x-1.5 transition-all shadow-md cursor-pointer"
+                >
+                  <svg
+                    className="w-4 h-4 fill-white"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M12.031 2C6.498 2 2 6.497 2 12.032c0 1.996.586 3.864 1.6 5.438L2 22l4.673-1.562a10.007 10.007 0 0 0 5.358 1.564h.005c5.531 0 10.029-4.498 10.029-10.032 0-2.68-1.043-5.2-2.935-7.093A9.96 9.96 0 0 0 12.031 2Zm0 18.361h-.004a8.318 8.318 0 0 1-4.24-1.163l-.304-.18-3.155 1.054 1.073-3.076-.197-.315a8.324 8.324 0 0 1-1.278-4.45c0-4.606 3.748-8.354 8.356-8.354 2.232 0 4.33.87 5.908 2.45a8.293 8.293 0 0 1 2.446 5.904c0 4.608-3.748 8.356-8.36 8.356Zm4.582-6.257c-.251-.126-1.487-.734-1.718-.817-.23-.084-.397-.126-.565.126-.168.251-.649.817-.796.985-.147.168-.293.189-.544.063-.251-.126-1.06-.391-2.02-1.246-.746-.665-1.25-1.488-1.397-1.74-.146-.251-.016-.387.11-.512.113-.112.251-.293.376-.44.126-.147.168-.252.252-.42.083-.168.042-.314-.021-.44-.063-.125-.565-1.362-.774-1.865-.204-.49-.411-.423-.565-.431l-.481-.008c-.168 0-.44.063-.67.314-.23.252-.88.86-.88 2.096 0 1.237.901 2.431 1.026 2.599.126.168 1.773 2.707 4.296 3.796.6.26 1.068.415 1.433.531.602.191 1.15.164 1.583.1.482-.072 1.487-.608 1.696-1.194.21-.587.21-1.09.147-1.195-.063-.105-.23-.167-.481-.293Z" />
+                  </svg>
+                  <span>WhatsApp</span>
+                </a>
+
+                <a
+                  href="tel:+919815502444"
+                  className="h-11 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs flex items-center space-x-1.5 border border-white/20 transition-all cursor-pointer"
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>Call: +91 98155 02444</span>
+                </a>
+              </div>
+            </div>
+          </Reveal>
         </section>
 
         {/* Campus Life & Facilities Interactive Tabs */}
@@ -239,6 +318,7 @@ export default function HomePage() {
       <EnquiryModal
         isOpen={isEnquiryOpen}
         onClose={() => setIsEnquiryOpen(false)}
+        initialCourse={selectedCourse}
       />
       <VideoModal
         isOpen={isVideoOpen}

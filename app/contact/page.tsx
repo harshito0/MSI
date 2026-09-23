@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/footer/Footer';
 import EnquiryModal from '@/components/modals/EnquiryModal';
@@ -36,23 +37,23 @@ const extensions = [
 ];
 
 export default function ContactPage() {
+  const router = useRouter();
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    program: 'B.Tech Computer Science & AI',
+    program: 'PCS J — Punjab Civil Judge Coaching',
     message: '',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setFormSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', program: 'B.Tech Computer Science & AI', message: '' });
-    }, 4000);
+    router.push(
+      `/thank-you?name=${encodeURIComponent(formData.name)}&course=${encodeURIComponent(
+        formData.program
+      )}&phone=${encodeURIComponent(formData.phone)}`
+    );
   };
 
   return (
@@ -224,18 +225,11 @@ export default function ContactPage() {
 
                   <button
                     type="submit"
-                    className="w-full h-12 bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-sm rounded-xl transition-all btn-hover-lift flex items-center justify-center space-x-2"
+                    className="w-full h-12 bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-sm rounded-xl transition-all btn-hover-lift flex items-center justify-center space-x-2 cursor-pointer shadow-md hover:shadow-lg"
                   >
-                    <span>Submit Inquiry</span>
+                    <span>Submit Now</span>
                     <Send className="w-4 h-4" />
                   </button>
-
-                  {formSubmitted && (
-                    <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs sm:text-sm flex items-center space-x-2 animate-fadeIn">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-                      <span>Your inquiry has been submitted! An MSI Counselor will contact you within 2 hours.</span>
-                    </div>
-                  )}
                 </form>
               </div>
 
