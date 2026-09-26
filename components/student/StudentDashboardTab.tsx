@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   BookOpen,
   Calendar,
@@ -17,6 +18,9 @@ import {
   ChevronRight,
   ShieldCheck,
   Lock,
+  PlayCircle,
+  PlusCircle,
+  GraduationCap,
 } from 'lucide-react';
 import {
   StudentProfile,
@@ -26,6 +30,13 @@ import {
   TestItem,
 } from './data/studentMockData';
 import { StudentModuleTab } from './StudentSidebar';
+import {
+  UdemyCourse,
+  CourseEnrollment,
+  getStoredCourses,
+  getStoredEnrollments,
+  LMS_SYNC_EVENT,
+} from '@/lib/lmsStore';
 
 interface StudentDashboardTabProps {
   student: StudentProfile;
@@ -35,6 +46,7 @@ interface StudentDashboardTabProps {
   tests: TestItem[];
   onNavigateTab: (tab: StudentModuleTab) => void;
   onStartTest: (test: TestItem) => void;
+  onOpenUdemyCourse?: (course: UdemyCourse) => void;
 }
 
 export default function StudentDashboardTab({
@@ -45,6 +57,7 @@ export default function StudentDashboardTab({
   tests,
   onNavigateTab,
   onStartTest,
+  onOpenUdemyCourse,
 }: StudentDashboardTabProps) {
   const activeEnrolledCourses = courses.filter((c) => c.isEnrolled);
   const avgProgress = Math.round(
@@ -54,11 +67,47 @@ export default function StudentDashboardTab({
 
   const availableTest = tests.find((t) => t.status === 'Available');
 
+  // Dynamic Udemy LMS Enrollments for this student
+  const [enrolledUdemyData, setEnrolledUdemyData] = useState<{
+    course: UdemyCourse;
+    enrollment: CourseEnrollment;
+  }[]>([]);
+
+  const loadEnrolledUdemy = () => {
+    const allCourses = getStoredCourses();
+    const allEnrollments = getStoredEnrollments();
+    const studentEnrollments = allEnrollments.filter((e) => e.studentId === student.id);
+
+    const merged = studentEnrollments
+      .map((enr) => {
+        const found = allCourses.find((c) => c.id === enr.courseId);
+        if (!found) return null;
+        return { course: found, enrollment: enr };
+      })
+      .filter(Boolean) as { course: UdemyCourse; enrollment: CourseEnrollment }[];
+
+    setEnrolledUdemyData(merged);
+  };
+
+  useEffect(() => {
+    loadEnrolledUdemy();
+
+    const handleSync = () => {
+      loadEnrolledUdemy();
+    };
+
+    window.addEventListener(LMS_SYNC_EVENT, handleSync);
+    window.addEventListener('storage', handleSync);
+    return () => {
+      window.removeEventListener(LMS_SYNC_EVENT, handleSync);
+      window.removeEventListener('storage', handleSync);
+    };
+  }, [student.id]);
+
   return (
     <div className="space-y-7">
       {/* 1. Welcome & High-Yield Banner */}
-      <div className="relative p-5 sm:p-8 rounded-3xl bg-linear-to-r from-[#10233F] via-[#162d50] to-[#89190E] text-white overflow-hidden shadow-xl hud-bracket">
-        {/* Tech Grid Pattern */}
+      <div className="relative p-5 sm:p-8 rounded-3xl bg-gradient-to-r from-[#10233F] via-[#162d50] to-[#89190E] text-white overflow-hidden shadow-xl hud-bracket">
         <div className="absolute inset-0 blueprint-grid opacity-15 pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#EFC988]/15 rounded-full blur-3xl pointer-events-none" />
 
@@ -74,30 +123,37 @@ export default function StudentDashboardTab({
               Welcome back, {student.name.split(' ')[0]}
             </h1>
             <p className="text-white/80 text-xs sm:text-sm mt-2 leading-relaxed">
-              Your overall course syllabus progress is at{' '}
-              <strong className="text-[#EFC988] font-bold">{avgProgress}%</strong>. You have{' '}
-              <strong>{upcomingClasses.filter((c) => c.day === 'Today').length} lectures scheduled today</strong> and 1 high-yield mock test pending evaluation.
+              You have <strong className="text-[#EFC988]">{enrolledUdemyData.length} online video courses</strong> in your active learning portal. Continue where you left off or explore newly assigned judicial masterclasses.
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-5 w-full sm:w-auto">
-              <button
-                onClick={() => onNavigateTab('learning')}
-                className="w-full sm:w-auto justify-center px-4 sm:px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-md shadow-[#89190E]/30 btn-chamfered active:scale-98 transition-all"
-              >
-                <BookOpen className="w-4 h-4 text-[#EFC988]" />
-                <span>Resume Learning</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-
-              {availableTest && (
+              {enrolledUdemyData.length > 0 && onOpenUdemyCourse ? (
                 <button
-                  onClick={() => onStartTest(availableTest)}
-                  className="w-full sm:w-auto justify-center px-4 sm:px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold border border-white/30 flex items-center space-x-2 backdrop-blur-xs transition-all"
+                  onClick={() => onOpenUdemyCourse(enrolledUdemyData[0].course)}
+                  className="w-full sm:w-auto justify-center px-4 sm:px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-md shadow-[#89190E]/30 btn-chamfered active:scale-98 transition-all cursor-pointer"
                 >
-                  <Sparkles className="w-4 h-4 text-[#EFC988]" />
-                  <span>Launch Live Mock Test</span>
+                  <PlayCircle className="w-4 h-4 text-[#EFC988]" />
+                  <span>Resume Latest Masterclass</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => onNavigateTab('learning')}
+                  className="w-full sm:w-auto justify-center px-4 sm:px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-md shadow-[#89190E]/30 btn-chamfered active:scale-98 transition-all cursor-pointer"
+                >
+                  <BookOpen className="w-4 h-4 text-[#EFC988]" />
+                  <span>Resume Learning Hub</span>
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               )}
+
+              <Link
+                href="/courses"
+                className="w-full sm:w-auto justify-center px-4 sm:px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold border border-white/30 flex items-center space-x-2 backdrop-blur-xs transition-all cursor-pointer"
+              >
+                <PlusCircle className="w-4 h-4 text-[#EFC988]" />
+                <span>Explore More Courses</span>
+              </Link>
             </div>
           </div>
 
@@ -105,12 +161,12 @@ export default function StudentDashboardTab({
           <div className="grid grid-cols-2 md:flex md:flex-col gap-2.5 sm:gap-4 w-full md:w-auto flex-shrink-0">
             <div className="p-3 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-0">
               <span className="text-[10px] font-mono tracking-wider uppercase text-white/70 block">
-                Attendance
+                Enrolled Courses
               </span>
               <span className="font-serif text-lg sm:text-2xl font-bold text-[#EFC988] mt-0.5 block">
-                84.6%
+                {enrolledUdemyData.length}
               </span>
-              <span className="text-[9px] text-emerald-300 font-semibold block truncate">Above 75% Mandate</span>
+              <span className="text-[9px] text-emerald-300 font-semibold block truncate">Video Curriculum</span>
             </div>
 
             <div className="p-3 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center min-w-0">
@@ -126,7 +182,116 @@ export default function StudentDashboardTab({
         </div>
       </div>
 
-      {/* 2. Key Metrics Row: Progress, Classes, Tests, Fee Status */}
+      {/* 2. UDEMY ENROLLED MASTERCLASSES SECTION (NEW!) */}
+      <div className="p-5 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-4 border-b border-[#E8DCCB]">
+          <div className="flex items-center space-x-2">
+            <PlayCircle className="w-5 h-5 text-[#89190E]" />
+            <div>
+              <h3 className="font-serif text-base sm:text-lg font-bold text-[#10233F]">
+                My Enrolled Courses & Assigned Masterclasses (Udemy LMS)
+              </h3>
+              <p className="text-xs text-[#526174]">
+                Click on any course to open the interactive Udemy classroom with video player, lecture notes, and certificate generator.
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/courses"
+            className="text-xs font-bold text-[#89190E] hover:underline flex items-center space-x-1 self-start sm:self-center"
+          >
+            <span>Browse More Courses</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {/* Enrolled Courses Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {enrolledUdemyData.map(({ course, enrollment }) => {
+            const isAssignedByAdmin = enrollment.assignedBy === 'super-admin';
+
+            return (
+              <div
+                key={course.id}
+                className="p-4 rounded-2xl border-2 border-[#E8DCCB] hover:border-[#89190E] transition-all bg-[#FFF9EF]/40 flex flex-col justify-between space-y-3 group shadow-xs"
+              >
+                <div>
+                  {/* Top Badges */}
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#89190E] bg-[#FFF3DD] border border-[#EFC988] px-2.5 py-0.5 rounded-full">
+                      {course.category}
+                    </span>
+
+                    {isAssignedByAdmin ? (
+                      <span className="text-[10px] font-mono font-bold uppercase text-[#89190E] bg-rose-50 border border-rose-200 px-2.5 py-0.5 rounded-full flex items-center space-x-1">
+                        <ShieldCheck className="w-3 h-3 text-[#89190E]" />
+                        <span>Assigned by Super Admin</span>
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-mono font-bold uppercase text-emerald-800 bg-emerald-50 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center space-x-1">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                        <span>Self Enrolled</span>
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Course Title & Instructor */}
+                  <h4 className="font-serif font-bold text-sm sm:text-base text-[#10233F] group-hover:text-[#89190E] transition-colors leading-snug line-clamp-2">
+                    {course.title}
+                  </h4>
+                  <p className="text-xs text-[#526174] mt-1">
+                    Instructor: <strong>{course.instructorName}</strong>
+                  </p>
+
+                  {/* Super Admin Directive Note if available */}
+                  {enrollment.assignedNote && (
+                    <div className="mt-2 p-2 rounded-xl bg-white border border-[#E8DCCB] text-[11px] text-[#89190E]">
+                      <strong>Dean Directive:</strong> {enrollment.assignedNote}
+                    </div>
+                  )}
+
+                  {/* Progress Bar */}
+                  <div className="mt-3">
+                    <div className="flex items-center justify-between text-xs mb-1">
+                      <span className="text-[#526174] font-medium">
+                        Progress: {enrollment.completedLectureIds.length} lectures completed
+                      </span>
+                      <span className="font-bold font-mono text-[#89190E]">
+                        {enrollment.progressPercentage}%
+                      </span>
+                    </div>
+                    <div className="w-full h-2 rounded-full bg-white border border-[#E8DCCB] overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-[#89190E] to-[#EFC988] rounded-full transition-all duration-500"
+                        style={{ width: `${Math.max(enrollment.progressPercentage, 4)}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card CTA */}
+                <div className="pt-2 flex items-center justify-between border-t border-[#E8DCCB]/60">
+                  <span className="text-[11px] text-[#526174]">
+                    Enrolled {enrollment.enrolledAt}
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => onOpenUdemyCourse && onOpenUdemyCourse(course)}
+                    className="px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 transition-all shadow-sm cursor-pointer"
+                  >
+                    <PlayCircle className="w-3.5 h-3.5 text-[#EFC988]" />
+                    <span>Open Udemy Player</span>
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 3. Key Metrics Row: Progress, Classes, Tests, Fee Status */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Active Courses & Progress */}
         <div
@@ -140,7 +305,7 @@ export default function StudentDashboardTab({
             <span className="text-xs font-mono font-bold text-[#89190E]">{activeEnrolledCourses.length} Active</span>
           </div>
           <h3 className="font-serif text-base font-bold text-[#10233F] mt-3">
-            Active Courses
+            Classroom Batches
           </h3>
           <p className="text-xs text-[#526174] mt-0.5">
             Syllabus avg completion: {avgProgress}%
@@ -229,7 +394,7 @@ export default function StudentDashboardTab({
         </div>
       </div>
 
-      {/* 3. Main Dashboard 2-Column Layout */}
+      {/* 4. Main Dashboard 2-Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
         
         {/* Left Column (2 spans): Active Courses + Today's Timetable */}
@@ -242,7 +407,7 @@ export default function StudentDashboardTab({
                 <div className="flex items-center space-x-2">
                   <span className="w-2 h-2 rounded-full bg-[#89190E] flex-shrink-0" />
                   <h3 className="font-serif text-base sm:text-lg font-bold text-[#10233F]">
-                    Active Courses & Syllabus
+                    Classroom Batches & Syllabus
                   </h3>
                 </div>
                 <p className="text-xs text-[#526174] mt-0.5 break-words">
@@ -311,7 +476,7 @@ export default function StudentDashboardTab({
                     {course.isEnrolled ? (
                       <button
                         onClick={() => onNavigateTab('learning')}
-                        className="w-full sm:w-auto justify-center px-4 py-2 rounded-xl bg-[#FFF9EF] hover:bg-[#89190E] text-[#89190E] hover:text-white border border-[#E8DCCB] text-xs font-bold transition-all text-center block"
+                        className="w-full sm:w-auto justify-center px-4 py-2 rounded-xl bg-[#FFF9EF] hover:bg-[#89190E] text-[#89190E] hover:text-white border border-[#E8DCCB] text-xs font-bold transition-all text-center block cursor-pointer"
                       >
                         Enter Course
                       </button>
@@ -428,7 +593,7 @@ export default function StudentDashboardTab({
 
           {/* Timed Test Diagnostic Callout */}
           {availableTest && (
-            <div className="p-6 rounded-3xl bg-linear-to-br from-[#89190E] to-[#65130D] text-white shadow-lg relative overflow-hidden">
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-[#89190E] to-[#65130D] text-white shadow-lg relative overflow-hidden">
               <div className="absolute top-0 right-0 w-40 h-40 bg-[#EFC988]/20 rounded-full blur-2xl pointer-events-none" />
               <div className="relative">
                 <span className="text-[10px] font-mono tracking-widest text-[#EFC988] uppercase font-bold block">
@@ -443,7 +608,7 @@ export default function StudentDashboardTab({
 
                 <button
                   onClick={() => onStartTest(availableTest)}
-                  className="mt-4 w-full py-2.5 rounded-xl bg-white text-[#89190E] hover:bg-[#FFF9EF] text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1.5"
+                  className="mt-4 w-full py-2.5 rounded-xl bg-white text-[#89190E] hover:bg-[#FFF9EF] text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1.5 cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-[#89190E]" />
                   <span>Start Timed Test Now</span>
@@ -482,7 +647,7 @@ export default function StudentDashboardTab({
 
             <button
               onClick={() => onNavigateTab('fees')}
-              className="mt-4 w-full py-2 rounded-xl bg-white border border-[#89190E] text-[#89190E] hover:bg-[#FFF3DD] text-xs font-bold transition-colors"
+              className="mt-4 w-full py-2 rounded-xl bg-white border border-[#89190E] text-[#89190E] hover:bg-[#FFF3DD] text-xs font-bold transition-colors cursor-pointer"
             >
               View Payment Ledger & Receipts →
             </button>

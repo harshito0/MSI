@@ -14,6 +14,7 @@ import TimedTestModal from '@/components/student/TimedTestModal';
 import VideoPlayerModal from '@/components/student/VideoPlayerModal';
 import FeeReceiptModal from '@/components/student/FeeReceiptModal';
 import SubmitAssignmentModal from '@/components/student/SubmitAssignmentModal';
+import UdemyPlayerModal from '@/components/student/UdemyPlayerModal';
 import {
   INITIAL_STUDENT_PROFILE,
   ACTIVE_COURSES,
@@ -34,6 +35,7 @@ import {
   FeeTransaction,
   AssignmentItem,
 } from '@/components/student/data/studentMockData';
+import { UdemyCourse } from '@/lib/lmsStore';
 
 export default function StudentDashboardPage() {
   const router = useRouter();
@@ -53,6 +55,7 @@ export default function StudentDashboardPage() {
   const [activeVideo, setActiveVideo] = useState<RecordedVideo | null>(null);
   const [activeReceipt, setActiveReceipt] = useState<FeeTransaction | null>(null);
   const [activeAssignmentSubmit, setActiveAssignmentSubmit] = useState<AssignmentItem | null>(null);
+  const [activeUdemyCourse, setActiveUdemyCourse] = useState<UdemyCourse | null>(null);
 
   // Logout
   const handleLogout = () => {
@@ -136,6 +139,7 @@ export default function StudentDashboardPage() {
               tests={tests}
               onNavigateTab={(tab) => setActiveTab(tab)}
               onStartTest={(test) => setActiveTimedTest(test)}
+              onOpenUdemyCourse={(course) => setActiveUdemyCourse(course)}
             />
           )}
 
@@ -154,6 +158,7 @@ export default function StudentDashboardPage() {
               assignments={assignments}
               onPlayVideo={(v) => setActiveVideo(v)}
               onSubmitAssignment={(a) => setActiveAssignmentSubmit(a)}
+              onOpenUdemyCourse={(course) => setActiveUdemyCourse(course)}
             />
           )}
 
@@ -216,6 +221,17 @@ export default function StudentDashboardPage() {
           assignment={activeAssignmentSubmit}
           onClose={() => setActiveAssignmentSubmit(null)}
           onSubmitSuccess={handleAssignmentSubmitted}
+        />
+      )}
+
+      {/* Udemy Full Course Classroom Player */}
+      {activeUdemyCourse && (
+        <UdemyPlayerModal
+          course={activeUdemyCourse}
+          isOpen={!!activeUdemyCourse}
+          onClose={() => setActiveUdemyCourse(null)}
+          studentId={student.id}
+          studentName={student.name}
         />
       )}
     </div>

@@ -1,6 +1,5 @@
-'use client';
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import {
   BookOpen,
   Users,
@@ -14,6 +13,7 @@ import {
   Sparkles,
   ChevronRight,
   ShieldCheck,
+  AlertTriangle,
 } from 'lucide-react';
 import {
   TeacherProfile,
@@ -22,6 +22,7 @@ import {
   AssessmentItem,
 } from './data/teacherMockData';
 import { TeacherModuleTab } from './TeacherSidebar';
+import { getStoredTeachers, LMS_SYNC_EVENT } from '@/lib/lmsStore';
 
 interface TeacherDashboardTabProps {
   teacher: TeacherProfile;
@@ -44,8 +45,69 @@ export default function TeacherDashboardTab({
 }: TeacherDashboardTabProps) {
   const upcomingClasses = schedules.filter((s) => s.day === 'Today');
 
+  // Super Admin approval check
+  const [approvalStatus, setApprovalStatus] = useState<
+    'approved' | 'pending' | 'rejected' | 'suspended'
+  >('approved');
+
+  const checkStatus = () => {
+    const stored = getStoredTeachers();
+    const found = stored.find((t) => t.id === teacher.id || t.email === teacher.email);
+    if (found) {
+      setApprovalStatus(found.status);
+    } else {
+      setApprovalStatus('approved');
+    }
+  };
+
+  useEffect(() => {
+    checkStatus();
+    const handleSync = () => checkStatus();
+    window.addEventListener(LMS_SYNC_EVENT, handleSync);
+    window.addEventListener('storage', handleSync);
+    return () => {
+      window.removeEventListener(LMS_SYNC_EVENT, handleSync);
+      window.removeEventListener('storage', handleSync);
+    };
+  }, [teacher.id]);
+
   return (
     <div className="space-y-7">
+      {/* Super Admin Status Banner */}
+      {approvalStatus === 'approved' ? (
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center space-x-2.5">
+            <ShieldCheck className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+            <span>
+              <strong>Super Admin Status: Verified & Approved</strong> • Authorized to teach, publish courses, and evaluate judicial answer scripts.
+            </span>
+          </div>
+          <Link
+            href="/super-admin"
+            className="text-xs font-bold text-emerald-900 underline hover:text-emerald-950 whitespace-nowrap self-start sm:self-auto"
+          >
+            Super Admin Hub →
+          </Link>
+        </div>
+      ) : (
+        <div className="p-4 rounded-2xl bg-[#FFF3DD] border-2 border-[#EFC988] text-[#89190E] text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md animate-pulse">
+          <div className="flex items-center space-x-3">
+            <Clock className="w-5 h-5 text-[#89190E] flex-shrink-0" />
+            <div>
+              <span className="font-bold text-sm block">Status: Pending Super Admin Approval</span>
+              <span className="text-[11px] text-[#526174]">
+                Your faculty application and demo lectures are currently being verified by the Super Admin Director.
+              </span>
+            </div>
+          </div>
+          <Link
+            href="/super-admin"
+            className="px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold transition-all shadow-sm whitespace-nowrap self-start sm:self-auto"
+          >
+            Review / Approve in Super Admin →
+          </Link>
+        </div>
+      )}
       {/* 1. Faculty Welcome Banner */}
       <div className="p-5 sm:p-8 rounded-3xl bg-linear-to-r from-[#10233F] via-[#1c355e] to-[#89190E] text-white shadow-xl hud-bracket relative overflow-hidden">
         <div className="absolute inset-0 blueprint-grid opacity-15 pointer-events-none" />

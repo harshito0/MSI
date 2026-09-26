@@ -16,17 +16,36 @@ import {
   Globe,
   AlertCircle,
   Users,
+  UserPlus,
+  Phone,
+  BookOpen,
+  Award,
 } from 'lucide-react';
 import { TEACHER_PROFILES } from '@/components/teacher/data/teacherMockData';
+import { getStoredTeachers, saveStoredTeachers, TeacherApprovalRecord } from '@/lib/lmsStore';
 
 export default function TeacherLoginPage() {
   const router = useRouter();
+  const [authTab, setAuthTab] = useState<'signin' | 'signup'>('signin');
+
+  // Sign In State
   const [email, setEmail] = useState('dr.vikramaditya@msi-institutes.edu.in');
   const [password, setPassword] = useState('Faculty@MSI2025');
   const [showPassword, setShowPassword] = useState(false);
   const [department, setDepartment] = useState<'Law' | 'JEE'>('Law');
+
+  // Sign Up State
+  const [name, setName] = useState('');
+  const [signupEmail, setSignupEmail] = useState('');
+  const [signupPhone, setSignupPhone] = useState('');
+  const [qualifications, setQualifications] = useState('');
+  const [specialization, setSpecialization] = useState('');
+  const [experienceYears, setExperienceYears] = useState('8');
+  const [stream, setStream] = useState<'Law' | 'JEE'>('Law');
+
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [signupSuccess, setSignupSuccess] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,10 +68,49 @@ export default function TeacherLoginPage() {
     }, 600);
   };
 
-  const handleQuickDemo = (facultyEmail: string, stream: 'Law' | 'JEE') => {
+  const handleSignUp = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage('');
+    if (!name || !signupEmail || !specialization) {
+      setErrorMessage('Please provide all mandatory fields.');
+      return;
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      const stored = getStoredTeachers();
+      const newTeacher: TeacherApprovalRecord = {
+        id: `fac-${Date.now()}`,
+        name,
+        email: signupEmail,
+        phone: signupPhone || '+91 98000 00000',
+        avatarUrl: '/images/faculty/faculty-3.webp',
+        department: stream === 'Law' ? 'School of Law & Judicial Studies' : 'Department of Engineering',
+        designation: 'Assistant Professor / Visiting Faculty',
+        qualifications: qualifications || 'LL.M / M.Tech Graduate',
+        experienceYears: Number(experienceYears) || 5,
+        stream,
+        bio: `Specialist in ${specialization} with ${experienceYears} years academic and judicial coaching experience.`,
+        specialization,
+        sampleLectureTitle: `Fundamental Doctrines in ${specialization}`,
+        sampleLectureDuration: '30 mins',
+        status: 'pending',
+        applicationDate: new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
+        assignedCourseIds: [],
+        rating: 4.8,
+        studentsCount: 0,
+      };
+
+      saveStoredTeachers([newTeacher, ...stored]);
+      setIsLoading(false);
+      setSignupSuccess(true);
+    }, 650);
+  };
+
+  const handleQuickDemo = (facultyEmail: string, str: 'Law' | 'JEE') => {
     setEmail(facultyEmail);
     setPassword('Faculty@MSI2025');
-    setDepartment(stream);
+    setDepartment(str);
     setIsLoading(true);
     setTimeout(() => {
       try {
@@ -95,7 +153,7 @@ export default function TeacherLoginPage() {
           </div>
         </Link>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2 sm:space-x-3">
           <Link
             href="/student/login"
             className="hidden sm:flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-white border border-[#E8DCCB] hover:border-[#10233F] text-xs font-semibold text-[#10233F] transition-all shadow-xs"
@@ -105,18 +163,25 @@ export default function TeacherLoginPage() {
           </Link>
 
           <Link
+            href="/super-admin"
+            className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-[#FFF3DD] border border-[#EFC988] text-xs font-bold text-[#89190E] transition-all shadow-xs"
+          >
+            <span>Super Admin</span>
+          </Link>
+
+          <Link
             href="/"
             className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-white border border-[#E8DCCB] hover:border-[#89190E] text-xs font-semibold text-[#526174] hover:text-[#89190E] transition-all shadow-xs"
           >
             <Globe className="w-3.5 h-3.5 text-[#89190E]" />
-            <span>Main Website</span>
+            <span className="hidden sm:inline">Main Website</span>
           </Link>
         </div>
       </header>
 
-      {/* Main Login Card Container */}
+      {/* Main Login / Sign Up Card Container */}
       <main className="relative z-10 flex-1 flex items-center justify-center p-4 sm:p-8">
-        <div className="w-full max-w-md bg-white border border-[#E8DCCB] rounded-3xl p-7 sm:p-9 shadow-2xl hud-bracket relative">
+        <div className="w-full max-w-md bg-white border border-[#E8DCCB] rounded-3xl p-6 sm:p-9 shadow-2xl hud-bracket relative">
           
           {/* Top Title & Icon */}
           <div className="text-center">
@@ -127,48 +192,45 @@ export default function TeacherLoginPage() {
               Faculty & Teacher Portal
             </span>
             <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#10233F] mt-1">
-              Teacher Sign In
+              {authTab === 'signin' ? 'Faculty Sign In' : 'Apply as Instructor'}
             </h1>
             <p className="text-xs text-[#526174] mt-1.5">
-              Access your assigned batches, lecture schedules, student monitoring & tests.
+              {authTab === 'signin'
+                ? 'Access assigned batches, lecture schedules & course content.'
+                : 'Submit your credentials for Super Admin review and course authorization.'}
             </p>
           </div>
 
-          {/* Quick 1-Click Demo Faculty Switcher */}
-          <div className="mt-5 p-3 rounded-2xl bg-[#FFF9EF] border border-[#E8DCCB]">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#89190E] block mb-2 text-center">
-              Demonstrate Stream Data Isolation
-            </span>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => handleQuickDemo('dr.vikramaditya@msi-institutes.edu.in', 'Law')}
-                className="p-2 rounded-xl bg-white hover:bg-[#89190E] text-[#10233F] hover:text-white border border-[#E8DCCB] text-left transition-all text-xs font-semibold group shadow-xs"
-              >
-                <span className="block font-bold text-[11px] group-hover:text-white">
-                  Dr. Vikramaditya
-                </span>
-                <span className="text-[10px] text-[#89190E] group-hover:text-white/90 block font-mono font-bold">
-                  Law / Judicial Faculty
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleQuickDemo('rajesh.verma@msi-institutes.edu.in', 'JEE')}
-                className="p-2 rounded-xl bg-white hover:bg-[#10233F] text-[#10233F] hover:text-white border border-[#E8DCCB] text-left transition-all text-xs font-semibold group shadow-xs"
-              >
-                <span className="block font-bold text-[11px] group-hover:text-white">
-                  Er. Rajesh Verma
-                </span>
-                <span className="text-[10px] text-blue-700 group-hover:text-white/90 block font-mono font-bold">
-                  JEE / Tech Faculty
-                </span>
-              </button>
-            </div>
-            <p className="text-[9px] text-[#526174] mt-2 text-center italic">
-              *Enforcing: JEE teacher cannot see CLAT/Law students and vice-versa.
-            </p>
+          {/* Tab Switcher: Sign In vs Sign Up */}
+          <div className="mt-5 p-1 rounded-2xl bg-[#FFF9EF] border border-[#E8DCCB] grid grid-cols-2 gap-1">
+            <button
+              type="button"
+              onClick={() => {
+                setAuthTab('signin');
+                setErrorMessage('');
+              }}
+              className={`py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                authTab === 'signin'
+                  ? 'bg-[#89190E] text-white shadow-sm'
+                  : 'text-[#526174] hover:text-[#10233F]'
+              }`}
+            >
+              Faculty Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setAuthTab('signup');
+                setErrorMessage('');
+              }}
+              className={`py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                authTab === 'signup'
+                  ? 'bg-[#89190E] text-white shadow-sm'
+                  : 'text-[#526174] hover:text-[#10233F]'
+              }`}
+            >
+              Sign Up / Apply
+            </button>
           </div>
 
           {errorMessage && (
@@ -178,77 +240,264 @@ export default function TeacherLoginPage() {
             </div>
           )}
 
-          {/* Login Form */}
-          <form onSubmit={handleLogin} className="mt-5 space-y-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1.5">
-                Faculty Email ID
-              </label>
-              <div className="relative">
-                <Mail className="w-4 h-4 text-[#526174] absolute left-3.5 top-1/2 -translate-y-1/2" />
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="e.g. name@msi-institutes.edu.in"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs sm:text-sm text-[#10233F] focus:outline-none focus:border-[#89190E] transition-all font-mono"
-                />
-              </div>
-            </div>
+          {/* ---------------- TAB 1: SIGN IN ---------------- */}
+          {authTab === 'signin' && (
+            <>
+              {/* Quick 1-Click Demo Faculty Switcher */}
+              <div className="mt-5 p-3 rounded-2xl bg-[#FFF9EF] border border-[#E8DCCB]">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#89190E] block mb-2 text-center">
+                  Quick 1-Click Faculty Demo
+                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleQuickDemo('dr.vikramaditya@msi-institutes.edu.in', 'Law')}
+                    className="p-2 rounded-xl bg-white hover:bg-[#89190E] text-[#10233F] hover:text-white border border-[#E8DCCB] text-left transition-all text-xs font-semibold group shadow-xs cursor-pointer"
+                  >
+                    <span className="block font-bold text-[11px] group-hover:text-white">
+                      Dr. Vikramaditya
+                    </span>
+                    <span className="text-[10px] text-[#89190E] group-hover:text-white/90 block font-mono font-bold">
+                      Verified Faculty
+                    </span>
+                  </button>
 
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1.5">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="w-4 h-4 text-[#526174] absolute left-3.5 top-1/2 -translate-y-1/2" />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
-                  className="w-full pl-10 pr-10 py-3 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs sm:text-sm text-[#10233F] focus:outline-none focus:border-[#89190E] transition-all font-mono"
-                />
+                  <button
+                    type="button"
+                    onClick={() => handleQuickDemo('rajesh.verma@msi-institutes.edu.in', 'JEE')}
+                    className="p-2 rounded-xl bg-white hover:bg-[#10233F] text-[#10233F] hover:text-white border border-[#E8DCCB] text-left transition-all text-xs font-semibold group shadow-xs cursor-pointer"
+                  >
+                    <span className="block font-bold text-[11px] group-hover:text-white">
+                      Er. Rajesh Verma
+                    </span>
+                    <span className="text-[10px] text-blue-700 group-hover:text-white/90 block font-mono font-bold">
+                      Verified Faculty
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Login Form */}
+              <form onSubmit={handleLogin} className="mt-5 space-y-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1.5">
+                    Faculty Email ID
+                  </label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 text-[#526174] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="e.g. name@msi-institutes.edu.in"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs sm:text-sm text-[#10233F] focus:outline-none focus:border-[#89190E] transition-all font-mono"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1.5">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <Lock className="w-4 h-4 text-[#526174] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••••••"
+                      className="w-full pl-10 pr-10 py-3 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs sm:text-sm text-[#10233F] focus:outline-none focus:border-[#89190E] transition-all font-mono"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#526174] hover:text-[#10233F]"
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
                 <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#526174] hover:text-[#10233F]"
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full py-3.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center space-x-2 transition-all shadow-lg shadow-[#89190E]/30 btn-chamfered active:scale-98 disabled:opacity-75 cursor-pointer"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {isLoading ? (
+                    <span>Authenticating Faculty...</span>
+                  ) : (
+                    <>
+                      <span>Enter Faculty Portal</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </button>
-              </div>
-            </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3.5 rounded-xl bg-[#10233F] hover:bg-[#1c355e] text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center space-x-2 transition-all shadow-lg shadow-[#10233F]/20 btn-chamfered active:scale-98 disabled:opacity-75 cursor-pointer"
-            >
-              {isLoading ? (
-                <span>Verifying Faculty Credentials...</span>
+                <div className="text-center pt-2">
+                  <span className="text-xs text-[#526174]">
+                    Want to teach at MSI?{' '}
+                    <button
+                      type="button"
+                      onClick={() => setAuthTab('signup')}
+                      className="text-[#89190E] font-bold hover:underline"
+                    >
+                      Apply as Instructor
+                    </button>
+                  </span>
+                </div>
+              </form>
+            </>
+          )}
+
+          {/* ---------------- TAB 2: SIGN UP / APPLY ---------------- */}
+          {authTab === 'signup' && (
+            <div>
+              {signupSuccess ? (
+                <div className="mt-5 p-5 rounded-2xl bg-emerald-50 border-2 border-emerald-400 text-emerald-950 space-y-3 text-center">
+                  <Sparkles className="w-8 h-8 text-emerald-600 mx-auto" />
+                  <h4 className="font-bold text-sm">Application Submitted Successfully!</h4>
+                  <p className="text-xs text-emerald-800">
+                    Your profile has been queued for Super Admin approval. You can view or approve it right now in the Super Admin Console.
+                  </p>
+                  <Link
+                    href="/super-admin"
+                    className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-[#89190E] text-white text-xs font-bold shadow-md hover:bg-[#65130D]"
+                  >
+                    <span>Open Super Admin Console</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               ) : (
-                <>
-                  <span>Sign In as Faculty</span>
-                  <ArrowRight className="w-4 h-4 text-[#EFC988]" />
-                </>
-              )}
-            </button>
-          </form>
+                <form onSubmit={handleSignUp} className="mt-5 space-y-3">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1">
+                      Full Name & Title
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="e.g. Adv. Ramanuj Sengupta"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs text-[#10233F] focus:outline-none focus:border-[#89190E]"
+                    />
+                  </div>
 
-          {/* Footer Security Badge */}
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={signupEmail}
+                      onChange={(e) => setSignupEmail(e.target.value)}
+                      placeholder="ramanuj.law@gmail.com"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs text-[#10233F] focus:outline-none focus:border-[#89190E]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1">
+                        Stream
+                      </label>
+                      <select
+                        value={stream}
+                        onChange={(e) => setStream(e.target.value as 'Law' | 'JEE')}
+                        className="w-full px-2.5 py-2.5 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs font-semibold text-[#10233F]"
+                      >
+                        <option value="Law">Law & Judiciary</option>
+                        <option value="JEE">Engineering</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1">
+                        Experience (Years)
+                      </label>
+                      <input
+                        type="number"
+                        value={experienceYears}
+                        onChange={(e) => setExperienceYears(e.target.value)}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs text-[#10233F]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1">
+                      Specialization & Paper
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={specialization}
+                      onChange={(e) => setSpecialization(e.target.value)}
+                      placeholder="e.g. Constitutional Law, BNSS Criminal Trial"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs text-[#10233F] focus:outline-none focus:border-[#89190E]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1">
+                      Highest Qualification
+                    </label>
+                    <input
+                      type="text"
+                      value={qualifications}
+                      onChange={(e) => setQualifications(e.target.value)}
+                      placeholder="e.g. LL.M (Gold Medalist), Ph.D."
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs text-[#10233F] focus:outline-none focus:border-[#89190E]"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full py-3.5 mt-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center space-x-2 transition-all shadow-lg shadow-[#89190E]/30 btn-chamfered active:scale-98 disabled:opacity-75 cursor-pointer"
+                  >
+                    {isLoading ? (
+                      <span>Submitting Application...</span>
+                    ) : (
+                      <>
+                        <Sparkles className="w-4 h-4 text-[#EFC988]" />
+                        <span>Submit for Super Admin Approval</span>
+                      </>
+                    )}
+                  </button>
+
+                  <div className="text-center pt-2">
+                    <span className="text-xs text-[#526174]">
+                      Already verified?{' '}
+                      <button
+                        type="button"
+                        onClick={() => setAuthTab('signin')}
+                        className="text-[#89190E] font-bold hover:underline"
+                      >
+                        Sign In here
+                      </button>
+                    </span>
+                  </div>
+                </form>
+              )}
+            </div>
+          )}
+
+          {/* Security & Regulatory Footnote */}
           <div className="mt-6 pt-5 border-t border-[#E8DCCB] flex items-center justify-center space-x-2 text-[11px] text-[#526174]">
             <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-            <span>Maharaja Surajmal Institute Faculty Academic Directorate</span>
+            <span>Maharaja Surajmal Institute Faculty Board</span>
           </div>
 
         </div>
       </main>
 
-      {/* Footer */}
+      {/* Footer Strip */}
       <footer className="relative z-10 py-4 text-center text-xs text-[#526174] border-t border-[#E8DCCB]/60">
-        © {new Date().getFullYear()} Maharaja Surajmal Institute. All rights reserved.
+        © {new Date().getFullYear()} Maharaja Surajmal Institute. All rights reserved. • Kharar, Mohali, Punjab.
       </footer>
     </div>
   );

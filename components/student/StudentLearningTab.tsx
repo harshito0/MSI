@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
   BookOpen,
   Video,
@@ -18,6 +19,10 @@ import {
   Layers,
   Sparkles,
   ShieldAlert,
+  PlayCircle,
+  Award,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import {
   RecordedVideo,
@@ -25,6 +30,13 @@ import {
   PYQItem,
   AssignmentItem,
 } from './data/studentMockData';
+import {
+  UdemyCourse,
+  CourseEnrollment,
+  getStoredCourses,
+  getStoredEnrollments,
+  LMS_SYNC_EVENT,
+} from '@/lib/lmsStore';
 
 interface StudentLearningTabProps {
   videos: RecordedVideo[];
@@ -33,6 +45,7 @@ interface StudentLearningTabProps {
   assignments: AssignmentItem[];
   onPlayVideo: (video: RecordedVideo) => void;
   onSubmitAssignment: (assignment: AssignmentItem) => void;
+  onOpenUdemyCourse?: (course: UdemyCourse) => void;
 }
 
 export default function StudentLearningTab({
@@ -42,12 +55,50 @@ export default function StudentLearningTab({
   assignments,
   onPlayVideo,
   onSubmitAssignment,
+  onOpenUdemyCourse,
 }: StudentLearningTabProps) {
   const [subSection, setSubSection] = useState<
-    'all' | 'videos' | 'notes' | 'pyqs' | 'assignments' | 'reference'
+    'all' | 'udemy' | 'videos' | 'notes' | 'pyqs' | 'assignments' | 'reference'
   >('all');
   const [selectedSubject, setSelectedSubject] = useState<string>('all');
   const [selectedPyqYear, setSelectedPyqYear] = useState<number | 'all'>('all');
+
+  // Enrolled Udemy Courses State
+  const [enrolledUdemy, setEnrolledUdemy] = useState<{
+    course: UdemyCourse;
+    enrollment: CourseEnrollment;
+  }[]>([]);
+
+  const loadUdemy = () => {
+    const allCourses = getStoredCourses();
+    const allEnrollments = getStoredEnrollments();
+    const myEnrollments = allEnrollments.filter((e) => e.studentId === 'msi-stu-001');
+
+    const merged = myEnrollments
+      .map((enr) => {
+        const found = allCourses.find((c) => c.id === enr.courseId);
+        if (!found) return null;
+        return { course: found, enrollment: enr };
+      })
+      .filter(Boolean) as { course: UdemyCourse; enrollment: CourseEnrollment }[];
+
+    setEnrolledUdemy(merged);
+  };
+
+  useEffect(() => {
+    loadUdemy();
+
+    const handleSync = () => {
+      loadUdemy();
+    };
+
+    window.addEventListener(LMS_SYNC_EVENT, handleSync);
+    window.addEventListener('storage', handleSync);
+    return () => {
+      window.removeEventListener(LMS_SYNC_EVENT, handleSync);
+      window.removeEventListener('storage', handleSync);
+    };
+  }, []);
 
   const subjects = [
     'All Subjects',
@@ -86,7 +137,7 @@ export default function StudentLearningTab({
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-[#526174] mt-1">
-              Curated judicial lectures, annotated Bare Act digests, PYQs, and research assignments.
+              Udemy-style modular video curriculum, annotated Bare Act digests, PYQs, and research assignments.
             </p>
           </div>
 
@@ -110,17 +161,17 @@ export default function StudentLearningTab({
         {/* Sub-section Pill Switcher */}
         <div className="flex flex-wrap items-center gap-2 mt-4">
           {[
-            { id: 'all', label: 'All Resources', count: videos.length + notes.length + pyqs.length },
+            { id: 'all', label: 'All Resources', count: enrolledUdemy.length + videos.length + notes.length },
+            { id: 'udemy', label: 'Udemy Masterclasses', count: enrolledUdemy.length },
             { id: 'videos', label: 'Recorded Lectures', count: videos.length },
             { id: 'notes', label: 'Notes & PDFs', count: notes.length },
-            { id: 'pyqs', label: 'Previous Year Papers (PYQs)', count: pyqs.length },
+            { id: 'pyqs', label: 'PYQ Papers', count: pyqs.length },
             { id: 'assignments', label: 'Assignments', count: assignments.length },
-            { id: 'reference', label: 'Reference & Bare Acts', count: 4 },
           ].map((item) => (
             <button
               key={item.id}
               onClick={() => setSubSection(item.id as typeof subSection)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${
                 subSection === item.id
                   ? 'bg-[#89190E] text-white shadow-xs'
                   : 'bg-[#FFF9EF] text-[#526174] hover:text-[#10233F] hover:bg-[#E8DCCB]/60'
@@ -140,16 +191,126 @@ export default function StudentLearningTab({
       </div>
 
       {/* Course Entitlement Rule Reminder Banner */}
-      <div className="p-4 rounded-2xl bg-[#FFF3DD] border border-[#EFC988] flex items-center justify-between text-xs text-[#89190E]">
+      <div className="p-4 rounded-2xl bg-[#FFF3DD] border border-[#EFC988] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-[#89190E]">
         <div className="flex items-center space-x-2.5">
           <ShieldAlert className="w-4 h-4 text-[#89190E] flex-shrink-0" />
           <span>
-            <strong>Course Entitlement Active:</strong> Access restricted to active verified batch enrollment (#MSI-2025-LAW-042). Unentitled elective modules remain server-side locked.
+            <strong>Enrolled Courses Active:</strong> You have {enrolledUdemy.length} enrolled video courses. Progress and notes synchronize automatically.
           </span>
         </div>
+        <Link
+          href="/courses"
+          className="text-xs font-bold underline text-[#89190E] hover:text-[#65130D] whitespace-nowrap"
+        >
+          Enroll in More Courses →
+        </Link>
       </div>
 
-      {/* 1. Recorded Videos Section */}
+      {/* 1. ENROLLED UDEMY MASTERCLASSES ACCORDION */}
+      {(subSection === 'all' || subSection === 'udemy') && enrolledUdemy.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <PlayCircle className="w-5 h-5 text-[#89190E]" />
+              <h3 className="font-serif text-lg font-bold text-[#10233F]">
+                Enrolled Udemy Video Curriculum & Progress
+              </h3>
+            </div>
+            <span className="text-xs text-[#526174] font-mono">
+              {enrolledUdemy.length} Enrolled Courses
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 gap-5">
+            {enrolledUdemy.map(({ course, enrollment }) => {
+              const isAssigned = enrollment.assignedBy === 'super-admin';
+
+              return (
+                <div
+                  key={course.id}
+                  className="rounded-3xl border-2 border-[#E8DCCB] bg-white p-6 shadow-sm hover:shadow-md transition-all space-y-4"
+                >
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#E8DCCB]/60">
+                    <div className="flex items-start space-x-4">
+                      <div className="relative w-20 h-14 sm:w-28 sm:h-18 rounded-xl overflow-hidden bg-black/10 flex-shrink-0">
+                        <Image
+                          src={course.thumbnail}
+                          alt={course.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-[10px] font-mono font-bold uppercase text-[#89190E] bg-[#FFF3DD] px-2 py-0.5 rounded-md">
+                            {course.category}
+                          </span>
+                          {isAssigned && (
+                            <span className="text-[10px] font-bold text-[#89190E] bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
+                              Assigned by Super Admin
+                            </span>
+                          )}
+                        </div>
+
+                        <h4 className="font-serif font-bold text-base text-[#10233F]">
+                          {course.title}
+                        </h4>
+                        <p className="text-xs text-[#526174]">
+                          Lead Faculty: <strong>{course.instructorName}</strong> • {course.totalLectures} lectures • {course.totalDuration}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center space-x-3 flex-shrink-0 self-end lg:self-center">
+                      <div className="text-right">
+                        <span className="text-xs font-mono font-bold text-[#89190E] block">
+                          {enrollment.progressPercentage}% Completed
+                        </span>
+                        <span className="text-[11px] text-[#526174] block">
+                          {enrollment.completedLectureIds.length} of {course.totalLectures} lectures
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => onOpenUdemyCourse && onOpenUdemyCourse(course)}
+                        className="px-4 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 transition-all shadow-md cursor-pointer"
+                      >
+                        <Play className="w-3.5 h-3.5 fill-current" />
+                        <span>Open Classroom Player</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Modules Preview List */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {course.sections.slice(0, 3).map((sec) => (
+                      <div
+                        key={sec.id}
+                        onClick={() => onOpenUdemyCourse && onOpenUdemyCourse(course)}
+                        className="p-3.5 rounded-2xl bg-[#FFF9EF] border border-[#E8DCCB] hover:border-[#89190E] transition-colors cursor-pointer group"
+                      >
+                        <span className="text-[10px] font-mono text-[#89190E] font-bold uppercase block">
+                          {sec.lectures.length} Lectures • {sec.duration}
+                        </span>
+                        <h5 className="font-serif font-bold text-xs text-[#10233F] group-hover:text-[#89190E] transition-colors mt-1 line-clamp-1">
+                          {sec.title}
+                        </h5>
+                        <div className="mt-2 flex items-center justify-between text-[11px] text-[#526174]">
+                          <span>Click to launch</span>
+                          <Play className="w-3 h-3 text-[#89190E]" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* 2. Recorded Videos Section */}
       {(subSection === 'all' || subSection === 'videos') && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -195,7 +356,7 @@ export default function StudentLearningTab({
                   ) : (
                     <button
                       onClick={() => onPlayVideo(video)}
-                      className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors"
+                      className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors cursor-pointer"
                       aria-label="Play video"
                     >
                       <div className="w-12 h-12 rounded-full bg-[#89190E] text-white flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
@@ -220,22 +381,14 @@ export default function StudentLearningTab({
                     <p className="text-xs text-[#526174] mt-1">Faculty: {video.faculty}</p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-[#E8DCCB] flex items-center justify-between">
-                    <span className="text-[10px] text-[#526174]">{video.uploadDate}</span>
-                    {video.isLocked ? (
-                      <button
-                        onClick={() => alert('Entitlement notice: This course module is locked by server-side policy. Contact MSI academic office to upgrade enrollment.')}
-                        className="text-xs font-bold text-neutral-500 hover:text-neutral-800"
-                      >
-                        Request Access
-                      </button>
-                    ) : (
+                  <div className="mt-3 pt-3 border-t border-[#E8DCCB] flex items-center justify-between text-[11px] text-[#526174]">
+                    <span>Uploaded: {video.uploadDate}</span>
+                    {!video.isLocked && (
                       <button
                         onClick={() => onPlayVideo(video)}
-                        className="text-xs font-bold text-[#89190E] hover:underline flex items-center space-x-1"
+                        className="text-[#89190E] font-bold hover:underline cursor-pointer"
                       >
-                        <span>Watch Lecture</span>
-                        <Play className="w-3 h-3 ml-1 fill-current" />
+                        Stream Now →
                       </button>
                     )}
                   </div>
@@ -246,159 +399,54 @@ export default function StudentLearningTab({
         </div>
       )}
 
-      {/* 2. Notes & PDFs Section */}
+      {/* 3. Notes & Compendiums Section */}
       {(subSection === 'all' || subSection === 'notes') && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <FileText className="w-5 h-5 text-[#89190E]" />
               <h3 className="font-serif text-lg font-bold text-[#10233F]">
-                Annotated Class Notes, Bare Acts & Case Compendiums
+                Annotated Bare Acts, Faculty Notes & Case Compendiums
               </h3>
             </div>
-            <span className="text-xs text-[#526174]">
-              {filteredNotes.length} Documents
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredNotes.map((note) => (
-              <div
-                key={note.id}
-                className={`p-4 sm:p-5 rounded-2xl border bg-white flex items-start justify-between gap-4 transition-all shadow-xs ${
-                  note.isLocked
-                    ? 'border-neutral-200 opacity-75'
-                    : 'border-[#E8DCCB] hover:border-[#89190E]'
-                }`}
-              >
-                <div className="flex items-start space-x-3.5">
-                  <div
-                    className={`p-3 rounded-xl flex-shrink-0 ${
-                      note.isLocked
-                        ? 'bg-neutral-100 text-neutral-400'
-                        : 'bg-[#FFF3DD] text-[#89190E]'
-                    }`}
-                  >
-                    <FileText className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#FFF9EF] text-[#89190E] border border-[#E8DCCB]">
-                        {note.category}
-                      </span>
-                      <span className="text-[11px] text-[#526174]">{note.pages} Pages</span>
-                    </div>
-                    <h4 className="font-serif font-bold text-sm text-[#10233F] mt-1.5">
-                      {note.title}
-                    </h4>
-                    <p className="text-xs text-[#526174] mt-0.5">
-                      {note.subject} • Faculty: {note.faculty}
-                    </p>
-                    <p className="text-[11px] text-[#526174] mt-1">
-                      File Size: {note.fileSize} • Uploaded {note.uploadDate}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex-shrink-0">
-                  {note.isLocked ? (
-                    <span className="inline-flex items-center space-x-1 text-xs text-neutral-400 px-2.5 py-1.5 border border-dashed border-neutral-300 rounded-xl">
-                      <Lock className="w-3.5 h-3.5" />
-                      <span>Locked</span>
-                    </span>
-                  ) : (
-                    <button
-                      onClick={() => alert(`Downloading ${note.title} (${note.fileSize})... Verified under Enrollment #MSI-2025-LAW-042.`)}
-                      className="px-3.5 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 shadow-xs transition-colors"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>Download</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* 3. Previous Year Questions (PYQs) Section */}
-      {(subSection === 'all' || subSection === 'pyqs') && (
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div className="flex items-center space-x-2">
-              <HelpCircle className="w-5 h-5 text-[#89190E]" />
-              <h3 className="font-serif text-lg font-bold text-[#10233F]">
-                Previous Year Question Papers (PYQs) with Solutions
-              </h3>
-            </div>
-
-            {/* Year Filter */}
-            <div className="flex items-center space-x-2">
-              <span className="text-xs text-[#526174]">Filter by Year:</span>
-              <div className="flex items-center space-x-1">
-                {(['all', 2024, 2023] as const).map((yr) => (
-                  <button
-                    key={yr}
-                    onClick={() => setSelectedPyqYear(yr)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-                      selectedPyqYear === yr
-                        ? 'bg-[#10233F] text-white'
-                        : 'bg-white border border-[#E8DCCB] text-[#526174]'
-                    }`}
-                  >
-                    {yr === 'all' ? 'All Years' : yr}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <span className="text-xs text-[#526174]">{filteredNotes.length} Documents</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredPyqs.map((pyq) => (
+            {filteredNotes.map((note) => (
               <div
-                key={pyq.id}
-                className={`p-5 rounded-2xl border bg-white flex flex-col justify-between shadow-xs ${
-                  pyq.isLocked
-                    ? 'border-neutral-200 opacity-75'
-                    : 'border-[#E8DCCB] hover:border-[#10233F]'
-                }`}
+                key={note.id}
+                className="p-5 rounded-3xl bg-white border border-[#E8DCCB] hover:border-[#89190E] transition-all flex flex-col justify-between shadow-xs"
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-[#10233F] text-white">
-                      {pyq.year} {pyq.paperType}
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#FFF3DD] text-[#89190E]">
+                      {note.category}
                     </span>
-                    {pyq.hasSolutions && (
-                      <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                        ✓ With Answers
-                      </span>
-                    )}
+                    <span className="text-xs font-mono text-[#526174]">{note.fileSize}</span>
                   </div>
                   <h4 className="font-serif font-bold text-sm text-[#10233F] mt-2 leading-snug">
-                    {pyq.examName}
+                    {note.title}
                   </h4>
-                  <p className="text-xs text-[#526174] mt-1">{pyq.subject}</p>
-                  <p className="text-[11px] text-[#526174] mt-1">
-                    Total Questions: {pyq.totalQuestions} Questions
-                  </p>
+                  <p className="text-xs text-[#526174] mt-1">{note.subject}</p>
+                  <span className="text-[11px] text-[#526174] block mt-1">
+                    Compiled by: {note.faculty} • {note.pages} Pages
+                  </span>
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-[#E8DCCB] flex items-center justify-between">
-                  {pyq.isLocked ? (
-                    <span className="text-xs text-neutral-400 font-semibold flex items-center space-x-1">
-                      <Lock className="w-3.5 h-3.5" />
-                      <span>Special Fellowship Tier</span>
-                    </span>
-                  ) : (
-                    <button
-                      onClick={() => alert(`Opening ${pyq.examName} ${pyq.year} with answer explanations...`)}
-                      className="text-xs font-bold text-[#89190E] hover:underline flex items-center space-x-1"
-                    >
-                      <span>View Solved Paper</span>
-                      <ExternalLink className="w-3 h-3 ml-1" />
-                    </button>
-                  )}
+                  <span className="text-[11px] text-[#526174]">{note.uploadDate}</span>
+                  <a
+                    href={note.downloadUrl}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      alert(`Downloading official MSI PDF: ${note.title}`);
+                    }}
+                    className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-[#FFF9EF] hover:bg-[#89190E] text-[#89190E] hover:text-white border border-[#E8DCCB] text-xs font-bold transition-all"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Download</span>
+                  </a>
                 </div>
               </div>
             ))}
@@ -406,119 +454,158 @@ export default function StudentLearningTab({
         </div>
       )}
 
-      {/* 4. Assignments Section */}
-      {(subSection === 'all' || subSection === 'assignments') && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <UploadCloud className="w-5 h-5 text-[#89190E]" />
+      {/* 4. Previous Year Exam Papers (PYQs) */}
+      {(subSection === 'all' || subSection === 'pyqs') && (
+        <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#E8DCCB]">
+            <div>
               <h3 className="font-serif text-lg font-bold text-[#10233F]">
-                Academic Assignments & Judgment Drafting Submissions
+                State Judicial Service & Law Entrance Previous Year Papers
               </h3>
+              <p className="text-xs text-[#526174]">
+                Official Prelims & Mains question banks with model answers.
+              </p>
             </div>
-            <span className="text-xs text-[#526174]">
-              {assignments.length} Assigned
+            <div className="flex items-center space-x-2">
+              <span className="text-xs text-[#526174]">Filter Year:</span>
+              <select
+                value={selectedPyqYear}
+                onChange={(e) =>
+                  setSelectedPyqYear(e.target.value === 'all' ? 'all' : Number(e.target.value))
+                }
+                className="p-1.5 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF] text-xs font-semibold text-[#10233F]"
+              >
+                <option value="all">All Years</option>
+                <option value={2024}>2024</option>
+                <option value={2023}>2023</option>
+                <option value={2022}>2022</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="divide-y divide-[#E8DCCB]/60">
+            {filteredPyqs.map((pyq) => (
+              <div
+                key={pyq.id}
+                className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+              >
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#10233F] text-white">
+                      {pyq.examName} • {pyq.year}
+                    </span>
+                    <span className="text-xs font-semibold text-[#89190E]">{pyq.paperType}</span>
+                    {pyq.hasSolutions && (
+                      <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                        Official Solutions Included
+                      </span>
+                    )}
+                  </div>
+                  <h4 className="font-serif font-bold text-sm text-[#10233F] mt-1">
+                    {pyq.subject}
+                  </h4>
+                  <span className="text-xs text-[#526174]">
+                    Total Questions: {pyq.totalQuestions} Questions with Answer Keys
+                  </span>
+                </div>
+
+                <a
+                  href={pyq.downloadUrl}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert(`Downloading ${pyq.examName} ${pyq.year} Paper with answers.`);
+                  }}
+                  className="px-4 py-2 rounded-xl bg-[#FFF9EF] hover:bg-[#89190E] text-[#89190E] hover:text-white border border-[#E8DCCB] text-xs font-bold flex items-center justify-center space-x-1.5 transition-all self-start sm:self-center"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download Paper PDF</span>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 5. Assignments Submission Bench */}
+      {(subSection === 'all' || subSection === 'assignments') && (
+        <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[#E8DCCB]">
+            <div>
+              <h3 className="font-serif text-lg font-bold text-[#10233F]">
+                Judgment Writing & Plaint Drafting Assignments
+              </h3>
+              <p className="text-xs text-[#526174]">
+                Submit drafts for evaluation by retired judicial officers.
+              </p>
+            </div>
+            <span className="text-xs font-mono font-bold text-[#89190E]">
+              {assignments.length} Total Assigned
             </span>
           </div>
 
-          <div className="space-y-3.5">
+          <div className="divide-y divide-[#E8DCCB]/60">
             {assignments.map((asg) => (
               <div
                 key={asg.id}
-                className="p-5 rounded-2xl bg-white border border-[#E8DCCB] hover:border-[#89190E] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
+                className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
               >
                 <div className="space-y-1">
                   <div className="flex items-center space-x-2">
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#FFF3DD] text-[#89190E]">
+                      {asg.subject}
+                    </span>
                     <span
-                      className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
                         asg.status === 'Graded'
-                          ? 'bg-emerald-100 text-emerald-800'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                           : asg.status === 'Submitted'
-                          ? 'bg-amber-100 text-amber-800'
-                          : 'bg-rose-100 text-rose-800'
+                          ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                          : 'bg-rose-50 text-rose-700 border border-rose-200'
                       }`}
                     >
                       Status: {asg.status}
                     </span>
-                    <span className="text-xs text-[#526174] font-medium">{asg.subject}</span>
                   </div>
                   <h4 className="font-serif font-bold text-sm sm:text-base text-[#10233F]">
                     {asg.title}
                   </h4>
-                  <p className="text-xs text-[#526174]">
-                    Assigned: {asg.assignedDate} • Due Date:{' '}
-                    <strong className="text-[#89190E]">{asg.dueDate}</strong> • Max Marks: {asg.maxMarks}
-                  </p>
-                  {asg.facultyRemarks && (
-                    <div className="p-2.5 rounded-xl bg-[#FFF9EF] border border-[#E8DCCB] text-xs text-[#10233F] mt-2">
-                      <strong>Faculty Evaluation Remarks:</strong> {asg.facultyRemarks}
-                      {asg.scoredMarks !== undefined && (
-                        <span className="ml-2 font-bold text-emerald-700">
-                          (Awarded: {asg.scoredMarks}/{asg.maxMarks} Marks)
+                  <div className="flex items-center space-x-3 text-xs text-[#526174]">
+                    <span>Due: <strong>{asg.dueDate}</strong></span>
+                    <span>•</span>
+                    <span>Max Marks: {asg.maxMarks}</span>
+                    {asg.scoredMarks !== undefined && (
+                      <>
+                        <span>•</span>
+                        <span className="font-bold text-emerald-700 font-mono">
+                          Scored: {asg.scoredMarks} / {asg.maxMarks}
                         </span>
-                      )}
-                    </div>
+                      </>
+                    )}
+                  </div>
+                  {asg.facultyRemarks && (
+                    <p className="text-xs text-emerald-900 bg-emerald-50 p-2 rounded-xl mt-1 border border-emerald-100">
+                      <strong>Remarks:</strong> {asg.facultyRemarks}
+                    </p>
                   )}
                 </div>
 
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 self-start sm:self-center">
                   {asg.status === 'Pending' ? (
                     <button
                       onClick={() => onSubmitAssignment(asg)}
-                      className="px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold transition-all shadow-xs"
+                      className="px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 shadow-xs transition-all cursor-pointer"
                     >
-                      Submit Research Draft
+                      <UploadCloud className="w-4 h-4" />
+                      <span>Upload Draft PDF</span>
                     </button>
                   ) : (
-                    <span className="text-xs font-semibold text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+                    <span className="text-xs font-mono font-bold text-emerald-700 px-3 py-1.5 bg-emerald-50 rounded-xl border border-emerald-200">
                       Draft Uploaded ✓
                     </span>
                   )}
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      )}
-
-      {/* 5. Reference Material Section */}
-      {(subSection === 'all' || subSection === 'reference') && (
-        <div className="p-6 rounded-3xl bg-[#FFF9EF] border border-[#E8DCCB]">
-          <div className="flex items-center space-x-2 pb-3 border-b border-[#E8DCCB]">
-            <BookOpen className="w-5 h-5 text-[#89190E]" />
-            <h3 className="font-serif text-base font-bold text-[#10233F]">
-              Reference Material & Legal Citation Repositories
-            </h3>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-            <div className="p-4 rounded-2xl bg-white border border-[#E8DCCB]">
-              <span className="text-[10px] font-mono uppercase font-bold text-[#89190E]">E-Library</span>
-              <h5 className="font-serif font-bold text-xs sm:text-sm text-[#10233F] mt-1">
-                Supreme Court Weekly (SCW) Judgments 2024
-              </h5>
-              <p className="text-[11px] text-[#526174] mt-1">Full ratio decidendi search portal access</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-white border border-[#E8DCCB]">
-              <span className="text-[10px] font-mono uppercase font-bold text-[#89190E]">Standard Treatise</span>
-              <h5 className="font-serif font-bold text-xs sm:text-sm text-[#10233F] mt-1">
-                Ratanlal & Dhirajlal on Law of Crimes
-              </h5>
-              <p className="text-[11px] text-[#526174] mt-1">Digital commentary with latest amendments</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-white border border-[#E8DCCB]">
-              <span className="text-[10px] font-mono uppercase font-bold text-[#89190E]">Bare Act Reader</span>
-              <h5 className="font-serif font-bold text-xs sm:text-sm text-[#10233F] mt-1">
-                Official Ministry of Law Legislative Acts
-              </h5>
-              <p className="text-[11px] text-[#526174] mt-1">Authentic bilingual Hindi & English drafts</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-white border border-[#E8DCCB]">
-              <span className="text-[10px] font-mono uppercase font-bold text-[#89190E]">Moot Research</span>
-              <h5 className="font-serif font-bold text-xs sm:text-sm text-[#10233F] mt-1">
-                International Law Moot Memorial Archive
-              </h5>
-              <p className="text-[11px] text-[#526174] mt-1">Winning memorials from NLSIU & Philip Jessup</p>
-            </div>
           </div>
         </div>
       )}
