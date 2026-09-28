@@ -811,10 +811,17 @@ export default function SuperAdminPage() {
                   <div>
                     <div className="relative aspect-video">
                       <Image
-                        src={course.thumbnail}
+                        src={course.thumbnail || '/images/courses/clat.jpg'}
                         alt={course.title}
                         fill
                         className="object-cover"
+                        onError={(e) => {
+                          const target = e.currentTarget as HTMLImageElement;
+                          if (target && !target.src.includes('clat.jpg')) {
+                            target.srcset = '';
+                            target.src = '/images/courses/clat.jpg';
+                          }
+                        }}
                       />
                       <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#10233F]/90 text-white font-mono text-[10px] font-bold">
                         {course.category}

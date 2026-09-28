@@ -27,6 +27,7 @@ import {
   ShieldCheck,
   Share2,
 } from 'lucide-react';
+import BunnyPlayer from '@/components/stream/BunnyPlayer';
 import {
   UdemyCourse,
   UdemyLecture,
@@ -291,13 +292,22 @@ export default function UdemyPlayerModal({
           
           {/* Responsive Video Shell */}
           <div className="bg-black relative aspect-video max-h-[60vh] w-full flex items-center justify-center border-b border-white/10 group">
-            <video
-              ref={videoRef}
-              src={currentLecture.videoUrl}
-              controls
-              autoPlay
-              className="w-full h-full object-contain"
-            />
+            {currentLecture.videoUrl.includes('mediadelivery.net') || currentLecture.videoUrl.startsWith('bunny://') ? (
+              <BunnyPlayer
+                videoUrl={currentLecture.videoUrl}
+                title={currentLecture.title}
+                autoplay={true}
+                className="h-full border-0 rounded-none"
+              />
+            ) : (
+              <video
+                ref={videoRef}
+                src={currentLecture.videoUrl}
+                controls
+                autoPlay
+                className="w-full h-full object-contain"
+              />
+            )}
           </div>
 
           {/* Video Bottom Action Bar */}

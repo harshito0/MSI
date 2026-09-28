@@ -234,10 +234,17 @@ export default function StudentLearningTab({
                     <div className="flex items-start space-x-4">
                       <div className="relative w-20 h-14 sm:w-28 sm:h-18 rounded-xl overflow-hidden bg-black/10 flex-shrink-0">
                         <Image
-                          src={course.thumbnail}
+                          src={course.thumbnail || '/images/courses/clat.jpg'}
                           alt={course.title}
                           fill
                           className="object-cover"
+                          onError={(e) => {
+                            const target = e.currentTarget as HTMLImageElement;
+                            if (target && !target.src.includes('clat.jpg')) {
+                              target.srcset = '';
+                              target.src = '/images/courses/clat.jpg';
+                            }
+                          }}
                         />
                       </div>
 

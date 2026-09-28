@@ -1095,10 +1095,17 @@ export default function CoursesPage() {
                     {/* Thumbnail Container */}
                     <div className="relative aspect-video w-full overflow-hidden bg-black/10">
                       <Image
-                        src={course.thumbnail}
+                        src={course.thumbnail || '/images/courses/clat.jpg'}
                         alt={course.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => {
+                          const target = e.currentTarget as HTMLImageElement;
+                          if (target && !target.src.includes('clat.jpg')) {
+                            target.srcset = '';
+                            target.src = '/images/courses/clat.jpg';
+                          }
+                        }}
                       />
                       
                       {course.badge && (

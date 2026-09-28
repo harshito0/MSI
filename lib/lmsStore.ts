@@ -1057,7 +1057,20 @@ export function getStoredCourses(): UdemyCourse[] {
       localStorage.setItem(STORAGE_KEY_COURSES, JSON.stringify(INITIAL_UDEMY_COURSES));
       return INITIAL_UDEMY_COURSES;
     }
-    return JSON.parse(raw);
+    const courses: UdemyCourse[] = JSON.parse(raw);
+    let changed = false;
+    const updated = courses.map((course) => {
+      const seed = INITIAL_UDEMY_COURSES.find((s) => s.id === course.id);
+      if (seed && (!course.thumbnail || course.thumbnail.trim() === '')) {
+        changed = true;
+        return { ...course, thumbnail: seed.thumbnail };
+      }
+      return course;
+    });
+    if (changed) {
+      localStorage.setItem(STORAGE_KEY_COURSES, JSON.stringify(updated));
+    }
+    return updated;
   } catch {
     return INITIAL_UDEMY_COURSES;
   }

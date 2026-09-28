@@ -129,10 +129,17 @@ export default function StudentEnrollLoginModal({
         <div className="p-5 bg-[#FFF9EF] border-b border-[#E8DCCB] flex items-center gap-3.5">
           <div className="relative w-16 h-12 rounded-xl overflow-hidden flex-shrink-0 border border-[#E8DCCB]">
             <Image
-              src={course.thumbnail}
+              src={course.thumbnail || '/images/courses/clat.jpg'}
               alt={course.title}
               fill
               className="object-cover"
+              onError={(e) => {
+                const target = e.currentTarget as HTMLImageElement;
+                if (target && !target.src.includes('clat.jpg')) {
+                  target.srcset = '';
+                  target.src = '/images/courses/clat.jpg';
+                }
+              }}
             />
           </div>
           <div className="min-w-0 flex-1">

@@ -379,10 +379,17 @@ export default function UdemyCourseModal({
                 {/* Course Banner Thumbnail with Play overlay */}
                 <div className="relative aspect-video rounded-2xl overflow-hidden border border-[#E8DCCB] group">
                   <Image
-                    src={course.thumbnail}
+                    src={course.thumbnail || '/images/courses/clat.jpg'}
                     alt={course.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.currentTarget as HTMLImageElement;
+                      if (target && !target.src.includes('clat.jpg')) {
+                        target.srcset = '';
+                        target.src = '/images/courses/clat.jpg';
+                      }
+                    }}
                   />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity">
                     <button

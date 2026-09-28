@@ -312,7 +312,7 @@ export const UPCOMING_CLASSES: TimetableClass[] = [
     room: 'Lecture Hall 1A (CLAT Wing)',
     type: 'Lecture',
     isLiveNow: true,
-    joinLink: 'https://meet.google.com/msi-legal-live',
+    joinLink: '/live-stream?title=Legal%20Reasoning%3A%20Ratio%20Decidendi%20vs%20Obiter%20Dicta',
   },
   {
     id: 'tt-02',
@@ -324,7 +324,7 @@ export const UPCOMING_CLASSES: TimetableClass[] = [
     room: 'Smart Amphitheatre Hall B',
     type: 'Lecture',
     isLiveNow: false,
-    joinLink: 'https://meet.google.com/msi-gkca-live',
+    joinLink: '/live-stream?title=Current%20Affairs%3A%20Supreme%20Court%20Constitution-Bench%20Decisions',
   },
   {
     id: 'tt-03',

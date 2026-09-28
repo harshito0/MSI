@@ -5,12 +5,14 @@ import {
   Calendar,
   Clock,
   Video,
+  Radio,
   Plus,
   MapPin,
   CheckCircle2,
   Users,
   ChevronRight,
 } from 'lucide-react';
+import TeacherLiveStreamStudio from './TeacherLiveStreamStudio';
 import {
   TeacherClassSchedule,
   TeacherCourse,
@@ -34,9 +36,11 @@ export default function TeacherClassesTab({
   onOpenScheduleClass,
   onLaunchAttendance,
 }: TeacherClassesTabProps) {
+  const [isStreamStudioOpen, setIsStreamStudioOpen] = React.useState(false);
+
   return (
     <div className="space-y-6">
-      {/* 1. Header with Schedule Class CTA */}
+      {/* 1. Header with Schedule Class & Bunny Live Studio CTA */}
       <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-[#E8DCCB]">
           <div>
@@ -47,17 +51,27 @@ export default function TeacherClassesTab({
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-[#526174] mt-1">
-              Schedule physical lectures, generate live video meet conferences, and take daily electronic attendance registers.
+              Schedule physical lectures, initialize live Bunny.net video streaming broadcasts, and take daily electronic attendance.
             </p>
           </div>
 
-          <button
-            onClick={onOpenScheduleClass}
-            className="px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 shadow-md shadow-[#89190E]/20 active:scale-98 transition-all"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Schedule New Class</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              onClick={() => setIsStreamStudioOpen(true)}
+              className="px-4 py-2.5 rounded-xl bg-[#10233F] hover:bg-[#1a345c] text-white text-xs font-bold flex items-center space-x-2 shadow-md shadow-[#10233F]/20 active:scale-98 transition-all cursor-pointer"
+            >
+              <Radio className="w-4 h-4 text-[#EFC988] animate-pulse" />
+              <span>Bunny.net Live Studio</span>
+            </button>
+
+            <button
+              onClick={onOpenScheduleClass}
+              className="px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 shadow-md shadow-[#89190E]/20 active:scale-98 transition-all cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Schedule New Class</span>
+            </button>
+          </div>
         </div>
 
         {/* Course / Subject Mapping Chips */}
@@ -138,6 +152,15 @@ export default function TeacherClassesTab({
                   Mark Daily Attendance
                 </button>
 
+                <button
+                  onClick={() => setIsStreamStudioOpen(true)}
+                  className="px-3.5 py-2 rounded-xl bg-[#10233F] hover:bg-[#1a345c] text-white text-xs font-bold flex items-center space-x-1.5 transition-all shadow-xs cursor-pointer"
+                  title="Initialize or manage Bunny.net live video stream"
+                >
+                  <Radio className="w-3.5 h-3.5 text-[#EFC988]" />
+                  <span>Bunny Stream</span>
+                </button>
+
                 {session.meetLink && (
                   <a
                     href={session.meetLink}
@@ -154,6 +177,13 @@ export default function TeacherClassesTab({
           ))}
         </div>
       </div>
+
+      {/* Bunny.net Stream Studio Modal */}
+      <TeacherLiveStreamStudio
+        isOpen={isStreamStudioOpen}
+        onClose={() => setIsStreamStudioOpen(false)}
+        stream={stream}
+      />
     </div>
   );
 }

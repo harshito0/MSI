@@ -545,15 +545,13 @@ export default function StudentDashboardTab({
 
                   <div className="flex items-center space-x-2 flex-shrink-0 w-full sm:w-auto">
                     {cls.joinLink ? (
-                      <a
-                        href={cls.joinLink}
-                        target="_blank"
-                        rel="noreferrer"
+                      <Link
+                        href={`/live-stream?title=${encodeURIComponent(cls.subject)}`}
                         className="w-full sm:w-auto justify-center px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-xs"
                       >
                         <Video className="w-3.5 h-3.5 text-[#EFC988]" />
-                        <span>Join Live Hall</span>
-                      </a>
+                        <span>Join Live Hall (Bunny Stream)</span>
+                      </Link>
                     ) : (
                       <button
                         onClick={() => onNavigateTab('learning')}
