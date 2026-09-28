@@ -92,27 +92,14 @@ export default function TeacherLiveStreamStudio({
   const [showEndModal, setShowEndModal] = useState(false);
 
   // REAL ATTENDEES (NO DUMMY 142!)
-  const [activeViewers, setActiveViewers] = useState<LiveViewerInfo[]>([
-    {
-      id: 'MSI-2025-LAW-042',
-      name: 'Aarav Sharma',
-      batch: 'Semester V (CLAT UG)',
-      joinedAt: Date.now(),
-    },
-  ]);
+  const [activeViewers, setActiveViewers] = useState<LiveViewerInfo[]>([]);
 
-  // CHAT BOX INSIDE TEACHER STUDIO
+  // TARGET ACADEMIC BATCH
+  const [targetBatch, setTargetBatch] = useState('Semester V (CLAT UG)');
+
+  // CHAT BOX INSIDE TEACHER STUDIO (Real-time only, NO DUMMY DATA)
   const [isChatOpen, setIsChatOpen] = useState(true);
-  const [chatMessages, setChatMessages] = useState<LiveChatMessage[]>([
-    {
-      id: 'init-1',
-      sender: 'Aarav Sharma',
-      text: 'Good morning Ma’am! Ready for today’s Constitutional Law session.',
-      time: '10:02 AM',
-      isTeacher: false,
-      timestamp: Date.now() - 40000,
-    },
-  ]);
+  const [chatMessages, setChatMessages] = useState<LiveChatMessage[]>([]);
   const [chatInput, setChatInput] = useState('');
 
   // WebRTC Broadcaster ref
@@ -203,6 +190,60 @@ export default function TeacherLiveStreamStudio({
       chatChannel?.close();
     };
   }, []);
+
+  // Server sync for chat, presence, and status across devices (Laptop <-> Mobile)
+  useEffect(() => {
+    const syncWithServer = async () => {
+      try {
+        const res = await fetch('/api/live-stream');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (Array.isArray(data.chatMessages)) {
+          setChatMessages(data.chatMessages);
+        }
+        if (Array.isArray(data.activeViewers)) {
+          setActiveViewers(data.activeViewers);
+        }
+      } catch {}
+    };
+
+    syncWithServer();
+    const interval = setInterval(syncWithServer, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Periodic video frame capture & server sync for remote mobile viewers (NEVER BLACK SCREEN!)
+  useEffect(() => {
+    if (!facultyMediaStream || streamState !== 'live') return;
+
+    const videoEl = document.createElement('video');
+    videoEl.srcObject = facultyMediaStream;
+    videoEl.muted = true;
+    videoEl.playsInline = true;
+    videoEl.play().catch(() => {});
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 640;
+    canvas.height = 360;
+    const ctx = canvas.getContext('2d');
+
+    const frameInterval = setInterval(() => {
+      if (videoEl.readyState >= 2 && ctx) {
+        ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.55);
+        fetch('/api/live-stream', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'push-frame', frame: dataUrl }),
+        }).catch(() => {});
+      }
+    }, 800);
+
+    return () => {
+      clearInterval(frameInterval);
+      videoEl.srcObject = null;
+    };
+  }, [facultyMediaStream, streamState]);
 
   // Timer counter when live
   useEffect(() => {
@@ -428,13 +469,14 @@ export default function TeacherLiveStreamStudio({
     setStatusMessage('Live stream session restarted.');
   };
 
-  const broadcastEvent = (type: 'STREAM_STARTED' | 'STREAM_ENDED') => {
+  const broadcastEvent = async (type: 'STREAM_STARTED' | 'STREAM_ENDED') => {
     try {
       const payload = {
         type,
         isLive: type === 'STREAM_STARTED',
         courseId: 'MSI/LEGSTUDIES-/01',
         courseTitle: streamTitle,
+        targetBatch,
         teacherName: teacherName || 'Dr. Ekta Gahlawat',
         timestamp: Date.now(),
         joinUrl: `/live-stream?title=${encodeURIComponent(streamTitle)}&lib=${libraryId || '389201'}&role=student`,
@@ -450,30 +492,82 @@ export default function TeacherLiveStreamStudio({
           localStorage.removeItem('msi_active_live_stream');
         }
       }
+
+      // Synchronize with Next.js server so all mobile and remote devices receive it
+      await fetch('/api/live-stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: type === 'STREAM_STARTED' ? 'start' : 'end',
+          streamTitle,
+          teacherName: teacherName || 'Dr. Ekta Gahlawat',
+          targetBatch,
+          courseId: 'MSI/LEGSTUDIES-/01',
+        }),
+      });
     } catch {}
   };
 
-  // Teacher Send Chat Message
-  const handleSendTeacherMessage = (e: React.FormEvent) => {
+  // Teacher Send Chat Message (Synced across devices)
+  const handleSendTeacherMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!chatInput.trim()) return;
+
+    const textToSend = chatInput.trim();
+    setChatInput('');
 
     const newMsg: LiveChatMessage = {
       id: 'msg-' + Date.now(),
       sender: `${teacherName} (Faculty)`,
-      text: chatInput,
+      text: textToSend,
       time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
       isTeacher: true,
       timestamp: Date.now(),
     };
 
     setChatMessages((prev) => [...prev, newMsg]);
-    setChatInput('');
 
     try {
       const ch = new BroadcastChannel(CHAT_CHANNEL);
       ch.postMessage({ type: 'NEW_MESSAGE', message: newMsg });
       ch.close();
+    } catch {}
+
+    // Post to server for mobile and cross-network students
+    try {
+      const res = await fetch('/api/live-stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'send-chat',
+          sender: `${teacherName} (Faculty)`,
+          text: textToSend,
+          isTeacher: true,
+        }),
+      });
+      const data = await res.json();
+      if (Array.isArray(data.chatMessages)) {
+        setChatMessages(data.chatMessages);
+      }
+    } catch {}
+  };
+
+  // Delete Chat Message
+  const handleDeleteMessage = async (msgId: string) => {
+    setChatMessages((prev) => prev.filter((m) => m.id !== msgId));
+
+    try {
+      const ch = new BroadcastChannel(CHAT_CHANNEL);
+      ch.postMessage({ type: 'DELETE_MESSAGE', id: msgId });
+      ch.close();
+    } catch {}
+
+    try {
+      await fetch('/api/live-stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete-chat', id: msgId }),
+      });
     } catch {}
   };
 
@@ -797,17 +891,33 @@ export default function TeacherLiveStreamStudio({
 
                 {/* Media Controls, Chat Toggle & End Stream Bar */}
                 <div className="p-4 rounded-2xl bg-[#FFF9EF] border border-[#E8DCCB] space-y-3">
-                  <div>
-                    <label className="text-xs font-bold text-[#10233F] block">
-                      Lecture / Stream Title:
-                    </label>
-                    <input
-                      type="text"
-                      value={streamTitle}
-                      onChange={(e) => setStreamTitle(e.target.value)}
-                      placeholder="e.g. Constitutional Law Landmark Verdicts Analysis"
-                      className="w-full mt-1 px-3.5 py-1.5 rounded-xl bg-white border border-[#E8DCCB] text-xs font-medium text-[#10233F] focus:outline-none focus:ring-1 focus:ring-[#89190E]"
-                    />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-[#10233F] block">
+                        Lecture / Stream Title:
+                      </label>
+                      <input
+                        type="text"
+                        value={streamTitle}
+                        onChange={(e) => setStreamTitle(e.target.value)}
+                        placeholder="e.g. Constitutional Law Landmark Verdicts Analysis"
+                        className="w-full mt-1 px-3.5 py-1.5 rounded-xl bg-white border border-[#E8DCCB] text-xs font-medium text-[#10233F] focus:outline-none focus:ring-1 focus:ring-[#89190E]"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-[#10233F] block">
+                        Target Academic Cohort / Batch:
+                      </label>
+                      <select
+                        value={targetBatch}
+                        onChange={(e) => setTargetBatch(e.target.value)}
+                        className="w-full mt-1 px-3.5 py-1.5 rounded-xl bg-white border border-[#E8DCCB] text-xs font-bold text-[#89190E] focus:outline-none focus:ring-1 focus:ring-[#89190E] cursor-pointer"
+                      >
+                        <option value="Semester V (CLAT UG)">Semester V (CLAT UG & Judiciary Cohort)</option>
+                        <option value="Semester III (Constitutional Law)">Semester III (Constitutional Law)</option>
+                        <option value="All Enrolled Batches">All Enrolled Student Cohorts (Campus Broadcast)</option>
+                      </select>
+                    </div>
                   </div>
 
                   {/* Hardware & Live Actions Toolbar */}
@@ -920,26 +1030,44 @@ export default function TeacherLiveStreamStudio({
                     <span className="font-bold">{activeViewers[0]?.name || 'Aarav Sharma'}</span>
                   </div>
 
-                  {/* Chat Messages */}
+                  {/* Chat Messages (Real time only, no dummy data) */}
                   <div className="flex-1 p-3 overflow-y-auto space-y-2.5 bg-[#FAF8F5]/60 text-xs">
-                    {chatMessages.map((msg) => (
-                      <div
-                        key={msg.id}
-                        className={`p-2.5 rounded-xl space-y-0.5 ${
-                          msg.isTeacher
-                            ? 'bg-[#FFF3DD] border border-[#EFC988] text-[#10233F]'
-                            : 'bg-white border border-[#E8DCCB] text-[#10233F]'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between text-[10px]">
-                          <strong className={msg.isTeacher ? 'text-[#89190E]' : 'text-[#10233F]'}>
-                            {msg.sender}
-                          </strong>
-                          <span className="text-gray-400 font-mono">{msg.time}</span>
-                        </div>
-                        <p className="text-[11px] leading-relaxed">{msg.text}</p>
+                    {chatMessages.length === 0 ? (
+                      <div className="h-full flex flex-col items-center justify-center text-center text-[#526174] p-4 space-y-1">
+                        <MessageSquare className="w-6 h-6 text-gray-300" />
+                        <span className="text-xs font-medium">No messages yet.</span>
+                        <span className="text-[11px] text-gray-400">Student questions will appear here in real-time.</span>
                       </div>
-                    ))}
+                    ) : (
+                      chatMessages.map((msg) => (
+                        <div
+                          key={msg.id}
+                          className={`p-2.5 rounded-xl space-y-0.5 group relative transition-all ${
+                            msg.isTeacher
+                              ? 'bg-[#FFF3DD] border border-[#EFC988] text-[#10233F]'
+                              : 'bg-white border border-[#E8DCCB] text-[#10233F] hover:border-[#89190E]/40'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between text-[10px]">
+                            <strong className={msg.isTeacher ? 'text-[#89190E]' : 'text-[#10233F]'}>
+                              {msg.sender}
+                            </strong>
+                            <div className="flex items-center space-x-1.5">
+                              <span className="text-gray-400 font-mono">{msg.time}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteMessage(msg.id)}
+                                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-rose-100 text-rose-600 rounded transition-all cursor-pointer"
+                                title="Delete Message"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </button>
+                            </div>
+                          </div>
+                          <p className="text-[11px] leading-relaxed break-words">{msg.text}</p>
+                        </div>
+                      ))
+                    )}
                   </div>
 
                   {/* Faculty Reply Input */}

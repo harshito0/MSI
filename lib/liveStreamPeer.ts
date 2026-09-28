@@ -21,6 +21,7 @@ export interface LiveChatMessage {
   time: string;
   isTeacher: boolean;
   timestamp: number;
+  studentId?: string;
 }
 
 export interface RecordedLectureItem {

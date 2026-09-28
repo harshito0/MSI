@@ -55,6 +55,28 @@ export default function StudentHeader({
       }
     }
 
+    // Check cross-device server state
+    const checkServer = async () => {
+      try {
+        const res = await fetch('/api/live-stream');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.isLive) {
+          setActiveLiveStream({
+            isLive: true,
+            courseId: data.courseId,
+            courseTitle: data.streamTitle,
+            teacherName: data.teacherName,
+          });
+        } else {
+          setActiveLiveStream(null);
+        }
+      } catch {}
+    };
+
+    checkServer();
+    const interval = setInterval(checkServer, 2500);
+
     let bc: BroadcastChannel | null = null;
     try {
       bc = new BroadcastChannel('msi_live_stream_channel');
@@ -69,6 +91,7 @@ export default function StudentHeader({
 
     return () => {
       bc?.close();
+      clearInterval(interval);
     };
   }, []);
 

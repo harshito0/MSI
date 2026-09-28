@@ -156,6 +156,39 @@ export default function StudentDashboardTab({
 
     checkLiveStatus();
 
+    // Cross-device Server Live Status Polling (connects Mobile <-> Laptop)
+    const checkServerLiveStatus = async () => {
+      try {
+        const res = await fetch('/api/live-stream');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.isLive) {
+          // Check if batch matches student's enrollment
+          const isTargetCohort =
+            !data.targetBatch ||
+            data.targetBatch === 'All Enrolled Batches' ||
+            data.targetBatch.includes('Semester V') ||
+            student.batch.includes('Semester V');
+
+          if (isTargetCohort) {
+            setActiveLiveStream({
+              isLive: true,
+              courseId: data.courseId || 'MSI/LEGSTUDIES-/01',
+              courseTitle: data.streamTitle,
+              teacherName: data.teacherName,
+              timestamp: data.startedAt,
+            });
+            setDismissedLive(false);
+          }
+        } else {
+          setActiveLiveStream(null);
+        }
+      } catch {}
+    };
+
+    checkServerLiveStatus();
+    const serverInterval = setInterval(checkServerLiveStatus, 2500);
+
     // Listen to real-time events across browser tabs
     let bc: BroadcastChannel | null = null;
     try {
@@ -175,9 +208,10 @@ export default function StudentDashboardTab({
 
     return () => {
       bc?.close();
+      clearInterval(serverInterval);
       window.removeEventListener('storage', checkLiveStatus);
     };
-  }, []);
+  }, [student.batch]);
 
   return (
     <div className="space-y-7">

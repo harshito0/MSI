@@ -24,6 +24,7 @@ export interface BunnyPlayerProps {
   videoId?: string;
   videoUrl?: string;
   mediaStream?: MediaStream | null;
+  latestFrame?: string | null;
   libraryId?: string | number;
   title?: string;
   subtitle?: string;
@@ -40,16 +41,17 @@ export default function BunnyPlayer({
   videoId,
   videoUrl,
   mediaStream,
+  latestFrame,
   libraryId,
   title = 'MSI Live Lecture Stream',
   subtitle = 'School of Law & Judicial Studies • Live Transmission',
   isLive = true,
   autoplay = true,
-  muted = false,
+  muted = true, // Default to muted for seamless mobile browser autoplay compliance
   loop = true,
   className = '',
   onEnded,
-  viewerCount = 142,
+  viewerCount = 1,
 }: BunnyPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -87,17 +89,22 @@ export default function BunnyPlayer({
   useEffect(() => {
     if (videoRef.current && mediaStream) {
       videoRef.current.srcObject = mediaStream;
-      videoRef.current.play().catch((err) => console.log('Autoplay blocked:', err));
-    } else if (videoRef.current && !embedUrl) {
+      videoRef.current.play().catch((err) => {
+        console.log('Autoplay blocked:', err);
+        setIsPlaying(false);
+      });
+    } else if (videoRef.current && !embedUrl && !latestFrame) {
       videoRef.current.srcObject = null;
       if (!videoRef.current.src || videoRef.current.src !== fallbackLiveUrl) {
         videoRef.current.src = fallbackLiveUrl;
       }
       if (autoplay) {
-        videoRef.current.play().catch(() => {});
+        videoRef.current.play().catch(() => {
+          setIsPlaying(false);
+        });
       }
     }
-  }, [mediaStream, embedUrl, fallbackLiveUrl, autoplay]);
+  }, [mediaStream, embedUrl, fallbackLiveUrl, autoplay, latestFrame]);
 
   // Live timer tick
   useEffect(() => {
@@ -223,6 +230,19 @@ export default function BunnyPlayer({
             onError={() => setIframeError(true)}
             onLoad={() => setIsLoading(false)}
           />
+        ) : latestFrame && !mediaStream ? (
+          /* Live Camera/Screen Frame relayed from Teacher Studio */
+          <div className="relative w-full h-full flex items-center justify-center bg-black">
+            <img
+              src={latestFrame}
+              alt="Faculty Live Broadcast"
+              className="w-full h-full object-contain"
+            />
+            <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-lg bg-rose-600/90 text-white text-[10px] font-mono font-bold flex items-center space-x-1.5 shadow-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              <span>FACULTY LIVE (SYNCED)</span>
+            </div>
+          </div>
         ) : (
           /* Live Stream HTML5 / WebRTC Video */
           <video
@@ -238,6 +258,36 @@ export default function BunnyPlayer({
             onEnded={onEnded}
             onLoadedData={() => setIsLoading(false)}
           />
+        )}
+
+        {/* Mobile Tap-To-Play Overlay if video was blocked by mobile browser autoplay policy */}
+        {!isPlaying && !latestFrame && !embedUrl && (
+          <div
+            onClick={togglePlay}
+            className="absolute inset-0 z-30 bg-black/80 flex flex-col items-center justify-center cursor-pointer p-4 text-center transition-all animate-in fade-in"
+          >
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#89190E] hover:bg-[#a01f13] text-white flex items-center justify-center shadow-2xl animate-pulse mb-3 cursor-pointer">
+              <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-white ml-1" />
+            </div>
+            <h4 className="text-white font-serif font-bold text-base sm:text-lg">
+              Tap to Watch Live Class
+            </h4>
+            <p className="text-xs text-gray-300 mt-1 max-w-xs">
+              Live transmission from Dr. Ekta Gahlawat. Tap to play video and hear audio.
+            </p>
+          </div>
+        )}
+
+        {/* Floating Tap-To-Unmute Audio Pill for mobile */}
+        {isMuted && isPlaying && !embedUrl && (
+          <button
+            type="button"
+            onClick={toggleMute}
+            className="absolute top-3 left-3 z-30 px-3 py-1.5 rounded-full bg-black/80 hover:bg-black text-white text-[11px] font-mono font-bold flex items-center space-x-1.5 border border-[#EFC988]/60 shadow-xl cursor-pointer"
+          >
+            <VolumeX className="w-3.5 h-3.5 text-rose-400" />
+            <span>Audio Muted • Tap to Unmute 🔊</span>
+          </button>
         )}
 
         {/* Live Watermark Overlay */}
