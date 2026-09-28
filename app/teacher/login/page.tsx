@@ -58,8 +58,14 @@ export default function TeacherLoginPage() {
     setIsLoading(true);
     setTimeout(() => {
       try {
+        const teacherName = email.toLowerCase().includes('anurag')
+          ? 'Mr. Anurag Dwivedi'
+          : email.toLowerCase().includes('riya')
+          ? 'Ms. Riya Hooda'
+          : 'Dr. Ekta Gahlawat';
         localStorage.setItem('msi_teacher_logged_in', 'true');
         localStorage.setItem('msi_active_teacher_email', email);
+        localStorage.setItem('msi_active_teacher_name', teacherName);
       } catch (err) {
         console.error(err);
       }
@@ -114,8 +120,14 @@ export default function TeacherLoginPage() {
     setIsLoading(true);
     setTimeout(() => {
       try {
+        const teacherName = facultyEmail.toLowerCase().includes('anurag')
+          ? 'Mr. Anurag Dwivedi'
+          : facultyEmail.toLowerCase().includes('riya')
+          ? 'Ms. Riya Hooda'
+          : 'Dr. Ekta Gahlawat';
         localStorage.setItem('msi_teacher_logged_in', 'true');
         localStorage.setItem('msi_active_teacher_email', facultyEmail);
+        localStorage.setItem('msi_active_teacher_name', teacherName);
       } catch (err) {
         console.error(err);
       }

@@ -23,6 +23,7 @@ import {
   GraduationCap,
   Radio,
   X,
+  Play,
 } from 'lucide-react';
 import {
   StudentProfile,
@@ -40,6 +41,7 @@ import {
   LMS_SYNC_EVENT,
 } from '@/lib/lmsStore';
 import StudentActivityHeatmap from './StudentActivityHeatmap';
+import { getSavedRecordedLectures, RecordedLectureItem } from '@/lib/liveStreamPeer';
 
 interface StudentDashboardTabProps {
   student: StudentProfile;
@@ -117,19 +119,42 @@ export default function StudentDashboardTab({
   } | null>(null);
   const [dismissedLive, setDismissedLive] = useState(false);
 
+  // Saved VOD Recordings
+  const [recordedLectures, setRecordedLectures] = useState<RecordedLectureItem[]>([]);
+
+  const loadRecordings = () => {
+    setRecordedLectures(getSavedRecordedLectures());
+  };
+
   useEffect(() => {
-    // Check initial active stream from localStorage
-    if (typeof window !== 'undefined') {
-      const activeData = localStorage.getItem('msi_active_live_stream');
-      if (activeData) {
-        try {
-          const parsed = JSON.parse(activeData);
-          if (parsed.isLive) {
-            setActiveLiveStream(parsed);
-          }
-        } catch {}
+    loadRecordings();
+    const handleStorageRecordings = () => loadRecordings();
+    window.addEventListener('storage', handleStorageRecordings);
+    window.addEventListener('msi_recorded_lectures_updated', handleStorageRecordings);
+    return () => {
+      window.removeEventListener('storage', handleStorageRecordings);
+      window.removeEventListener('msi_recorded_lectures_updated', handleStorageRecordings);
+    };
+  }, []);
+
+  useEffect(() => {
+    const checkLiveStatus = () => {
+      if (typeof window !== 'undefined') {
+        const activeData = localStorage.getItem('msi_active_live_stream');
+        if (activeData) {
+          try {
+            const parsed = JSON.parse(activeData);
+            if (parsed.isLive) {
+              setActiveLiveStream(parsed);
+              return;
+            }
+          } catch {}
+        }
+        setActiveLiveStream(null);
       }
-    }
+    };
+
+    checkLiveStatus();
 
     // Listen to real-time events across browser tabs
     let bc: BroadcastChannel | null = null;
@@ -141,12 +166,16 @@ export default function StudentDashboardTab({
           setDismissedLive(false);
         } else if (event.data?.type === 'STREAM_ENDED') {
           setActiveLiveStream(null);
+          loadRecordings();
         }
       };
     } catch {}
 
+    window.addEventListener('storage', checkLiveStatus);
+
     return () => {
       bc?.close();
+      window.removeEventListener('storage', checkLiveStatus);
     };
   }, []);
 
@@ -660,6 +689,67 @@ export default function StudentDashboardTab({
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Recorded Live Masterclasses (VOD Archive) */}
+          <div className="p-5 sm:p-7 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-4 border-b border-[#E8DCCB]">
+              <div className="flex items-center space-x-2">
+                <PlayCircle className="w-5 h-5 text-[#89190E] flex-shrink-0" />
+                <div>
+                  <h3 className="font-serif text-base sm:text-lg font-bold text-[#10233F]">
+                    Recorded Live Masterclasses (VOD Library)
+                  </h3>
+                  <p className="text-[11px] text-[#526174]">
+                    Instant access to recorded faculty lectures after live streaming concludes
+                  </p>
+                </div>
+              </div>
+              <span className="text-xs font-mono font-bold text-[#89190E] bg-[#FFF3DD] px-2.5 py-1 rounded-lg self-start sm:self-center">
+                {recordedLectures.length} Recorded Sessions
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              {recordedLectures.length > 0 ? (
+                recordedLectures.map((lec) => (
+                  <div
+                    key={lec.id}
+                    className="p-4 rounded-2xl border border-[#E8DCCB] hover:border-[#89190E] bg-[#FFF9EF]/40 hover:bg-[#FFF9EF] transition-all group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] font-mono text-[#526174] mb-2">
+                        <span className="px-2 py-0.5 rounded-md bg-[#10233F] text-white font-bold">
+                          VOD RECORDING
+                        </span>
+                        <span>{lec.duration || 'Full Session'}</span>
+                      </div>
+                      <h4 className="font-serif font-bold text-sm text-[#10233F] group-hover:text-[#89190E] transition-colors line-clamp-2">
+                        {lec.title}
+                      </h4>
+                      <p className="text-xs text-[#526174] mt-1">
+                        Faculty: <strong className="text-[#10233F]">{lec.faculty}</strong>
+                      </p>
+                      <p className="text-[11px] text-[#526174]/80 mt-0.5">
+                        Streamed on {lec.date}
+                      </p>
+                    </div>
+
+                    <Link
+                      href={`/live-stream?title=${encodeURIComponent(lec.title)}&role=student`}
+                      className="mt-4 w-full py-2 px-3 rounded-xl bg-white group-hover:bg-[#89190E] border border-[#89190E] text-[#89190E] group-hover:text-white text-xs font-bold transition-all flex items-center justify-center space-x-1.5 shadow-xs cursor-pointer"
+                    >
+                      <Play className="w-3.5 h-3.5" />
+                      <span>Watch Recording Now</span>
+                    </Link>
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-full py-8 text-center text-xs text-[#526174]">
+                  No recorded lectures archived yet. When faculty finishes a live class, the video recording will appear here automatically.
+                </div>
+              )}
             </div>
           </div>
 

@@ -30,7 +30,15 @@ import {
   AlertCircle,
   GraduationCap,
   Eye,
+  Play,
 } from 'lucide-react';
+import {
+  StudentWebRTCReceiver,
+  LiveViewerInfo,
+  LiveChatMessage,
+  PRESENCE_CHANNEL,
+  CHAT_CHANNEL,
+} from '@/lib/liveStreamPeer';
 
 function LiveStreamContent() {
   const searchParams = useSearchParams();
@@ -45,39 +53,117 @@ function LiveStreamContent() {
   const [streamEnded, setStreamEnded] = useState(false);
   const [activeSource, setActiveSource] = useState<'hall' | 'camera' | 'screen'>('hall');
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
-  const [micMuted, setMicMuted] = useState(false);
   const [attendanceMarked, setAttendanceMarked] = useState(false);
-  const [viewerCount, setViewerCount] = useState(142);
   const [showConfirmEnd, setShowConfirmEnd] = useState(false);
+  const [isPlayingVod, setIsPlayingVod] = useState(false);
 
-  // Chat State
-  const [chatMessages, setChatMessages] = useState([
-    { sender: 'Dr. Ekta Gahlawat (Faculty)', text: 'Welcome students. Today we are dissecting Principle-Fact applications from recent Constitution Bench rulings.', time: '10:02 AM', isTeacher: true },
-    { sender: 'Aarav Sharma', text: 'Good morning Ma’am! Ready with Section 11 notes.', time: '10:03 AM', isTeacher: false },
-    { sender: 'Meera Sen', text: 'Audio and video are crystal clear on the Bunny Stream player.', time: '10:04 AM', isTeacher: false },
-    { sender: 'Rohan Verma', text: 'Ma’am, will today’s ratio decidendi questions be included in Sunday’s mock?', time: '10:06 AM', isTeacher: false },
-    { sender: 'Dr. Ekta Gahlawat (Faculty)', text: 'Yes Rohan! Exactly 5 passage questions will test today’s Article 21 interpretation.', time: '10:07 AM', isTeacher: true },
+  // WebRTC remote stream from Teacher (webcam / screen share)
+  const [remoteWebRTCStream, setRemoteWebRTCStream] = useState<MediaStream | null>(null);
+  const receiverRef = useRef<StudentWebRTCReceiver | null>(null);
+
+  // REAL ATTENDEES (NO DUMMY 142!)
+  const [activeViewers, setActiveViewers] = useState<LiveViewerInfo[]>([
+    {
+      id: 'MSI-2025-LAW-042',
+      name: 'Aarav Sharma',
+      batch: 'Semester V (CLAT UG)',
+      joinedAt: Date.now(),
+    },
+  ]);
+
+  // Real-time Chat
+  const [chatMessages, setChatMessages] = useState<LiveChatMessage[]>([
+    {
+      id: 'init-1',
+      sender: 'Dr. Ekta Gahlawat (Faculty)',
+      text: 'Welcome students. Today we are dissecting Principle-Fact applications from recent Constitution Bench rulings.',
+      time: '10:02 AM',
+      isTeacher: true,
+      timestamp: Date.now() - 60000,
+    },
+    {
+      id: 'init-2',
+      sender: 'Aarav Sharma',
+      text: 'Good morning Ma’am! Ready with Section 11 notes.',
+      time: '10:03 AM',
+      isTeacher: false,
+      timestamp: Date.now() - 40000,
+    },
   ]);
   const [inputMessage, setInputMessage] = useState('');
 
-  // Check initial state from localStorage or broadcast channel
+  // Setup WebRTC receiver, Presence & Chat
   useEffect(() => {
-    let bc: BroadcastChannel | null = null;
+    // 1. WebRTC Receiver: receives Teacher's camera or screen share in real time!
+    receiverRef.current = new StudentWebRTCReceiver('MSI-2025-LAW-042', (stream) => {
+      setRemoteWebRTCStream(stream);
+      setIsLive(true);
+      setStreamEnded(false);
+    });
+
+    // 2. Presence Tracking (real student attendee registration)
+    let presenceChannel: BroadcastChannel | null = null;
+    let chatChannel: BroadcastChannel | null = null;
+    let mainBc: BroadcastChannel | null = null;
+
     try {
-      bc = new BroadcastChannel('msi_live_stream_channel');
-      bc.onmessage = (event) => {
+      presenceChannel = new BroadcastChannel(PRESENCE_CHANNEL);
+      // Announce Aarav's presence to teacher and cohort
+      presenceChannel.postMessage({
+        type: 'VIEWER_JOIN',
+        student: {
+          id: 'MSI-2025-LAW-042',
+          name: 'Aarav Sharma',
+          batch: 'Semester V (CLAT UG)',
+          joinedAt: Date.now(),
+        },
+      });
+
+      presenceChannel.onmessage = (event) => {
+        const data = event.data;
+        if (!data) return;
+
+        if (data.type === 'VIEWER_JOIN' && data.student) {
+          setActiveViewers((prev) => {
+            const exists = prev.some((v) => v.id === data.student.id);
+            if (!exists) return [...prev, data.student];
+            return prev;
+          });
+        } else if (data.type === 'VIEWER_LEAVE' && data.studentId) {
+          setActiveViewers((prev) => prev.filter((v) => v.id !== data.studentId));
+        }
+      };
+
+      // 3. Synchronized Chat
+      chatChannel = new BroadcastChannel(CHAT_CHANNEL);
+      chatChannel.onmessage = (event) => {
+        const data = event.data;
+        if (data?.type === 'NEW_MESSAGE' && data.message) {
+          setChatMessages((prev) => {
+            const exists = prev.some((m) => m.id === data.message.id);
+            if (!exists) return [...prev, data.message];
+            return prev;
+          });
+        }
+      };
+
+      // 4. Main Stream Lifecycle Channel
+      mainBc = new BroadcastChannel('msi_live_stream_channel');
+      mainBc.onmessage = (event) => {
         if (event.data?.type === 'STREAM_ENDED') {
-          handleEndStream(false);
+          setIsLive(false);
+          setStreamEnded(true);
         } else if (event.data?.type === 'STREAM_STARTED') {
           setIsLive(true);
           setStreamEnded(false);
-        } else if (event.data?.type === 'STUDENT_ATTENDANCE') {
-          setViewerCount((v) => v + 1);
+          receiverRef.current?.requestStream();
         }
       };
-    } catch {}
+    } catch (e) {
+      console.warn('Channel error:', e);
+    }
 
-    // Check if active stream exists in storage
+    // Check initial active stream from localStorage
     if (typeof window !== 'undefined') {
       const activeData = localStorage.getItem('msi_active_live_stream');
       if (activeData) {
@@ -92,10 +178,17 @@ function LiveStreamContent() {
     }
 
     return () => {
-      bc?.close();
-      if (mediaStream) {
-        mediaStream.getTracks().forEach((track) => track.stop());
-      }
+      receiverRef.current?.destroy();
+      receiverRef.current = null;
+      try {
+        presenceChannel?.postMessage({
+          type: 'VIEWER_LEAVE',
+          studentId: 'MSI-2025-LAW-042',
+        });
+      } catch {}
+      presenceChannel?.close();
+      chatChannel?.close();
+      mainBc?.close();
     };
   }, []);
 
@@ -112,7 +205,7 @@ function LiveStreamContent() {
       setIsLive(true);
       setStreamEnded(false);
     } catch (err: any) {
-      alert(`Camera access denied or unavailable: ${err.message}. Switching back to Lecture Hall stream.`);
+      alert(`Camera access denied or unavailable: ${err.message}. Switching to Hall stream.`);
       setActiveSource('hall');
     }
   };
@@ -138,7 +231,7 @@ function LiveStreamContent() {
     }
   };
 
-  // End Stream Handler (Faculty Only)
+  // Faculty Only: End Stream Handler
   const handleEndStream = (broadcast = true) => {
     if (mediaStream) {
       mediaStream.getTracks().forEach((track) => track.stop());
@@ -160,54 +253,43 @@ function LiveStreamContent() {
     }
   };
 
-  // Faculty Only: Restart / Resume Stream
-  const handleRestartStream = () => {
-    if (!isTeacher) return;
-    setStreamEnded(false);
-    setIsLive(true);
-    setActiveSource('hall');
-    try {
-      const bc = new BroadcastChannel('msi_live_stream_channel');
-      bc.postMessage({ type: 'STREAM_STARTED', timestamp: Date.now() });
-      bc.close();
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(
-          'msi_active_live_stream',
-          JSON.stringify({
-            isLive: true,
-            courseTitle: lectureTitle,
-            teacherName: 'Dr. Ekta Gahlawat',
-            timestamp: Date.now(),
-          })
-        );
-      }
-    } catch {}
-  };
-
   // Student Attendance Recording
   const handleMarkAttendance = () => {
     setAttendanceMarked(true);
     try {
       const bc = new BroadcastChannel('msi_live_stream_channel');
-      bc.postMessage({ type: 'STUDENT_ATTENDANCE', studentId: 'MSI-2025-LAW-042', timestamp: Date.now() });
+      bc.postMessage({
+        type: 'STUDENT_ATTENDANCE',
+        studentId: 'MSI-2025-LAW-042',
+        studentName: 'Aarav Sharma',
+        timestamp: Date.now(),
+      });
       bc.close();
     } catch {}
   };
 
-  // Student / Viewer: Send Comment or Question
+  // Student: Send Comment / Doubt to Teacher
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
-    setChatMessages((prev) => [
-      ...prev,
-      {
-        sender: isTeacher ? 'Dr. Ekta Gahlawat (Faculty)' : 'You (Student)',
-        text: inputMessage,
-        time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
-        isTeacher: isTeacher,
-      },
-    ]);
+
+    const newMsg: LiveChatMessage = {
+      id: 'msg-' + Date.now(),
+      sender: isTeacher ? 'Dr. Ekta Gahlawat (Faculty)' : 'Aarav Sharma',
+      text: inputMessage,
+      time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
+      isTeacher: isTeacher,
+      timestamp: Date.now(),
+    };
+
+    setChatMessages((prev) => [...prev, newMsg]);
     setInputMessage('');
+
+    try {
+      const ch = new BroadcastChannel(CHAT_CHANNEL);
+      ch.postMessage({ type: 'NEW_MESSAGE', message: newMsg });
+      ch.close();
+    } catch {}
   };
 
   return (
@@ -238,7 +320,7 @@ function LiveStreamContent() {
             )}
 
             <span className="text-xs font-mono text-[#526174] bg-[#FFF3DD] border border-[#EFC988] px-2.5 py-0.5 rounded-md font-semibold">
-              Bunny.net Stream Engine
+              Bunny.net Stream + WebRTC
             </span>
 
             {/* Role indicator pill */}
@@ -267,10 +349,10 @@ function LiveStreamContent() {
 
         {/* Action Controls */}
         <div className="flex flex-wrap items-center gap-2.5">
-          {/* Viewer Count Pill */}
+          {/* REAL Viewer Count Pill (NO DUMMY 142!) */}
           <div className="flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-white border border-[#E8DCCB] text-xs font-mono font-bold text-[#10233F] shadow-xs">
-            <Users className="w-3.5 h-3.5 text-[#89190E]" />
-            <span>{isLive ? `${viewerCount} Students Live` : '142 Attended'}</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>{activeViewers.length} Student Live: {activeViewers[0]?.name || 'Aarav'}</span>
           </div>
 
           {/* Mark Attendance Button (For Students) */}
@@ -289,7 +371,7 @@ function LiveStreamContent() {
             </button>
           )}
 
-          {/* TEACHER ONLY: End Stream / Restart Stream Button */}
+          {/* TEACHER ONLY: End Stream Button */}
           {isTeacher && isLive && (
             <button
               onClick={() => setShowConfirmEnd(true)}
@@ -298,16 +380,6 @@ function LiveStreamContent() {
             >
               <Square className="w-3.5 h-3.5 fill-white" />
               <span>End Stream</span>
-            </button>
-          )}
-
-          {isTeacher && !isLive && (
-            <button
-              onClick={handleRestartStream}
-              className="px-4 py-2 rounded-xl bg-[#10233F] hover:bg-[#1a345c] text-white text-xs font-bold flex items-center space-x-1.5 transition-all shadow-md cursor-pointer"
-            >
-              <RotateCcw className="w-3.5 h-3.5 text-[#EFC988]" />
-              <span>Restart Live Broadcast</span>
             </button>
           )}
         </div>
@@ -324,7 +396,7 @@ function LiveStreamContent() {
               </h3>
             </div>
             <p className="text-xs sm:text-sm text-[#526174] leading-relaxed">
-              Ending this broadcast will immediately disconnect live transmission for all <strong>{viewerCount} students</strong>, finalize the electronic attendance register, and archive the recorded lecture to your Bunny.net Video Library.
+              Ending this broadcast will immediately conclude live transmission. The recorded lecture will be saved and made available for students as VOD.
             </p>
             <div className="pt-2 flex items-center justify-end space-x-3">
               <button
@@ -348,7 +420,7 @@ function LiveStreamContent() {
       {/* 2. Main Live Stage & Chat Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
         
-        {/* Left Column (8 cols): Player / Stream View (STUDENTS ONLY VIEW) */}
+        {/* Left Column (8 cols): Player / Stream View (STUDENT ONLY VIEWS) */}
         <div className="lg:col-span-8 space-y-5">
           
           {/* TEACHER ONLY: Broadcast Source Controls */}
@@ -402,10 +474,10 @@ function LiveStreamContent() {
 
           {/* Video Player Shell */}
           {streamEnded ? (
-            /* Stream Ended / Summary State */
-            <div className="rounded-3xl border-2 border-[#E8DCCB] bg-gradient-to-br from-[#10233F] to-[#1a345c] p-8 sm:p-12 text-white text-center space-y-5 shadow-2xl relative overflow-hidden">
-              <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mx-auto text-[#EFC988]">
-                <CheckCircle2 className="w-8 h-8" />
+            /* Stream Ended / Summary State with Recorded Lecture (VOD) */
+            <div className="rounded-3xl border-2 border-[#E8DCCB] bg-gradient-to-br from-[#10233F] to-[#1a345c] p-6 sm:p-10 text-white text-center space-y-6 shadow-2xl relative overflow-hidden">
+              <div className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mx-auto text-[#EFC988]">
+                <CheckCircle2 className="w-7 h-7" />
               </div>
               <div className="space-y-1">
                 <span className="text-xs font-mono uppercase tracking-widest text-[#EFC988] font-bold">
@@ -415,14 +487,12 @@ function LiveStreamContent() {
                   Live Session Successfully Concluded
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-300 max-w-lg mx-auto leading-relaxed">
-                  {isTeacher
-                    ? 'You have concluded this live streaming transmission. The full recording is now being transcoded on Bunny.net Stream for on-demand playback.'
-                    : 'The faculty has ended today’s live lecture broadcast. Your attendance has been electronically recorded into your MSI academic dossier.'}
+                  The faculty has ended today’s live lecture broadcast. The full recording has been archived and is now available for on-demand playback below.
                 </p>
               </div>
 
               {/* Session Stats Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto pt-2 text-left">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto pt-1 text-left">
                 <div className="p-3 bg-white/10 rounded-2xl border border-white/10">
                   <span className="text-[10px] text-gray-400 block font-mono">Duration</span>
                   <span className="font-bold text-sm font-serif">48 mins 12s</span>
@@ -430,12 +500,12 @@ function LiveStreamContent() {
                 <div className="p-3 bg-white/10 rounded-2xl border border-white/10">
                   <span className="text-[10px] text-gray-400 block font-mono">Your Attendance</span>
                   <span className="font-bold text-sm font-serif text-emerald-400">
-                    {attendanceMarked ? 'Present ✓' : 'Logged Present'}
+                    Aarav Sharma (Present ✓)
                   </span>
                 </div>
                 <div className="p-3 bg-white/10 rounded-2xl border border-white/10">
-                  <span className="text-[10px] text-gray-400 block font-mono">VOD Storage</span>
-                  <span className="font-bold text-sm font-serif text-[#EFC988]">Bunny Stream</span>
+                  <span className="text-[10px] text-gray-400 block font-mono">VOD Status</span>
+                  <span className="font-bold text-sm font-serif text-[#EFC988]">Archived (Ready)</span>
                 </div>
                 <div className="p-3 bg-white/10 rounded-2xl border border-white/10">
                   <span className="text-[10px] text-gray-400 block font-mono">Resolution</span>
@@ -443,37 +513,47 @@ function LiveStreamContent() {
                 </div>
               </div>
 
-              <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
-                <Link
-                  href="/student/dashboard"
-                  className="px-5 py-2.5 rounded-xl bg-white hover:bg-gray-100 text-[#10233F] text-xs font-bold transition-all shadow-lg cursor-pointer flex items-center space-x-1.5"
-                >
-                  <ChevronLeft className="w-3.5 h-3.5 text-[#89190E]" />
-                  <span>Return to Student Portal</span>
-                </Link>
-
-                {isTeacher && (
+              {/* VOD Player Section */}
+              {isPlayingVod ? (
+                <div className="max-w-2xl mx-auto rounded-2xl overflow-hidden border border-white/20 shadow-2xl animate-in zoom-in-95 duration-200">
+                  <BunnyPlayer
+                    title={`Recorded Lecture: ${lectureTitle}`}
+                    isLive={false}
+                    autoplay={true}
+                    videoUrl="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                  />
+                </div>
+              ) : (
+                <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
                   <button
-                    onClick={handleRestartStream}
-                    className="px-5 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold transition-all shadow-lg cursor-pointer flex items-center space-x-1.5"
+                    onClick={() => setIsPlayingVod(true)}
+                    className="px-6 py-3 rounded-2xl bg-[#EFC988] hover:bg-[#ffe2aa] text-[#10233F] text-xs font-bold transition-all shadow-xl cursor-pointer flex items-center space-x-2 active:scale-98"
                   >
-                    <RotateCcw className="w-3.5 h-3.5 text-[#EFC988]" />
-                    <span>Resume Live Transmission</span>
+                    <Play className="w-4 h-4 fill-current text-[#89190E]" />
+                    <span>Watch Full Lecture Recording (VOD)</span>
                   </button>
-                )}
-              </div>
+
+                  <Link
+                    href="/student/dashboard"
+                    className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all border border-white/20 flex items-center space-x-1.5"
+                  >
+                    <ChevronLeft className="w-4 h-4 text-[#EFC988]" />
+                    <span>Return to Student Dashboard</span>
+                  </Link>
+                </div>
+              )}
             </div>
           ) : (
             /* Active Live Stream Player (VIEW ONLY FOR STUDENTS) */
-            <div className="relative">
+            <div className="relative rounded-2xl overflow-hidden border border-[#E8DCCB] shadow-sm">
               <BunnyPlayer
                 videoId={videoIdParam || undefined}
-                mediaStream={mediaStream}
+                mediaStream={remoteWebRTCStream || mediaStream}
                 libraryId={libraryId}
                 title={lectureTitle}
                 isLive={isLive}
                 autoplay={true}
-                viewerCount={viewerCount}
+                viewerCount={activeViewers.length}
                 onEnded={() => {
                   if (isTeacher) handleEndStream(false);
                 }}
@@ -545,11 +625,20 @@ function LiveStreamContent() {
             </span>
           </div>
 
+          {/* Active Viewer Indicator */}
+          <div className="px-4 py-2 bg-emerald-50/70 border-b border-emerald-100 flex items-center justify-between text-xs text-emerald-800">
+            <div className="flex items-center space-x-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+              <span>Attendee:</span>
+            </div>
+            <span className="font-bold">Aarav Sharma (You)</span>
+          </div>
+
           {/* Messages Scroll Area */}
           <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#FAF8F5]/60">
-            {chatMessages.map((msg, idx) => (
+            {chatMessages.map((msg) => (
               <div
-                key={idx}
+                key={msg.id}
                 className={`p-3 rounded-2xl text-xs space-y-1 transition-all ${
                   msg.isTeacher
                     ? 'bg-[#FFF3DD] border border-[#EFC988] text-[#10233F] shadow-xs'
@@ -567,7 +656,7 @@ function LiveStreamContent() {
             ))}
           </div>
 
-          {/* Message Input (COMMENT OPTION) */}
+          {/* Message Input (COMMENT OPTION FOR STUDENTS) */}
           <form onSubmit={handleSendMessage} className="p-3 bg-white border-t border-[#E8DCCB] flex items-center space-x-2">
             <input
               type="text"

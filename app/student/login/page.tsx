@@ -57,9 +57,7 @@ export default function StudentLoginPage() {
     try {
       localStorage.setItem('msi_student_logged_in', 'true');
       localStorage.setItem('msi_active_student_email', userEmail);
-      if (userName) {
-        localStorage.setItem('msi_active_student_name', userName);
-      }
+      localStorage.setItem('msi_active_student_name', userName || 'Aarav Sharma');
       if (typeof window !== 'undefined') {
         const params = new URLSearchParams(window.location.search);
         const enrollCourseId = params.get('enrollCourseId');
