@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, MapPin, Phone } from 'lucide-react';
 
-const CYCLING_WORDS = ['PCS J', 'CLAT', 'AILET', 'UGC NET', 'HPS J', 'LLM'];
+const CYCLING_WORDS = ['CLAT UG', 'PCS J', 'AILET', 'PU LAW', 'ADJ', 'UGC NET', 'AIBE'];
 
 interface TypewriterHeroBandProps {
   onOpenEnquiry?: () => void;
@@ -176,7 +176,7 @@ export default function TypewriterHeroBand({ onOpenEnquiry }: TypewriterHeroBand
                 {[
                   { label: 'Established', value: '1995' },
                   { label: 'Location', value: 'Kharar, Mohali, Punjab' },
-                  { label: 'Courses', value: 'PCS J, CLAT, AILET, UGC NET, HPS J, LLM' },
+                  { label: 'Courses', value: 'CLAT UG, PCS J, AILET, PU Law, ADJ, UGC NET, AIBE' },
                   { label: 'Faculty', value: '50+ Expert Tutors' },
                   { label: 'Selections', value: '300+ & Growing' },
                 ].map((row, i) => (

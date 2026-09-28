@@ -29,8 +29,8 @@ export default function TeacherLoginPage() {
   const [authTab, setAuthTab] = useState<'signin' | 'signup'>('signin');
 
   // Sign In State
-  const [email, setEmail] = useState('dr.vikramaditya@msi-institutes.edu.in');
-  const [password, setPassword] = useState('Faculty@MSI2025');
+  const [email, setEmail] = useState('drektagahlawat@msi.edu.in');
+  const [password, setPassword] = useState('Faculty@MSI2026');
   const [showPassword, setShowPassword] = useState(false);
   const [department, setDepartment] = useState<'Law' | 'JEE'>('Law');
 
@@ -251,6 +251,45 @@ export default function TeacherLoginPage() {
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
+                    onClick={() => handleQuickDemo('drektagahlawat@msi.edu.in', 'Law')}
+                    className="p-2 rounded-xl bg-white hover:bg-[#89190E] text-[#10233F] hover:text-white border border-[#E8DCCB] text-left transition-all text-xs font-semibold group shadow-xs cursor-pointer"
+                  >
+                    <span className="block font-bold text-[11px] group-hover:text-white">
+                      Dr. Ekta Gahlawat
+                    </span>
+                    <span className="text-[10px] text-[#89190E] group-hover:text-white/90 block font-mono font-bold">
+                      Legal Studies Faculty
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleQuickDemo('anurag.dwivedi@msigroup.edu.in', 'Law')}
+                    className="p-2 rounded-xl bg-white hover:bg-[#89190E] text-[#10233F] hover:text-white border border-[#E8DCCB] text-left transition-all text-xs font-semibold group shadow-xs cursor-pointer"
+                  >
+                    <span className="block font-bold text-[11px] group-hover:text-white">
+                      Mr. Anurag Dwivedi
+                    </span>
+                    <span className="text-[10px] text-[#89190E] group-hover:text-white/90 block font-mono font-bold">
+                      GK & CA Faculty
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleQuickDemo('msifaculty009@gmail.com', 'Law')}
+                    className="p-2 rounded-xl bg-white hover:bg-[#89190E] text-[#10233F] hover:text-white border border-[#E8DCCB] text-left transition-all text-xs font-semibold group shadow-xs cursor-pointer"
+                  >
+                    <span className="block font-bold text-[11px] group-hover:text-white">
+                      Ms. Riya Hooda
+                    </span>
+                    <span className="text-[10px] text-[#89190E] group-hover:text-white/90 block font-mono font-bold">
+                      Logical Reasoning
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
                     onClick={() => handleQuickDemo('dr.vikramaditya@msi-institutes.edu.in', 'Law')}
                     className="p-2 rounded-xl bg-white hover:bg-[#89190E] text-[#10233F] hover:text-white border border-[#E8DCCB] text-left transition-all text-xs font-semibold group shadow-xs cursor-pointer"
                   >
@@ -258,20 +297,7 @@ export default function TeacherLoginPage() {
                       Dr. Vikramaditya
                     </span>
                     <span className="text-[10px] text-[#89190E] group-hover:text-white/90 block font-mono font-bold">
-                      Verified Faculty
-                    </span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleQuickDemo('rajesh.verma@msi-institutes.edu.in', 'JEE')}
-                    className="p-2 rounded-xl bg-white hover:bg-[#10233F] text-[#10233F] hover:text-white border border-[#E8DCCB] text-left transition-all text-xs font-semibold group shadow-xs cursor-pointer"
-                  >
-                    <span className="block font-bold text-[11px] group-hover:text-white">
-                      Er. Rajesh Verma
-                    </span>
-                    <span className="text-[10px] text-blue-700 group-hover:text-white/90 block font-mono font-bold">
-                      Verified Faculty
+                      PCS J / Procedural
                     </span>
                   </button>
                 </div>

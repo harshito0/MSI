@@ -21,44 +21,49 @@ import {
   Quote,
   BookOpen,
   Users,
-  Building,
+  Scale,
+  Sparkles,
+  BookCheck,
 } from 'lucide-react';
 
 export default function AboutPage() {
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
 
   const milestones = [
-    { year: '1999', title: 'Foundation & Genesis', desc: 'Established with a founding charter to deliver premier, values-driven higher education in New Delhi.' },
-    { year: '2008', title: 'Accreditation Milestone', desc: 'Awarded highest NAAC "A" grade accreditation and state-of-the-art campus expansion.' },
-    { year: '2016', title: 'Robotics & Advanced Labs', desc: 'Inaugurated dedicated research clusters for IoT, embedded systems, and automated computing.' },
-    { year: '2021', title: 'National Moot Sovereignty', desc: 'Law wing achieved national top ranking with consecutive pan-India appellate court wins.' },
-    { year: '2026', title: 'Global AI Hub & Beyond', desc: 'Over 16,000 active students and 150+ international recruiter tie-ups across tech, law, and business.' },
+    { year: 'Genesis', title: 'Founding Vision of Excellence', desc: 'Conceived by visionary founder Mr. Shamsher Gahlawat to establish an educational ecosystem where knowledge, skill, character, and opportunity converge.' },
+    { year: 'Curriculum', title: 'Pedagogical Precision in Law', desc: 'Introduced rigorous passage-based analytical training, moving beyond rote learning to deep conceptual profundity in Constitutional, Civil, and Criminal law.' },
+    { year: 'Judiciary', title: 'Judicial Services & High Court Mastery', desc: 'Pioneered procedural law training (CrPC, CPC, Evidence, BNSS 2023) and High Court judgment writing under experienced advocates and legal scholars.' },
+    { year: 'Publications', title: 'MSI Master Book & Aspirant Kits', desc: 'Launched the authoritative 6-Book Master Series, comprehensive current affairs compendiums, and multi-tier sectional mock tests.' },
+    { year: '2026–27', title: 'Transformative Legal Education', desc: 'Leading candidates toward National Law Universities (NLUs), Judicial Magistrate positions (PCS J), and Higher Judicial Services (ADJ).' },
   ];
 
   const pillars = [
-    { title: 'Academic Rigor', desc: 'Strict adherence to global university benchmarks, continuous peer-reviewed research, and experiential pedagogy.', icon: Award },
-    { title: 'Uncompromising Integrity', desc: 'Instilling ethical foundations, social responsibility, and national service values in every future leader.', icon: Shield },
-    { title: 'Global Innovation', desc: 'Fostering interdisciplinary problem-solving across robotics, intellectual property law, and venture building.', icon: Compass },
-    { title: 'Holistic Development', desc: 'Olympic-level athletic arenas, literary forums, cultural fests, and mental wellness mentorship on campus.', icon: Target },
+    { title: 'Academic Rigour', desc: 'Integrating conceptual profundity, analytical reasoning, contemporary awareness, and relentless examination practice.', icon: Award },
+    { title: 'Intellectual Agility', desc: 'Moving deliberately beyond rote learning to empower students to interrogate concepts and construct coherent legal arguments.', icon: Compass },
+    { title: 'Judicial Integrity', desc: 'Instilling uncompromising professional ethics, constitutional fidelity, and a deep commitment to serving justice with responsibility.', icon: Shield },
+    { title: 'Measurable Achievement', desc: 'Transforming knowledge into competence, competence into confidence, and confidence into consistent rank-holding results.', icon: Target },
   ];
 
   const leadership = [
     {
-      name: 'Padma Bhushan Dr. R.K. Gupta',
-      role: 'Chancellor & Founder',
-      desc: 'Former Secretary, Ministry of Education. Architect of MSI\'s founding charter and values system.',
+      name: 'Mr. Shamsher Gahlawat',
+      role: 'Visionary Founder & Chairman',
+      degree: 'Civil Engineering • Former Chairperson, Shoe Corporation, Delhi',
+      desc: 'The visionary force behind the MSI Group of Institutes. He brings a distinctive blend of technical insight, entrepreneurial vision, administrative acumen, and transformative leadership. For Mr. Gahlawat, education is about equipping students to build meaningful careers, embrace purposeful lives, and become capable contributors to society and the nation.',
       avatar: '/images/avatars/avatar-3.webp',
     },
     {
-      name: 'Prof. Sanjay Mehrotra',
-      role: 'Vice Chancellor',
-      desc: 'IIT Delhi alumnus with 30+ years in academic leadership and research policy.',
+      name: 'Adv. Manav Sharma',
+      role: 'Executive Director',
+      degree: 'Advocate, High Court of Delhi',
+      desc: 'Distinguished legal professional with extensive practice across civil and criminal law before the High Court of Delhi. Committed to bridging the distance between academic learning and professional practice, enabling students to approach the legal profession with confidence, discipline, and a deep sense of responsibility: true legal excellence lies in understanding the law’s purpose, applying it with integrity, and serving justice.',
       avatar: '/images/avatars/avatar-5.webp',
     },
     {
-      name: 'Dr. Deepa Krishnamurthy',
-      role: 'Dean of Academic Affairs',
-      desc: 'Harvard-trained educator reshaping MSI\'s curriculum design and faculty development.',
+      name: 'Dr. Ekta Gahlawat',
+      role: 'Director of Academic Affairs & Legal Studies',
+      degree: 'Ph.D. in Law, LL.M. (Constitutional Jurisprudence)',
+      desc: 'Lead architect of MSI’s law curriculum, faculty governance, and passage-based deduction framework. Guiding aspirants across CLAT UG, AILET, PCS J, and state judicial examination cohorts with over 14 years of scholarly expertise.',
       avatar: '/images/avatars/avatar-2.webp',
     },
   ];
@@ -74,9 +79,9 @@ export default function AboutPage() {
             { label: 'Home', href: '/' },
             { label: 'About MSI Group of Institutes' },
           ]}
-          eyebrow="Our Heritage & Destiny"
-          title="Educating Minds, Empowering the Nation"
-          subtitle="Founded in 1999, MSI has shaped over 16,000 scholars across engineering, law, and management — and continues to set national benchmarks."
+          eyebrow="Intellectually Driven & Professionally Oriented"
+          title="Redefining Competitive Legal Education"
+          subtitle="Dedicated to cultivating academic excellence, competitive competence, and disciplined ambition with a specialized focus on Law, CLAT UG, and Judicial Services."
           bgImage="/images/hero-1.webp"
           className="pt-24 sm:pt-28"
         />
@@ -86,18 +91,14 @@ export default function AboutPage() {
           <div className="max-w-[1380px] mx-auto px-6 sm:px-10 lg:px-16 py-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
               {[
-                { prefix: '', target: 25, suffix: '+ Years', label: 'Academic Legacy' },
-                { prefix: '', target: 16000, suffix: '+', label: 'Active Students' },
-                { prefix: '', target: 150, suffix: '+', label: 'Recruiter Network' },
-                { prefix: 'NAAC ', target: 0, suffix: 'A+', label: 'Accredited Grade', static: 'NAAC A+' },
+                { prefix: '', target: 9, suffix: ' Specialized', label: 'Flagship Programs' },
+                { prefix: '', target: 6, suffix: ' Volumes', label: 'MSI Master Books Series' },
+                { prefix: '', target: 180, suffix: ' Sessions', label: 'Comprehensive Handouts' },
+                { prefix: '', target: 100, suffix: '%', label: 'Passage-Based Practice' },
               ].map((s, i) => (
                 <div key={i}>
                   <div className="font-serif text-3xl sm:text-4xl font-bold text-[#89190E]">
-                    {s.static ? (
-                      s.static
-                    ) : (
-                      <AnimatedCounter target={s.target} suffix={s.suffix} />
-                    )}
+                    <AnimatedCounter target={s.target} suffix={s.suffix} />
                   </div>
                   <div className="text-xs text-[#526174] font-medium mt-1">{s.label}</div>
                 </div>
@@ -110,13 +111,36 @@ export default function AboutPage() {
         <div className="max-w-[1380px] mx-auto px-6 sm:px-10 lg:px-16 py-20 sm:py-24">
 
           {/* Description */}
-          <Reveal direction="up" className="max-w-3xl mb-20">
-            <p className="text-[#526174] text-lg leading-relaxed mb-5">
-              Founded with an unwavering conviction that education is the ultimate catalyst for human elevation, Maharaja Surajmal Institute (MSI) stands as a beacon of academic distinction, research, and character building in India.
+          <Reveal direction="up" className="max-w-4xl mb-20">
+            <span className="text-xs font-mono font-bold tracking-widest text-[#89190E] uppercase block mb-2">
+              Institutional Profile
+            </span>
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#10233F] mb-6">
+              A Distinguished Centre of Competitive Education
+            </h2>
+            <p className="text-[#526174] text-base sm:text-lg leading-relaxed mb-5">
+              MSI Group of Institutes is an intellectually driven and professionally oriented educational institution committed to redefining the paradigm of competitive education through academic rigour, pedagogical precision, and uncompromising standards of excellence. Established with the conviction that meaningful education must transcend the mechanical transmission of information, MSI endeavours to cultivate intellectually curious, analytically astute, and academically resilient individuals capable of navigating the increasingly demanding landscape of competitive examinations.
             </p>
             <p className="text-[#526174] text-base leading-relaxed">
-              From robotic workstations and high-court simulated moot rooms to lush green courtyards fostering intellectual dialogue, MSI provides over 16,000 students with the ecosystem to dream audaciously and lead globally.
+              With a specialised academic orientation towards law, legal education, entrance examinations, judiciary, and allied competitive domains, MSI has developed a comprehensive learning ecosystem that harmoniously integrates conceptual profundity, critical reasoning, contemporary awareness, strategic preparation, and sustained academic practice. Our pedagogy is deliberately structured to move beyond rote learning, encouraging students to interrogate concepts, decipher complexities, construct coherent arguments, and apply knowledge with precision in examination-oriented situations.
             </p>
+          </Reveal>
+
+          {/* Core Philosophy Banner */}
+          <Reveal direction="up" className="mb-24">
+            <div className="rounded-3xl bg-gradient-to-br from-[#10233F] to-[#1a345c] p-8 sm:p-12 text-white relative overflow-hidden shadow-xl border border-[#EFC988]/30">
+              <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-[#EFC988]/10 blur-3xl pointer-events-none" />
+              <Quote className="w-12 h-12 text-[#EFC988]/40 mb-4" />
+              <span className="text-xs font-mono font-bold tracking-widest text-[#EFC988] uppercase block mb-2">
+                Our Academic Philosophy
+              </span>
+              <blockquote className="font-serif text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-snug mb-4">
+                “Education should not merely inform the mind; it should transform the manner in which the mind perceives, reasons, questions, and responds.”
+              </blockquote>
+              <p className="text-white/80 text-sm sm:text-base max-w-2xl leading-relaxed">
+                Accordingly, MSI strives to foster an educational culture characterised by intellectual curiosity, academic integrity, disciplined perseverance, and an enduring pursuit of excellence.
+              </p>
+            </div>
           </Reveal>
 
           {/* Vision & Mission */}
@@ -127,28 +151,33 @@ export default function AboutPage() {
               className="mb-12"
             />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="relative bg-[#10233F] rounded-3xl p-8 sm:p-10 text-white overflow-hidden">
+              <div className="relative bg-[#10233F] rounded-3xl p-8 sm:p-10 text-white overflow-hidden shadow-sm">
                 <div className="absolute -top-4 -right-4 w-28 h-28 rounded-full bg-[#EFC988]/10" />
                 <div className="absolute bottom-0 left-0 w-40 h-1 bg-gradient-to-r from-[#EFC988] to-transparent rounded-full" />
-                <Quote className="w-10 h-10 text-[#EFC988]/30 mb-4" />
+                <Scale className="w-10 h-10 text-[#EFC988] mb-4" />
                 <h3 className="font-serif text-2xl font-bold mb-4 text-[#EFC988]">Our Vision</h3>
-                <p className="text-white/80 leading-relaxed text-sm sm:text-base">
-                  To be India's most trusted private institution — producing ethical, innovative, and globally competitive graduates who contribute meaningfully to society, the economy, and the nation's progress.
+                <p className="text-white/90 leading-relaxed text-sm sm:text-base mb-4">
+                  MSI ultimately envisions an institution where <strong>knowledge becomes competence</strong>, <strong>competence becomes confidence</strong>, and <strong>confidence is translated into achievement</strong>.
+                </p>
+                <p className="text-white/75 leading-relaxed text-xs sm:text-sm">
+                  Through an unwavering commitment to academic excellence and student development, MSI aspires to emerge as a distinguished centre of competitive education, preparing not merely examination candidates, but intellectually capable individuals equipped to pursue consequential academic and professional futures.
                 </p>
               </div>
-              <div className="relative bg-white border border-[#E8DCCB] rounded-3xl p-8 sm:p-10 overflow-hidden">
+
+              <div className="relative bg-white border border-[#E8DCCB] rounded-3xl p-8 sm:p-10 overflow-hidden shadow-sm">
                 <div className="absolute -top-4 -right-4 w-28 h-28 rounded-full bg-[#89190E]/5" />
                 <div className="absolute bottom-0 left-0 w-40 h-1 bg-gradient-to-r from-[#89190E] to-transparent rounded-full" />
-                <Quote className="w-10 h-10 text-[#89190E]/20 mb-4" />
-                <h3 className="font-serif text-2xl font-bold text-[#10233F] mb-4">Our Mission</h3>
+                <BookCheck className="w-10 h-10 text-[#89190E] mb-4" />
+                <h3 className="font-serif text-2xl font-bold text-[#10233F] mb-4">Our Academic Framework</h3>
                 <ul className="space-y-3">
                   {[
-                    'Deliver industry-aligned, research-driven curricula across all disciplines',
-                    'Instil strong ethical foundations and national values in every student',
-                    'Foster interdisciplinary innovation through state-of-the-art infrastructure',
-                    'Build a diverse, inclusive, and globally connected academic community',
+                    'Expert mentorship and systematically curated MSI Master Books & Notes',
+                    'Intensive classroom instruction with passage-based analytical drills',
+                    'Comprehensive mock examinations with continuous performance evaluation',
+                    'Personalised doubt resolution and 1-on-1 strategic academic monitoring',
+                    'Developing intellectual agility, decision-making, and examination temperament',
                   ].map((m, i) => (
-                    <li key={i} className="flex items-start space-x-2.5 text-sm text-[#526174]">
+                    <li key={i} className="flex items-start space-x-2.5 text-xs sm:text-sm text-[#526174]">
                       <CheckCircle2 className="w-4 h-4 text-[#89190E] flex-shrink-0 mt-0.5" />
                       <span>{m}</span>
                     </li>
@@ -161,7 +190,7 @@ export default function AboutPage() {
           {/* 4 Core Pillars */}
           <Reveal direction="up" className="mb-24">
             <SectionHeading
-              eyebrow="Foundational Values"
+              eyebrow="Foundational Pillars"
               title="The Four Pillars of MSI"
               className="mb-12"
             />
@@ -172,7 +201,6 @@ export default function AboutPage() {
                   <Reveal key={idx} direction="up" delay={idx * 80}>
                     <TiltCard className="rounded-3xl h-full" intensity={7} glare shine>
                       <div className="bg-white rounded-3xl p-8 border border-[#E8DCCB] shadow-sm hover:shadow-xl hover:border-[#EFC988] transition-all duration-300 group h-full flex flex-col">
-                        {/* Horizontal inner: icon left, text right */}
                         <div className="flex items-start gap-4 mb-4">
                           <div className="w-12 h-12 rounded-2xl bg-[#FFF3DD] text-[#89190E] flex items-center justify-center group-hover:bg-[#89190E] group-hover:text-white transition-all duration-300 group-hover:scale-110 group-hover:rotate-[-6deg] flex-shrink-0">
                             <Icon className="w-6 h-6" />
@@ -195,24 +223,28 @@ export default function AboutPage() {
           <Reveal direction="up" className="mb-24">
             <SectionHeading
               eyebrow="Institutional Leadership"
-              title="The People Who Lead MSI"
+              title="The Visionary Leaders of MSI"
+              subtitle="Driven by an enduring commitment to creating an educational ecosystem where knowledge, skill, character, and opportunity converge."
               className="mb-12"
             />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {leadership.map((leader, idx) => (
                 <Reveal key={idx} direction="up" delay={idx * 80}>
                   <TiltCard className="rounded-3xl h-full" intensity={6} glare shine>
-                    <div className="bg-white border border-[#E8DCCB] rounded-3xl p-8 hover:shadow-xl hover:border-[#EFC988] transition-all duration-300 group h-full">
-                      <div className="flex items-center space-x-4 mb-5">
-                        <div className="w-20 h-20 rounded-2xl overflow-hidden relative border-2 border-[#EFC988] flex-shrink-0 group-hover:border-[#89190E] transition-colors">
-                          <Image src={leader.avatar} alt={leader.name} fill className="object-cover group-hover:scale-110 transition-transform duration-400" sizes="80px" />
+                    <div className="bg-white border border-[#E8DCCB] rounded-3xl p-8 hover:shadow-xl hover:border-[#EFC988] transition-all duration-300 group h-full flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center space-x-4 mb-5">
+                          <div className="w-20 h-20 rounded-2xl overflow-hidden relative border-2 border-[#EFC988] flex-shrink-0 group-hover:border-[#89190E] transition-colors">
+                            <Image src={leader.avatar} alt={leader.name} fill className="object-cover group-hover:scale-110 transition-transform duration-400" sizes="80px" />
+                          </div>
+                          <div>
+                            <h3 className="font-serif text-lg font-bold text-[#10233F] group-hover:text-[#89190E] transition-colors leading-tight">{leader.name}</h3>
+                            <p className="text-xs text-[#89190E] font-semibold mt-1">{leader.role}</p>
+                            <p className="text-[11px] text-[#526174] mt-0.5">{leader.degree}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-serif text-lg font-bold text-[#10233F] group-hover:text-[#89190E] transition-colors leading-tight">{leader.name}</h3>
-                          <p className="text-xs text-[#89190E] font-semibold mt-1">{leader.role}</p>
-                        </div>
+                        <p className="text-xs text-[#526174] leading-relaxed">{leader.desc}</p>
                       </div>
-                      <p className="text-xs sm:text-sm text-[#526174] leading-relaxed">{leader.desc}</p>
                     </div>
                   </TiltCard>
                 </Reveal>
@@ -223,8 +255,8 @@ export default function AboutPage() {
           {/* Historical Timeline */}
           <Reveal direction="up" className="mb-24">
             <SectionHeading
-              eyebrow="Milestones"
-              title="A Quarter Century of Evolution"
+              eyebrow="Milestones & Evolution"
+              title="Journey of Academic Distinction"
               className="mb-14"
             />
             <div className="relative border-l-2 border-[#E8DCCB] ml-4 sm:ml-32 pl-6 sm:pl-10 space-y-12">
@@ -233,7 +265,7 @@ export default function AboutPage() {
                   <div className="relative group">
                     <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-5 h-5 rounded-full bg-white border-4 border-[#89190E] group-hover:scale-125 transition-transform shadow-xs" />
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6">
-                      <span className="font-serif text-2xl sm:text-3xl font-bold text-[#89190E] flex-shrink-0 sm:-ml-28 sm:w-20 text-left sm:text-right">
+                      <span className="font-serif text-lg sm:text-xl font-bold text-[#89190E] flex-shrink-0 sm:-ml-28 sm:w-20 text-left sm:text-right">
                         {m.year}
                       </span>
                       <div>
@@ -251,17 +283,17 @@ export default function AboutPage() {
           <Reveal direction="up">
             <div className="rounded-3xl bg-[#10233F] p-8 sm:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8">
               <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[#EFC988] block mb-2">Begin Your Journey</span>
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold">Become Part of Our Inspiring Community</h3>
+                <span className="text-xs font-bold uppercase tracking-widest text-[#EFC988] block mb-2">Begin Your Legal Journey</span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold">Prepare with MSI’s Proven Academic Ecosystem</h3>
                 <p className="text-gray-300 text-sm mt-2 max-w-xl">
-                  Admissions for the 2026-27 academic session are now open for Engineering, Law, and Management programs.
+                  Enrolments are currently open for CLAT UG, AILET, PU Law, PCS J, and Judicial Services batches.
                 </p>
               </div>
               <button
                 onClick={() => setIsEnquiryOpen(true)}
-                className="h-12 px-7 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-sm transition-all btn-hover-lift flex-shrink-0 flex items-center space-x-2"
+                className="h-12 px-7 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-sm transition-all btn-hover-lift flex-shrink-0 flex items-center space-x-2 cursor-pointer"
               >
-                <span>Apply for Admissions</span>
+                <span>Enquire for Admissions</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
