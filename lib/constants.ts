@@ -8,8 +8,6 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: '/', active: true },
   { label: 'Courses', href: '/courses' },
   { label: 'About', href: '/about' },
-  { label: 'Faculty', href: '/faculty' },
-  { label: 'Results', href: '/results' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },

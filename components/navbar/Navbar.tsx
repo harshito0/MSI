@@ -9,13 +9,9 @@ import {
   X,
   ArrowRight,
   Sparkles,
-  User,
-  GraduationCap,
-  ShieldAlert,
   ChevronDown,
   UserPlus,
   LogIn,
-  Layers,
 } from 'lucide-react';
 import { NAV_ITEMS } from '@/lib/constants';
 
@@ -27,8 +23,10 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [portalDropdownOpen, setPortalDropdownOpen] = useState(false);
+  const [loginDropdownOpen, setLoginDropdownOpen] = useState(false);
+  const [mobileLoginOpen, setMobileLoginOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileLoginRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,11 +42,14 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Click outside listener for portals dropdown
+  // Click outside listener for login dropdowns
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setPortalDropdownOpen(false);
+        setLoginDropdownOpen(false);
+      }
+      if (mobileLoginRef.current && !mobileLoginRef.current.contains(e.target as Node)) {
+        setMobileLoginOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -153,129 +154,93 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
             })}
           </nav>
 
-          {/* Desktop Action Buttons (With Fix for Disappearing Portal / Sign Up) */}
+          {/* Desktop Action Buttons: Login (dropdown with Sign In & Sign Up) + Enquire CTA */}
           <div className="hidden xl:flex items-center space-x-2.5 flex-shrink-0">
-            
-            {/* 1. Portals Dropdown (Never Disappears - Hover bridge + Clickable Toggle) */}
+            {/* Login Dropdown */}
             <div
               ref={dropdownRef}
               className="relative"
-              onMouseEnter={() => setPortalDropdownOpen(true)}
-              onMouseLeave={() => setPortalDropdownOpen(false)}
+              onMouseEnter={() => setLoginDropdownOpen(true)}
+              onMouseLeave={() => setLoginDropdownOpen(false)}
             >
               <button
                 type="button"
-                onClick={() => setPortalDropdownOpen(!portalDropdownOpen)}
-                className={`font-semibold text-[#89190E] bg-white hover:bg-[#FFF9EF] border border-[#89190E]/40 hover:border-[#89190E] rounded-xl transition-all duration-200 shadow-xs flex items-center space-x-1.5 cursor-pointer ${
-                  scrolled ? 'h-[38px] px-3 text-xs' : 'h-[44px] px-3.5 text-xs'
+                onClick={() => setLoginDropdownOpen(!loginDropdownOpen)}
+                className={`font-semibold text-[#10233F] hover:text-[#89190E] bg-white hover:bg-[#FFF9EF] border border-[#E8DCCB] hover:border-[#89190E] rounded-xl transition-all duration-200 shadow-xs flex items-center space-x-1.5 cursor-pointer ${
+                  scrolled ? 'h-[38px] px-3.5 text-xs' : 'h-[44px] px-4 text-xs'
                 }`}
+                aria-expanded={loginDropdownOpen}
+                aria-label="Login options"
               >
-                <Layers className="w-3.5 h-3.5 text-[#89190E]" />
-                <span>Portals</span>
+                <LogIn className="w-3.5 h-3.5 text-[#89190E]" />
+                <span>Login</span>
                 <ChevronDown
                   className={`w-3.5 h-3.5 text-[#89190E] transition-transform duration-200 ${
-                    portalDropdownOpen ? 'rotate-180' : ''
+                    loginDropdownOpen ? 'rotate-180' : ''
                   }`}
                 />
               </button>
 
-              {/* Dropdown Container with Padding Bridge so mouse hover doesn't break */}
+              {/* Dropdown Container */}
               <div
                 className={`absolute right-0 top-full pt-2 w-64 z-50 transition-all duration-200 ${
-                  portalDropdownOpen
+                  loginDropdownOpen
                     ? 'opacity-100 translate-y-0 pointer-events-auto'
                     : 'opacity-0 -translate-y-2 pointer-events-none'
                 }`}
               >
-                <div className="bg-white border-2 border-[#E8DCCB] rounded-2xl shadow-2xl p-2.5 space-y-1">
-                  
+                <div className="bg-white border-2 border-[#E8DCCB] rounded-2xl shadow-2xl p-2.5 space-y-1.5">
                   <div className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider text-[#89190E] font-bold border-b border-[#E8DCCB]">
-                    Active Learning Portals
+                    Choose Option
                   </div>
 
                   <Link
-                    href="/student/dashboard"
-                    onClick={() => setPortalDropdownOpen(false)}
-                    className="flex items-center space-x-2.5 px-3 py-2 rounded-xl hover:bg-[#FFF9EF] text-xs font-semibold text-[#10233F] transition-colors group"
+                    href="/student/login"
+                    onClick={() => setLoginDropdownOpen(false)}
+                    className="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-[#FFF9EF] text-xs font-semibold text-[#10233F] transition-all group"
                   >
-                    <User className="w-4 h-4 text-[#89190E] group-hover:scale-110 transition-transform" />
-                    <div>
-                      <span className="block font-bold">Student Portal</span>
-                      <span className="text-[10px] text-[#526174]">My Learning & Tests</span>
+                    <div className="w-8 h-8 rounded-lg bg-[#89190E]/10 flex items-center justify-center text-[#89190E] group-hover:bg-[#89190E] group-hover:text-white transition-colors flex-shrink-0">
+                      <LogIn className="w-4 h-4" />
                     </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="block font-bold text-xs sm:text-[13px] text-[#10233F] group-hover:text-[#89190E] transition-colors">
+                        Sign In
+                      </span>
+                      <span className="text-[10.5px] text-[#526174] truncate block">
+                        Access existing account
+                      </span>
+                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-[#526174] group-hover:text-[#89190E] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                   </Link>
 
                   <Link
-                    href="/teacher/dashboard"
-                    onClick={() => setPortalDropdownOpen(false)}
-                    className="flex items-center space-x-2.5 px-3 py-2 rounded-xl hover:bg-[#FFF9EF] text-xs font-semibold text-[#10233F] transition-colors group"
+                    href="/student/login?tab=signup"
+                    onClick={() => setLoginDropdownOpen(false)}
+                    className="flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-[#FFF9EF]/80 hover:bg-[#FFF3DD] text-xs font-semibold text-[#10233F] transition-all group border border-[#EFC988]/50 hover:border-[#EFC988]"
                   >
-                    <GraduationCap className="w-4 h-4 text-[#89190E] group-hover:scale-110 transition-transform" />
-                    <div>
-                      <span className="block font-bold">Faculty Portal</span>
-                      <span className="text-[10px] text-[#526174]">Classes & Curriculums</span>
+                    <div className="w-8 h-8 rounded-lg bg-[#89190E] flex items-center justify-center text-[#EFC988] group-hover:scale-105 transition-transform flex-shrink-0">
+                      <UserPlus className="w-4 h-4" />
                     </div>
-                  </Link>
-
-                  <Link
-                    href="/super-admin"
-                    onClick={() => setPortalDropdownOpen(false)}
-                    className="flex items-center space-x-2.5 px-3 py-2 rounded-xl bg-[#FFF3DD]/60 hover:bg-[#FFF3DD] text-xs font-semibold text-[#89190E] transition-colors group"
-                  >
-                    <span className="w-4 h-4 rounded-full bg-[#89190E] text-[#EFC988] flex items-center justify-center text-[10px] font-bold">
-                      ★
-                    </span>
-                    <div>
-                      <span className="block font-bold">Super Admin Hub</span>
-                      <span className="text-[10px] text-[#89190E]/80">Teacher Approvals & LMS</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="block font-bold text-xs sm:text-[13px] text-[#89190E]">
+                          Sign Up
+                        </span>
+                        <span className="text-[9px] font-bold px-1.5 py-0.2 bg-[#89190E] text-[#FFF9EF] rounded-full uppercase tracking-wider">
+                          New
+                        </span>
+                      </div>
+                      <span className="text-[10.5px] text-[#526174] truncate block">
+                        Create student account
+                      </span>
                     </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-[#89190E] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                   </Link>
-
-                  <div className="border-t border-[#E8DCCB] pt-1.5 mt-1 grid grid-cols-2 gap-1.5">
-                    <Link
-                      href="/student/login"
-                      onClick={() => setPortalDropdownOpen(false)}
-                      className="px-2.5 py-1.5 rounded-lg bg-[#FFF9EF] hover:bg-[#FFF3DD] text-[11px] font-bold text-[#10233F] text-center flex items-center justify-center space-x-1"
-                    >
-                      <LogIn className="w-3 h-3 text-[#89190E]" />
-                      <span>Log In</span>
-                    </Link>
-                    <Link
-                      href="/student/login?tab=signup"
-                      onClick={() => setPortalDropdownOpen(false)}
-                      className="px-2.5 py-1.5 rounded-lg bg-[#89190E] hover:bg-[#65130D] text-[11px] font-bold text-white text-center flex items-center justify-center space-x-1"
-                    >
-                      <UserPlus className="w-3 h-3 text-[#EFC988]" />
-                      <span>Sign Up</span>
-                    </Link>
-                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 2. Direct Portal Login Button */}
-            <Link
-              href="/student/login"
-              className={`font-semibold text-[#10233F] hover:text-[#89190E] bg-white/70 hover:bg-white border border-[#E8DCCB] hover:border-[#89190E] rounded-xl transition-all duration-200 shadow-xs flex items-center space-x-1.5 ${
-                scrolled ? 'h-[38px] px-3 text-xs' : 'h-[44px] px-3.5 text-xs'
-              }`}
-            >
-              <LogIn className="w-3.5 h-3.5 text-[#89190E]" />
-              <span>Log In</span>
-            </Link>
-
-            {/* 3. Direct Sign Up Button (NEW - High Priority) */}
-            <Link
-              href="/student/login?tab=signup"
-              className={`font-bold text-[#89190E] bg-[#FFF3DD] hover:bg-[#EFC988] border border-[#EFC988] hover:border-[#d4a85b] rounded-xl transition-all duration-200 shadow-xs flex items-center space-x-1.5 ${
-                scrolled ? 'h-[38px] px-3 text-xs' : 'h-[44px] px-3.5 text-xs'
-              }`}
-            >
-              <UserPlus className="w-3.5 h-3.5 text-[#89190E]" />
-              <span>Sign Up</span>
-            </Link>
-
-            {/* 4. Enquire Now CTA Button */}
+            {/* Enquire CTA Button */}
             <button
               onClick={onOpenEnquiry}
               className={`group font-semibold text-white bg-[#89190E] hover:bg-[#65130D] rounded-xl flex items-center space-x-1.5 transition-all duration-200 btn-hover-lift active:scale-98 shadow-md shadow-[#89190E]/20 cursor-pointer ${
@@ -290,15 +255,50 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
 
           {/* Mobile / Tablet Menu Trigger */}
           <div className="flex xl:hidden items-center space-x-2">
-            <Link
-              href="/student/login?tab=signup"
-              className="inline-flex text-xs font-bold text-[#89190E] bg-[#FFF3DD] border border-[#EFC988] px-2.5 py-1.5 rounded-xl shadow-xs"
-            >
-              Sign Up
-            </Link>
+            {/* Mobile Login Dropdown */}
+            <div ref={mobileLoginRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setMobileLoginOpen(!mobileLoginOpen)}
+                className="inline-flex items-center space-x-1 text-xs font-bold text-[#10233F] bg-white border border-[#E8DCCB] px-2.5 py-1.5 rounded-xl shadow-xs cursor-pointer"
+                aria-expanded={mobileLoginOpen}
+              >
+                <LogIn className="w-3.5 h-3.5 text-[#89190E]" />
+                <span>Login</span>
+                <ChevronDown
+                  className={`w-3 h-3 text-[#89190E] transition-transform duration-200 ${
+                    mobileLoginOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              {mobileLoginOpen && (
+                <div className="absolute right-0 top-full pt-2 w-52 z-50">
+                  <div className="bg-white border-2 border-[#E8DCCB] rounded-2xl shadow-2xl p-2 space-y-1">
+                    <Link
+                      href="/student/login"
+                      onClick={() => setMobileLoginOpen(false)}
+                      className="flex items-center space-x-2.5 px-3 py-2 rounded-xl hover:bg-[#FFF9EF] text-xs font-bold text-[#10233F]"
+                    >
+                      <LogIn className="w-4 h-4 text-[#89190E]" />
+                      <span>Sign In</span>
+                    </Link>
+                    <Link
+                      href="/student/login?tab=signup"
+                      onClick={() => setMobileLoginOpen(false)}
+                      className="flex items-center space-x-2.5 px-3 py-2 rounded-xl bg-[#FFF9EF] text-xs font-bold text-[#89190E]"
+                    >
+                      <UserPlus className="w-4 h-4 text-[#89190E]" />
+                      <span>Sign Up</span>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <button
               onClick={onOpenEnquiry}
-              className="inline-flex text-xs font-bold text-white bg-[#89190E] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex text-xs font-bold text-white bg-[#89190E] px-3 py-1.5 rounded-xl shadow-xs cursor-pointer"
             >
               Enquire
             </button>
@@ -337,51 +337,23 @@ export default function Navbar({ onOpenEnquiry }: NavbarProps) {
                 })}
               </div>
 
-              {/* Portals links in mobile */}
-              <div className="space-y-1.5 pt-1">
-                <span className="text-[10px] font-mono uppercase font-bold text-[#89190E] px-2 block">
-                  Academy Portals
-                </span>
-                <div className="grid grid-cols-3 gap-2">
-                  <Link
-                    href="/student/dashboard"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="p-2.5 rounded-xl bg-[#FFF9EF] border border-[#E8DCCB] text-center text-xs font-bold text-[#10233F]"
-                  >
-                    Student
-                  </Link>
-                  <Link
-                    href="/teacher/dashboard"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="p-2.5 rounded-xl bg-[#FFF9EF] border border-[#E8DCCB] text-center text-xs font-bold text-[#10233F]"
-                  >
-                    Faculty
-                  </Link>
-                  <Link
-                    href="/super-admin"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="p-2.5 rounded-xl bg-[#FFF3DD] border border-[#EFC988] text-center text-xs font-bold text-[#89190E]"
-                  >
-                    Super Admin
-                  </Link>
-                </div>
-              </div>
-
               {/* Login and Sign Up Actions */}
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <Link
                   href="/student/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full h-11 flex items-center justify-center font-bold text-xs sm:text-sm text-[#10233F] bg-white border border-[#E8DCCB] rounded-xl hover:bg-[#FFF9EF] transition-all"
+                  className="w-full h-11 flex items-center justify-center space-x-1.5 font-bold text-xs sm:text-sm text-[#10233F] bg-white border border-[#E8DCCB] rounded-xl hover:bg-[#FFF9EF] transition-all"
                 >
-                  Portal Log In
+                  <LogIn className="w-4 h-4 text-[#89190E]" />
+                  <span>Sign In</span>
                 </Link>
                 <Link
                   href="/student/login?tab=signup"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full h-11 flex items-center justify-center font-bold text-xs sm:text-sm text-white bg-[#89190E] hover:bg-[#65130D] rounded-xl shadow-md transition-all"
+                  className="w-full h-11 flex items-center justify-center space-x-1.5 font-bold text-xs sm:text-sm text-white bg-[#89190E] hover:bg-[#65130D] rounded-xl shadow-md transition-all"
                 >
-                  Sign Up / Register
+                  <UserPlus className="w-4 h-4 text-[#EFC988]" />
+                  <span>Sign Up</span>
                 </Link>
               </div>
             </div>
