@@ -444,25 +444,14 @@ export default function CoursesPage() {
                         Curriculum
                       </button>
 
-                      {isEnrolled ? (
-                        <Link
-                          href="/student/dashboard"
-                          onClick={(e) => e.stopPropagation()}
-                          className="flex-1 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold transition-all text-center flex items-center justify-center space-x-1 cursor-pointer"
-                        >
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                          <span>Enrolled ✓</span>
-                        </Link>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={(e) => handleInstantEnroll(course, e)}
-                          className="flex-1 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold transition-all text-center flex items-center justify-center space-x-1 shadow-sm cursor-pointer"
-                        >
-                          <span>Enroll Now</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </button>
-                      )}
+                      <button
+                        type="button"
+                        onClick={(e) => handleInstantEnroll(course, e)}
+                        className="flex-1 py-2.5 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold transition-all text-center flex items-center justify-center space-x-1.5 shadow-sm cursor-pointer active:scale-98"
+                      >
+                        <span>Enroll Now</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   </div>
                 </Reveal>

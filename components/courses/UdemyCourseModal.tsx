@@ -422,25 +422,14 @@ export default function UdemyCourseModal({
 
                 {/* Action Buttons */}
                 <div className="space-y-2.5">
-                  {isEnrolled ? (
-                    <button
-                      type="button"
-                      onClick={handleGoToCourse}
-                      className="w-full py-3.5 rounded-2xl bg-[#10233F] hover:bg-[#1a345c] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-all shadow-md cursor-pointer"
-                    >
-                      <span>Already Enrolled • Go to Course</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={handleEnroll}
-                      className="w-full py-3.5 rounded-2xl bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-all shadow-lg shadow-[#89190E]/30 btn-chamfered active:scale-98 cursor-pointer"
-                    >
-                      <span>Enroll Now (Instant Access)</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={handleEnroll}
+                    className="w-full py-3.5 rounded-2xl bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-all shadow-lg shadow-[#89190E]/30 btn-chamfered active:scale-98 cursor-pointer"
+                  >
+                    <span>Enroll Now (Instant Access)</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
 
                   <p className="text-[11px] text-center text-[#526174]">
                     30-Day Full Curriculum Guarantee • Lifetime Academic Access
