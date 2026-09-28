@@ -34,6 +34,7 @@ interface UdemyCourseModalProps {
   onClose: () => void;
   activeStudentId?: string;
   onEnrollSuccess?: (course: UdemyCourse) => void;
+  onRequireLogin?: (course: UdemyCourse) => void;
 }
 
 export default function UdemyCourseModal({
@@ -42,6 +43,7 @@ export default function UdemyCourseModal({
   onClose,
   activeStudentId = 'msi-stu-001',
   onEnrollSuccess,
+  onRequireLogin,
 }: UdemyCourseModalProps) {
   const router = useRouter();
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
@@ -69,6 +71,17 @@ export default function UdemyCourseModal({
   };
 
   const handleEnroll = () => {
+    const isLoggedIn =
+      typeof window !== 'undefined' &&
+      localStorage.getItem('msi_student_logged_in') === 'true';
+
+    if (!isLoggedIn) {
+      if (onRequireLogin) {
+        onRequireLogin(course);
+      }
+      return;
+    }
+
     enrollStudentAction(activeStudentId, course.id, 'self');
     setEnrolledNotice(true);
     if (onEnrollSuccess) {

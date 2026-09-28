@@ -12,9 +12,6 @@ import {
   Microscope,
   Landmark,
   ShieldCheck,
-  Pause,
-  Play,
-  Sparkles,
 } from 'lucide-react';
 
 interface ReasonItem {
@@ -100,11 +97,10 @@ const row2 = [...reasons.slice(4, 8), ...reasons.slice(4, 8), ...reasons.slice(4
 
 export default function WhyMSISection() {
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
-  const [isPaused, setIsPaused] = useState(false);
 
   return (
     <section className="py-24 sm:py-28 bg-[#FFF9EF] overflow-hidden" aria-label="Why Choose MSI">
-      <div className="max-w-[1380px] mx-auto px-6 sm:px-10 lg:px-16 mb-10">
+      <div className="max-w-[1380px] mx-auto px-6 sm:px-10 lg:px-16 mb-12 sm:mb-14">
         {/* Section Heading */}
         <Reveal direction="up" className="text-center">
           <SectionHeading
@@ -113,37 +109,6 @@ export default function WhyMSISection() {
             subtitle="Every facet of MSI is designed to give you not just a degree, but a decisive competitive advantage in your chosen career."
           />
         </Reveal>
-
-        {/* Live Animation Status Pill */}
-        <div className="flex items-center justify-center gap-3 mt-6">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-[#E8DCCB] shadow-xs text-xs text-[#526174]">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-semibold text-[#10233F]">Live Moving Cards</span>
-            <span className="text-[#89190E]">•</span>
-            <span className="hidden sm:inline">Flowing Left to Right</span>
-            <span className="text-[#89190E]">•</span>
-            <span>Hover to pause</span>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setIsPaused(!isPaused)}
-            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-[#FFF3DD] border border-[#E8DCCB] text-xs font-bold text-[#89190E] transition-all cursor-pointer shadow-xs active:scale-95"
-            title={isPaused ? 'Resume animation' : 'Pause animation'}
-          >
-            {isPaused ? (
-              <>
-                <Play className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600" />
-                <span>Resume</span>
-              </>
-            ) : (
-              <>
-                <Pause className="w-3.5 h-3.5 text-[#89190E]" />
-                <span>Pause</span>
-              </>
-            )}
-          </button>
-        </div>
       </div>
 
       {/* Infinite Horizontal Looping Marquee Area (Moving from Left to Right) */}
@@ -157,7 +122,6 @@ export default function WhyMSISection() {
           <div
             className="marquee-track-reverse space-x-5 py-2 px-3"
             style={{
-              animationPlayState: isPaused ? 'paused' : undefined,
               animationDuration: '34s',
             }}
           >
@@ -233,7 +197,6 @@ export default function WhyMSISection() {
           <div
             className="marquee-track-reverse space-x-5 py-2 px-3"
             style={{
-              animationPlayState: isPaused ? 'paused' : undefined,
               animationDuration: '40s',
             }}
           >

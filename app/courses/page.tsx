@@ -7,6 +7,7 @@ import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/footer/Footer';
 import EnquiryModal from '@/components/modals/EnquiryModal';
 import UdemyCourseModal from '@/components/courses/UdemyCourseModal';
+import StudentEnrollLoginModal from '@/components/courses/StudentEnrollLoginModal';
 import PageHero from '@/components/ui/PageHero';
 import Reveal from '@/components/ui/Reveal';
 import SectionHeading from '@/components/ui/SectionHeading';
@@ -74,6 +75,7 @@ export default function CoursesPage() {
   const [activeUdemyModalCourse, setActiveUdemyModalCourse] = useState<UdemyCourse | null>(null);
   const [enrolledCourseIds, setEnrolledCourseIds] = useState<string[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [loginModalCourse, setLoginModalCourse] = useState<UdemyCourse | null>(null);
 
   const activeStudentId = 'msi-stu-001'; // Default student Aarav Sharma
 
@@ -109,9 +111,24 @@ export default function CoursesPage() {
 
   const handleInstantEnroll = (course: UdemyCourse, e: React.MouseEvent) => {
     e.stopPropagation();
+    const isLoggedIn =
+      typeof window !== 'undefined' &&
+      localStorage.getItem('msi_student_logged_in') === 'true';
+
+    if (!isLoggedIn) {
+      setLoginModalCourse(course);
+      return;
+    }
+
     enrollStudentAction(activeStudentId, course.id, 'self');
     loadLmsData();
     showToast(`✓ Enrolled in ${course.title}! Available in your Student Portal.`);
+  };
+
+  const handleLoginEnrollSuccess = (course: UdemyCourse) => {
+    setLoginModalCourse(null);
+    loadLmsData();
+    showToast(`🎉 Logged in! You are now enrolled in ${course.title}. Available in your Student Portal.`);
   };
 
   // Filter Udemy courses
@@ -636,6 +653,17 @@ export default function CoursesPage() {
           loadLmsData();
           showToast(`✓ Enrolled in ${c.title}!`);
         }}
+        onRequireLogin={(c) => {
+          setLoginModalCourse(c);
+        }}
+      />
+
+      {/* Student Login Required to Enroll Modal */}
+      <StudentEnrollLoginModal
+        isOpen={!!loginModalCourse}
+        course={loginModalCourse}
+        onClose={() => setLoginModalCourse(null)}
+        onLoginSuccess={handleLoginEnrollSuccess}
       />
     </div>
   );

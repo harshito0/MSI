@@ -21,6 +21,7 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { DEMO_STUDENTS } from '@/components/student/data/studentMockData';
+import { enrollStudentAction } from '@/lib/lmsStore';
 
 export default function StudentLoginPage() {
   const router = useRouter();
@@ -52,6 +53,27 @@ export default function StudentLoginPage() {
     }
   }, []);
 
+  const finishLoginAndRedirect = (userEmail: string, userName?: string) => {
+    try {
+      localStorage.setItem('msi_student_logged_in', 'true');
+      localStorage.setItem('msi_active_student_email', userEmail);
+      if (userName) {
+        localStorage.setItem('msi_active_student_name', userName);
+      }
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const enrollCourseId = params.get('enrollCourseId');
+        if (enrollCourseId) {
+          enrollStudentAction('msi-stu-001', enrollCourseId, 'self');
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    setIsLoading(false);
+    router.push('/student/dashboard');
+  };
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
@@ -62,14 +84,7 @@ export default function StudentLoginPage() {
 
     setIsLoading(true);
     setTimeout(() => {
-      try {
-        localStorage.setItem('msi_student_logged_in', 'true');
-        localStorage.setItem('msi_active_student_email', email);
-      } catch (err) {
-        console.error(err);
-      }
-      setIsLoading(false);
-      router.push('/student/dashboard');
+      finishLoginAndRedirect(email);
     }, 600);
   };
 
@@ -83,15 +98,7 @@ export default function StudentLoginPage() {
 
     setIsLoading(true);
     setTimeout(() => {
-      try {
-        localStorage.setItem('msi_student_logged_in', 'true');
-        localStorage.setItem('msi_active_student_email', signupEmail);
-        localStorage.setItem('msi_active_student_name', fullName);
-      } catch (err) {
-        console.error(err);
-      }
-      setIsLoading(false);
-      router.push('/student/dashboard');
+      finishLoginAndRedirect(signupEmail, fullName);
     }, 700);
   };
 
@@ -100,14 +107,7 @@ export default function StudentLoginPage() {
     setPassword('Demo@MSI2025');
     setIsLoading(true);
     setTimeout(() => {
-      try {
-        localStorage.setItem('msi_student_logged_in', 'true');
-        localStorage.setItem('msi_active_student_email', demoEmail);
-      } catch (err) {
-        console.error(err);
-      }
-      setIsLoading(false);
-      router.push('/student/dashboard');
+      finishLoginAndRedirect(demoEmail);
     }, 450);
   };
 
