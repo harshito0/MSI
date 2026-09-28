@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -15,6 +15,8 @@ import {
   ShieldCheck,
   User,
   Menu,
+  Video,
+  Radio,
 } from 'lucide-react';
 import { StudentProfile, StudentNotification } from './data/studentMockData';
 
@@ -35,8 +37,42 @@ export default function StudentHeader({
 }: StudentHeaderProps) {
   const [showNotifs, setShowNotifs] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [activeLiveStream, setActiveLiveStream] = useState<{
+    isLive: boolean;
+    courseId?: string;
+    courseTitle?: string;
+    teacherName?: string;
+  } | null>(null);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const activeData = localStorage.getItem('msi_active_live_stream');
+      if (activeData) {
+        try {
+          const parsed = JSON.parse(activeData);
+          if (parsed.isLive) setActiveLiveStream(parsed);
+        } catch {}
+      }
+    }
+
+    let bc: BroadcastChannel | null = null;
+    try {
+      bc = new BroadcastChannel('msi_live_stream_channel');
+      bc.onmessage = (event) => {
+        if (event.data?.type === 'STREAM_STARTED') {
+          setActiveLiveStream(event.data);
+        } else if (event.data?.type === 'STREAM_ENDED') {
+          setActiveLiveStream(null);
+        }
+      };
+    } catch {}
+
+    return () => {
+      bc?.close();
+    };
+  }, []);
+
+  const unreadCount = notifications.filter((n) => !n.read).length + (activeLiveStream?.isLive ? 1 : 0);
 
   return (
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-xl border-b border-[#E8DCCB] px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-xs">
@@ -87,6 +123,18 @@ export default function StudentHeader({
           <span>Main Website</span>
         </Link>
 
+        {/* Live Broadcast Header Pill */}
+        {activeLiveStream?.isLive && (
+          <Link
+            href={`/live-stream?title=${encodeURIComponent(activeLiveStream.courseTitle || 'Live Lecture')}&role=student`}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold animate-pulse shadow-md transition-all cursor-pointer"
+          >
+            <Radio className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Live Class Ongoing →</span>
+            <span className="sm:hidden">Live →</span>
+          </Link>
+        )}
+
         {/* Notifications Bell with Popover */}
         <div className="relative">
           <button
@@ -109,11 +157,38 @@ export default function StudentHeader({
                 <div className="flex items-center space-x-2">
                   <span className="font-serif font-bold text-sm text-[#10233F]">Circulars & Notices</span>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#89190E] text-white font-bold">
-                    {notifications.length} Total
+                    {notifications.length + (activeLiveStream?.isLive ? 1 : 0)} Total
                   </span>
                 </div>
                 <span className="text-xs text-[#526174]">Official Broadcasts</span>
               </div>
+
+              {/* Real-time Live Class Alert inside Tray */}
+              {activeLiveStream?.isLive && (
+                <div className="p-3 my-2 rounded-xl bg-rose-50 border border-rose-200 text-left space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-bold bg-rose-600 text-white px-2 py-0.5 rounded-full animate-pulse flex items-center space-x-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <span>LIVE NOW</span>
+                    </span>
+                    <span className="text-[10px] text-rose-700 font-bold">Broadcasting</span>
+                  </div>
+                  <h5 className="text-xs font-bold text-[#89190E]">
+                    {activeLiveStream.courseTitle || 'Live Class Started'}
+                  </h5>
+                  <p className="text-[11px] text-[#10233F]">
+                    Faculty {activeLiveStream.teacherName || 'Dr. Ekta Gahlawat'} is live streaming.
+                  </p>
+                  <Link
+                    href={`/live-stream?title=${encodeURIComponent(activeLiveStream.courseTitle || 'Live Lecture')}&role=student`}
+                    onClick={() => setShowNotifs(false)}
+                    className="mt-1 inline-flex items-center space-x-1 text-xs font-bold text-[#89190E] hover:underline"
+                  >
+                    <Video className="w-3 h-3" />
+                    <span>Join Live Lecture Room →</span>
+                  </Link>
+                </div>
+              )}
 
               <div className="divide-y divide-[#E8DCCB]/60 max-h-72 overflow-y-auto mt-2">
                 {notifications.map((n) => (

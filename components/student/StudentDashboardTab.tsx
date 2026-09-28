@@ -21,6 +21,8 @@ import {
   PlayCircle,
   PlusCircle,
   GraduationCap,
+  Radio,
+  X,
 } from 'lucide-react';
 import {
   StudentProfile,
@@ -105,8 +107,103 @@ export default function StudentDashboardTab({
     };
   }, [student.id]);
 
+  // Live Broadcast Listener for Enrolled Courses
+  const [activeLiveStream, setActiveLiveStream] = useState<{
+    isLive: boolean;
+    courseId?: string;
+    courseTitle?: string;
+    teacherName?: string;
+    timestamp?: number;
+  } | null>(null);
+  const [dismissedLive, setDismissedLive] = useState(false);
+
+  useEffect(() => {
+    // Check initial active stream from localStorage
+    if (typeof window !== 'undefined') {
+      const activeData = localStorage.getItem('msi_active_live_stream');
+      if (activeData) {
+        try {
+          const parsed = JSON.parse(activeData);
+          if (parsed.isLive) {
+            setActiveLiveStream(parsed);
+          }
+        } catch {}
+      }
+    }
+
+    // Listen to real-time events across browser tabs
+    let bc: BroadcastChannel | null = null;
+    try {
+      bc = new BroadcastChannel('msi_live_stream_channel');
+      bc.onmessage = (event) => {
+        if (event.data?.type === 'STREAM_STARTED') {
+          setActiveLiveStream(event.data);
+          setDismissedLive(false);
+        } else if (event.data?.type === 'STREAM_ENDED') {
+          setActiveLiveStream(null);
+        }
+      };
+    } catch {}
+
+    return () => {
+      bc?.close();
+    };
+  }, []);
+
   return (
     <div className="space-y-7">
+      {/* Real-time Enrolled Live Class Alert Banner */}
+      {activeLiveStream?.isLive && !dismissedLive && (
+        <div className="relative p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-[#89190E] via-[#65130D] to-[#10233F] text-white overflow-hidden shadow-2xl border-2 border-[#EFC988] animate-in slide-in-from-top duration-300">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#EFC988]/20 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-start sm:items-center space-x-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-[#EFC988] shadow-inner flex-shrink-0 mt-0.5 sm:mt-0">
+                <Radio className="w-6 h-6 animate-pulse text-white" />
+              </div>
+              
+              <div className="space-y-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="bg-rose-600 text-white text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full animate-pulse flex items-center space-x-1 shadow-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                    <span>LIVE CLASS STARTED • ENROLLED COHORT</span>
+                  </span>
+                  <span className="text-xs font-semibold text-[#EFC988]">
+                    Faculty: {activeLiveStream.teacherName || 'Dr. Ekta Gahlawat'}
+                  </span>
+                </div>
+                
+                <h3 className="font-serif text-base sm:text-xl font-bold text-white leading-snug">
+                  {activeLiveStream.courseTitle || 'Live Moot & Masterclass: Constitutional Law Jurisprudence'}
+                </h3>
+                <p className="text-xs text-white/80">
+                  Your instructor is broadcasting live on Bunny.net HD Stream. Click to join the live hall now.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2.5 flex-shrink-0 pt-2 sm:pt-0">
+              <Link
+                href={`/live-stream?title=${encodeURIComponent(activeLiveStream.courseTitle || 'Live Lecture')}&role=student`}
+                className="px-5 py-3 rounded-2xl bg-[#EFC988] hover:bg-[#ffe2aa] text-[#10233F] text-xs font-bold flex items-center space-x-2 transition-all shadow-lg active:scale-98 cursor-pointer"
+              >
+                <Video className="w-4 h-4 text-[#89190E]" />
+                <span>Join Live Class Now →</span>
+              </Link>
+
+              <button
+                onClick={() => setDismissedLive(true)}
+                className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors cursor-pointer"
+                title="Dismiss Notice"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 1. Welcome & High-Yield Banner */}
       <div className="relative p-5 sm:p-8 rounded-3xl bg-gradient-to-r from-[#10233F] via-[#162d50] to-[#89190E] text-white overflow-hidden shadow-xl hud-bracket">
         <div className="absolute inset-0 blueprint-grid opacity-15 pointer-events-none" />
@@ -546,7 +643,7 @@ export default function StudentDashboardTab({
                   <div className="flex items-center space-x-2 flex-shrink-0 w-full sm:w-auto">
                     {cls.joinLink ? (
                       <Link
-                        href={`/live-stream?title=${encodeURIComponent(cls.subject)}`}
+                        href={`/live-stream?title=${encodeURIComponent(cls.subject)}&role=student`}
                         className="w-full sm:w-auto justify-center px-4 py-2 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-xs"
                       >
                         <Video className="w-3.5 h-3.5 text-[#EFC988]" />
@@ -584,6 +681,29 @@ export default function StudentDashboardTab({
             </div>
 
             <div className="divide-y divide-[#E8DCCB]/60 mt-2 space-y-2">
+              {activeLiveStream?.isLive && (
+                <div className="pt-2.5 pb-2 border-b border-[#E8DCCB] bg-rose-50/80 p-2.5 rounded-xl border border-rose-200">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-bold bg-rose-600 text-white px-2 py-0.5 rounded-full animate-pulse flex items-center space-x-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <span>LIVE NOW</span>
+                    </span>
+                    <span className="text-[10px] text-rose-700 font-bold">Ongoing</span>
+                  </div>
+                  <h5 className="text-xs font-bold text-[#89190E] mt-1.5 leading-snug">
+                    Live Broadcast Started: {activeLiveStream.teacherName || 'Dr. Ekta Gahlawat'}
+                  </h5>
+                  <p className="text-[11px] text-[#10233F] mt-0.5 leading-normal">
+                    {activeLiveStream.courseTitle || 'Faculty is live streaming for your enrolled cohort.'}
+                  </p>
+                  <Link
+                    href={`/live-stream?title=${encodeURIComponent(activeLiveStream.courseTitle || 'Live Lecture')}&role=student`}
+                    className="mt-2 inline-flex items-center space-x-1 text-xs font-bold text-[#89190E] hover:underline"
+                  >
+                    <span>Click here to join class →</span>
+                  </Link>
+                </div>
+              )}
               {notifications.map((n) => (
                 <div key={n.id} className="pt-2.5 pb-1">
                   <div className="flex items-start justify-between">

@@ -333,9 +333,26 @@ export default function TeacherLiveStreamStudio({
 
   const broadcastEvent = (type: 'STREAM_STARTED' | 'STREAM_ENDED') => {
     try {
+      const payload = {
+        type,
+        isLive: type === 'STREAM_STARTED',
+        courseId: 'MSI/LEGSTUDIES-/01',
+        courseTitle: streamTitle,
+        teacherName: teacherName || 'Dr. Ekta Gahlawat',
+        timestamp: Date.now(),
+        joinUrl: `/live-stream?title=${encodeURIComponent(streamTitle)}&lib=${libraryId || '389201'}&role=student`,
+      };
       const bc = new BroadcastChannel('msi_live_stream_channel');
-      bc.postMessage({ type, timestamp: Date.now() });
+      bc.postMessage(payload);
       bc.close();
+
+      if (typeof window !== 'undefined') {
+        if (type === 'STREAM_STARTED') {
+          localStorage.setItem('msi_active_live_stream', JSON.stringify(payload));
+        } else {
+          localStorage.removeItem('msi_active_live_stream');
+        }
+      }
     } catch {}
   };
 
