@@ -37,6 +37,7 @@ import {
   getStoredEnrollments,
   LMS_SYNC_EVENT,
 } from '@/lib/lmsStore';
+import StudentActivityHeatmap from './StudentActivityHeatmap';
 
 interface StudentDashboardTabProps {
   student: StudentProfile;
@@ -393,6 +394,12 @@ export default function StudentDashboardTab({
           </div>
         </div>
       </div>
+
+      {/* 3.5. LEETCODE-STYLE 30-DAY STUDY ACTIVITY HEATMAP */}
+      <StudentActivityHeatmap
+        studentName={student.name}
+        onNavigateTab={onNavigateTab}
+      />
 
       {/* 4. Main Dashboard 2-Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
