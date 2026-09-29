@@ -194,20 +194,28 @@ export default function TypewriterHeroBand({ onOpenEnquiry }: TypewriterHeroBand
 
             {/* Contact mini-cards — 2 col bento */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="hud-bracket p-4 bg-white/5 border border-white/10 rounded-xl">
+              <a
+                href="tel:07508420013"
+                className="hud-bracket p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-colors block cursor-pointer"
+              >
                 <Phone className="w-4 h-4 text-[#EFC988] mb-2" />
                 <p className="mono-accent text-[9px] text-white/40 uppercase tracking-widest mb-1">Helpline</p>
                 <p className="text-xs text-white font-bold leading-tight">
-                  +91 98155 02444
+                  075084 20013
                 </p>
-              </div>
-              <div className="hud-bracket p-4 bg-white/5 border border-white/10 rounded-xl">
+              </a>
+              <a
+                href="https://maps.google.com/?q=Monga+City+Centre+Kharar+Landran+Road+Sector+115+Sahibzada+Ajit+Singh+Nagar+Punjab+140307"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hud-bracket p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-colors block cursor-pointer"
+              >
                 <MapPin className="w-4 h-4 text-[#EFC988] mb-2" />
                 <p className="mono-accent text-[9px] text-white/40 uppercase tracking-widest mb-1">Campus</p>
-                <p className="text-xs text-white font-bold leading-tight">
-                  Kharar, Dist. Mohali
+                <p className="text-xs text-white font-bold leading-tight truncate">
+                  Monga City Centre, Sec 115
                 </p>
-              </div>
+              </a>
             </div>
           </div>
         </div>

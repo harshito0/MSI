@@ -210,22 +210,40 @@ export default function Footer() {
             <div className="space-y-3.5 text-xs sm:text-sm text-gray-300">
               <div className="flex items-start space-x-2.5">
                 <MapPin className="w-4 h-4 text-[#EFC988] flex-shrink-0 mt-1" />
-                <span className="leading-relaxed">
-                  Near Bus Stand, Kharar, Dist. Mohali, Punjab — 140301
-                </span>
+                <a
+                  href="https://maps.google.com/?q=Monga+City+Centre+Kharar+Landran+Road+Sector+115+Sahibzada+Ajit+Singh+Nagar+Punjab+140307"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="leading-relaxed hover:text-[#EFC988] transition-colors"
+                >
+                  1st, 2nd and 3rd floor, Monga City Centre, Sco 12-13, Kharar - Landran Rd, Sector 115, Sahibzada Ajit Singh Nagar, Punjab 140307, India
+                </a>
               </div>
               <div className="flex items-center space-x-2.5">
                 <Phone className="w-4 h-4 text-[#EFC988] flex-shrink-0" />
-                <span>+91 98155 02444 / 98155 03444</span>
+                <a href="tel:07508420013" className="hover:text-[#EFC988] transition-colors font-medium">
+                  075084 20013
+                </a>
               </div>
               <div className="flex items-center space-x-2.5">
                 <Mail className="w-4 h-4 text-[#EFC988] flex-shrink-0" />
-                <span>msiinstitutes@gmail.com</span>
+                <a href="mailto:info@msiinstitutes.com" className="hover:text-[#EFC988] transition-colors">
+                  info@msiinstitutes.com
+                </a>
               </div>
-              <div className="pt-2">
-                <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Admissions Helpline Active (9am - 6pm)</span>
+              <div className="pt-2 flex flex-col gap-2">
+                <a
+                  href="https://wa.me/917508420013?text=Hello%20MSI%20Admissions%20Team%2C%20I%20want%20to%20enquire%20about%20your%20coaching%20programs."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all text-xs font-semibold cursor-pointer w-fit"
+                >
+                  <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
+                  <span>WhatsApp: 075084 20013</span>
+                </a>
+                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Helpline Active (9am - 6pm)</span>
                 </div>
               </div>
             </div>

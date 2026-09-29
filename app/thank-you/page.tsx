@@ -49,8 +49,9 @@ function ThankYouContent() {
     : 'Professional Academic Program';
   const contactPhone = phoneParam ? decodeURIComponent(phoneParam) : 'Your Registered Mobile';
 
-  const institutePhone = '+919815502444';
-  const whatsappUrl = `https://wa.me/919815502444?text=${encodeURIComponent(
+  const institutePhone = '07508420013';
+  const displayPhone = '075084 20013';
+  const whatsappUrl = `https://wa.me/917508420013?text=${encodeURIComponent(
     `Hello MSI Admissions Team, I just submitted an enquiry for ${selectedCourse} (Ref: ${refId}). Please share batch timings & fee details.`
   )}`;
 

@@ -11,6 +11,7 @@ import Reveal from '@/components/ui/Reveal';
 import SectionHeading from '@/components/ui/SectionHeading';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import TiltCard from '@/components/ui/TiltCard';
+import LeadershipShowcase from '@/components/about/LeadershipShowcase';
 import {
   Award,
   Compass,
@@ -45,47 +46,7 @@ export default function AboutPage() {
     { title: 'Measurable Achievement', desc: 'Transforming knowledge into competence, competence into confidence, and confidence into consistent rank-holding results.', icon: Target },
   ];
 
-  const leadership = [
-    {
-      name: 'Mr. Shamsher Gahlawat',
-      role: 'Visionary Founder & Chairman',
-      office: 'Office of the Chairman',
-      credentials: 'Civil Engineering • Former Chairperson, Shoe Corp, Delhi',
-      brief:
-        'Pioneered MSI’s founding charter, establishing an academic ecosystem anchored in technical precision, infrastructural scale, and student-first educational governance.',
-      portfolios: ['Institutional Vision', 'Strategic Governance', 'Infrastructural Scale'],
-      tenet: 'Education must empower students to build purposeful lives and contribute meaningfully to the nation.',
-      milestone: 'Founding Patron • 18+ Yrs Institutional Leadership',
-      avatar: '/images/avatars/avatar-3.webp',
-      monogram: 'SG',
-    },
-    {
-      name: 'Adv. Manav Sharma',
-      role: 'Executive Director',
-      office: 'Directorate of Legal Affairs',
-      credentials: 'Advocate, High Court of Delhi • B.A. LL.B (Hons.)',
-      brief:
-        'Distinguished appellate practitioner bridging substantive High Court courtroom praxis with clinical legal education across civil, criminal, and constitutional domains.',
-      portfolios: ['Appellate Advocacy', 'Courtroom Praxis', 'Procedural Law Mastery'],
-      tenet: 'True legal excellence lies in mastering the law’s foundational purpose and serving justice with integrity.',
-      milestone: 'Appellate Counsel • Delhi High Court Bar',
-      avatar: '/images/avatars/avatar-5.webp',
-      monogram: 'MS',
-    },
-    {
-      name: 'Dr. Ekta Gahlawat',
-      role: 'Director of Academic Affairs',
-      office: 'Academic Governance Council',
-      credentials: 'Ph.D. in Law • LL.M. (Constitutional Jurisprudence)',
-      brief:
-        'Chief architect of MSI’s passage-based legal pedagogy, faculty council, and deductive reasoning syllabus, guiding premier cohorts for CLAT UG, AILET, and PCS J.',
-      portfolios: ['Constitutional Jurisprudence', 'Passage-Based Pedagogy', 'Judicial Examination Mentorship'],
-      tenet: 'We transform legal education from passive rote retention into active, principled judicial deduction.',
-      milestone: '14+ Yrs Scholarly & Examination Expertise',
-      avatar: '/images/avatars/avatar-2.webp',
-      monogram: 'EG',
-    },
-  ];
+
 
   return (
     <div className="min-h-screen bg-[#FFF9EF] text-[#10233F] flex flex-col selection:bg-[#EFC988] selection:text-[#89190E]">
@@ -238,122 +199,8 @@ export default function AboutPage() {
             </div>
           </Reveal>
 
-          {/* Leadership */}
-          <Reveal direction="up" className="mb-24">
-            <SectionHeading
-              eyebrow="Institutional Leadership"
-              title="The Visionary Leaders of MSI"
-              subtitle="Driven by an enduring commitment to creating an educational ecosystem where knowledge, skill, character, and opportunity converge."
-              className="mb-12"
-            />
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {leadership.map((leader, idx) => (
-                <Reveal key={idx} direction="up" delay={idx * 80}>
-                  <TiltCard className="rounded-3xl h-full" intensity={5} glare shine>
-                    <div className="bg-white border border-[#E8DCCB] rounded-3xl overflow-hidden hover:shadow-2xl hover:border-[#89190E] transition-all duration-400 group h-full flex flex-col justify-between relative">
-                      
-                      {/* Top Institutional Crest Accent Strip */}
-                      <div className="h-1.5 w-full bg-gradient-to-r from-[#89190E] via-[#EFC988] to-[#10233F]" />
-
-                      <div className="p-7 sm:p-8 flex flex-col h-full justify-between space-y-6">
-                        <div>
-                          {/* Executive Directorate Eyebrow & Crest Emblem */}
-                          <div className="flex items-center justify-between gap-2 mb-5">
-                            <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-[#89190E] bg-[#FFF3DD] border border-[#EFC988] px-3 py-1 rounded-full flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#89190E]" />
-                              {leader.office}
-                            </span>
-                            <div className="relative w-7 h-7 opacity-25 group-hover:opacity-80 transition-opacity">
-                              <Image
-                                src="/images/msi-crest.png"
-                                alt="MSI Institutional Crest"
-                                fill
-                                className="object-contain"
-                              />
-                            </div>
-                          </div>
-
-                          {/* Profile Header: Executive Portrait + Identity */}
-                          <div className="flex items-start gap-4 mb-5">
-                            <div className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-[#EFC988] shadow-md flex-shrink-0 group-hover:border-[#89190E] transition-all bg-[#10233F]">
-                              <Image
-                                src={leader.avatar}
-                                alt={leader.name}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                sizes="80px"
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-[#10233F]/30 via-transparent to-transparent pointer-events-none" />
-                              <div className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-[#FFF9EF] border border-[#EFC988] flex items-center justify-center shadow-xs">
-                                <ShieldCheck className="w-3.5 h-3.5 text-[#89190E]" />
-                              </div>
-                            </div>
-
-                            <div className="min-w-0 flex-1">
-                              <h3 className="font-serif text-lg sm:text-xl font-bold text-[#10233F] group-hover:text-[#89190E] transition-colors leading-tight">
-                                {leader.name}
-                              </h3>
-                              <p className="text-xs font-bold text-[#89190E] mt-1 leading-snug">
-                                {leader.role}
-                              </p>
-                              <p className="text-[11px] text-[#526174] font-medium mt-1 leading-snug">
-                                {leader.credentials}
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Brief Executive Description */}
-                          <div className="space-y-4">
-                            <p className="text-xs sm:text-[13px] text-[#475569] leading-relaxed border-l-2 border-[#E8DCCB] pl-3">
-                              {leader.brief}
-                            </p>
-
-                            {/* Strategic Portfolios */}
-                            <div>
-                              <span className="text-[10px] font-mono uppercase tracking-wider text-[#526174] font-bold block mb-2">
-                                Governance Portfolios
-                              </span>
-                              <div className="flex flex-wrap gap-1.5">
-                                {leader.portfolios.map((portfolio, pIdx) => (
-                                  <span
-                                    key={pIdx}
-                                    className="text-[11px] font-semibold bg-[#FFF9EF] text-[#10233F] border border-[#E8DCCB] px-2.5 py-1 rounded-lg group-hover:border-[#EFC988] transition-colors"
-                                  >
-                                    {portfolio}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Leadership Tenet & Governance Accreditation */}
-                        <div className="pt-5 border-t border-[#E8DCCB]/60 space-y-3">
-                          <div className="p-3.5 rounded-2xl bg-[#FFF9EF] border border-[#E8DCCB] relative">
-                            <Quote className="w-3.5 h-3.5 text-[#89190E]/60 absolute top-2.5 left-2.5" />
-                            <p className="text-[11px] sm:text-xs text-[#10233F] italic pl-4 font-serif leading-relaxed">
-                              &ldquo;{leader.tenet}&rdquo;
-                            </p>
-                          </div>
-
-                          <div className="flex items-center justify-between text-[11px] text-[#526174] pt-0.5">
-                            <span className="flex items-center gap-1 font-mono text-[10px] text-[#89190E] font-bold">
-                              <Award className="w-3.5 h-3.5 text-[#89190E]" />
-                              <span>{leader.milestone}</span>
-                            </span>
-                            <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                              Council Trustee
-                            </span>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </TiltCard>
-                </Reveal>
-              ))}
-            </div>
-          </Reveal>
+          {/* Leadership Showcase Section */}
+          <LeadershipShowcase />
 
           {/* Historical Timeline */}
           <Reveal direction="up" className="mb-24">

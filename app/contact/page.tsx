@@ -8,6 +8,7 @@ import EnquiryModal from '@/components/modals/EnquiryModal';
 import PageHero from '@/components/ui/PageHero';
 import Reveal from '@/components/ui/Reveal';
 import SectionHeading from '@/components/ui/SectionHeading';
+import ContactCardsSection from '@/components/contact/ContactCardsSection';
 import {
   MapPin,
   Phone,
@@ -24,7 +25,7 @@ import {
 const officeHours = [
   { day: 'Monday – Friday', hours: '9:00 AM – 6:00 PM', note: 'All Departments' },
   { day: 'Saturday', hours: '9:00 AM – 2:00 PM', note: 'Admissions only' },
-  { day: 'Sunday', hours: 'Closed', note: 'Emergency: +91 98711 00223' },
+  { day: 'Sunday', hours: 'Closed', note: 'Helpline: 075084 20013' },
 ];
 
 const extensions = [
@@ -84,55 +85,8 @@ export default function ContactPage() {
 
         <div className="max-w-[1380px] mx-auto px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
 
-          {/* 3 Contact Method Cards */}
-          <Reveal direction="up" className="mb-16">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white rounded-3xl p-8 border border-[#E8DCCB] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                <div className="w-12 h-12 rounded-2xl bg-[#FFF3DD] text-[#89190E] flex items-center justify-center mb-6 group-hover:bg-[#89190E] group-hover:text-white transition-colors">
-                  <MapPin className="w-6 h-6" />
-                </div>
-                <h3 className="font-serif text-xl font-bold text-[#10233F] mb-2">Campus Address</h3>
-                <p className="text-xs sm:text-sm text-[#526174] leading-relaxed mb-4">
-                  Maharaja Surajmal Institute<br />
-                  C-4, Institutional Area, Janakpuri<br />
-                  New Delhi, 110058 India
-                </p>
-                <div className="flex items-center space-x-1.5 text-xs text-[#89190E] font-semibold">
-                  <Train className="w-3.5 h-3.5" />
-                  <span>Nearest Metro: Janakpuri West (Blue Line)</span>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-3xl p-8 border border-[#E8DCCB] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                <div className="w-12 h-12 rounded-2xl bg-[#FFF3DD] text-[#89190E] flex items-center justify-center mb-6 group-hover:bg-[#89190E] group-hover:text-white transition-colors">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <h3 className="font-serif text-xl font-bold text-[#10233F] mb-2">Admissions Helpline</h3>
-                <p className="text-xs sm:text-sm text-[#526174] leading-relaxed mb-4">
-                  Direct: +91 11 2555 8899 / 9900<br />
-                  Toll Free: 1800-120-MSI (9am – 6pm)<br />
-                  WhatsApp: +91 98711 00223
-                </p>
-                <div className="inline-flex items-center space-x-2 text-xs font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Helpline lines active now</span>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-3xl p-8 border border-[#E8DCCB] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                <div className="w-12 h-12 rounded-2xl bg-[#FFF3DD] text-[#89190E] flex items-center justify-center mb-6 group-hover:bg-[#89190E] group-hover:text-white transition-colors">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <h3 className="font-serif text-xl font-bold text-[#10233F] mb-2">Official Correspondence</h3>
-                <p className="text-xs sm:text-sm text-[#526174] leading-relaxed mb-4">
-                  Admissions: admissions@msi-institutes.edu.in<br />
-                  Placements: placements@msi-institutes.edu.in<br />
-                  Registrar: registrar@msi-institutes.edu.in
-                </p>
-                <span className="text-xs text-[#526174] font-medium">Avg. response: &lt; 2 business hours</span>
-              </div>
-            </div>
-          </Reveal>
+          {/* Unified High-End Contact Cards Section (Matching Colors, 3D Tilt & Micro-animations) */}
+          <ContactCardsSection onOpenEnquiry={() => setIsEnquiryOpen(true)} />
 
           {/* Form + Sidebar */}
           <Reveal direction="up" className="mb-16">
@@ -306,15 +260,15 @@ export default function ContactPage() {
                   <div className="w-16 h-16 rounded-2xl bg-[#89190E] flex items-center justify-center mx-auto mb-4 animate-pulse-beacon">
                     <Navigation className="w-8 h-8" />
                   </div>
-                  <h3 className="font-serif text-2xl font-bold mb-2">Find Us on Campus</h3>
-                  <p className="text-white/60 text-sm mb-6">
-                    C-4, Institutional Area, Janakpuri, New Delhi – 110058
+                  <h3 className="font-serif text-2xl font-bold mb-2">Find Us at MSI Campus</h3>
+                  <p className="text-white/80 text-sm mb-6 max-w-xl mx-auto leading-relaxed">
+                    1st, 2nd & 3rd Floor, Monga City Centre, SCO 12-13, Kharar - Landran Rd, Sector 115, Sahibzada Ajit Singh Nagar, Punjab 140307
                   </p>
                   <a
-                    href="https://maps.google.com/?q=Maharaja+Surajmal+Institute+Janakpuri+New+Delhi"
+                    href="https://maps.google.com/?q=Monga+City+Centre+Kharar+Landran+Road+Sector+115+Sahibzada+Ajit+Singh+Nagar+Punjab+140307"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center space-x-2 h-11 px-6 bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-sm rounded-xl transition-all"
+                    className="inline-flex items-center space-x-2 h-11 px-6 bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-sm rounded-xl transition-all shadow-md"
                   >
                     <MapPin className="w-4 h-4" />
                     <span>Open in Google Maps</span>
@@ -325,16 +279,16 @@ export default function ContactPage() {
               {/* Bottom info strip */}
               <div className="bg-white border-t border-[#E8DCCB] px-6 sm:px-10 py-5 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                 <div className="flex items-center space-x-2.5 text-[#526174]">
-                  <Train className="w-4 h-4 text-[#89190E] flex-shrink-0" />
-                  <span><span className="font-bold text-[#10233F]">Metro:</span> Janakpuri West (Blue Line) — 8 min walk</span>
-                </div>
-                <div className="flex items-center space-x-2.5 text-[#526174]">
                   <Car className="w-4 h-4 text-[#89190E] flex-shrink-0" />
-                  <span><span className="font-bold text-[#10233F]">By Car:</span> NH-48 exit at Janakpuri, Sector 8</span>
+                  <span><span className="font-bold text-[#10233F]">By Road:</span> Kharar - Landran Road (Sector 115)</span>
                 </div>
                 <div className="flex items-center space-x-2.5 text-[#526174]">
                   <MapPin className="w-4 h-4 text-[#89190E] flex-shrink-0" />
-                  <span><span className="font-bold text-[#10233F]">Landmark:</span> Opposite Janakpuri District Centre</span>
+                  <span><span className="font-bold text-[#10233F]">Landmark:</span> Monga City Centre, SCO 12-13</span>
+                </div>
+                <div className="flex items-center space-x-2.5 text-[#526174]">
+                  <Phone className="w-4 h-4 text-[#89190E] flex-shrink-0" />
+                  <span><span className="font-bold text-[#10233F]">Direct Desk:</span> 075084 20013 / info@msiinstitutes.com</span>
                 </div>
               </div>
             </div>

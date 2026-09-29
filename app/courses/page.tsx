@@ -553,7 +553,7 @@ export default function CoursesPage() {
                       </button>
 
                       <a
-                        href={`https://wa.me/919815502444?text=${encodeURIComponent(
+                        href={`https://wa.me/917508420013?text=${encodeURIComponent(
                           `Hello MSI Admissions Team, I want to enquire about ${course.name} batch details.`
                         )}`}
                         target="_blank"
@@ -1267,7 +1267,7 @@ export default function CoursesPage() {
                 </button>
 
                 <a
-                  href="https://wa.me/919815502444?text=Hello%20MSI%20Admissions%20Team%2C%20I%20have%20questions%20about%20your%20courses."
+                  href="https://wa.me/917508420013?text=Hello%20MSI%20Admissions%20Team%2C%20I%20have%20questions%20about%20your%20courses."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="h-12 px-6 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm flex items-center space-x-2 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"

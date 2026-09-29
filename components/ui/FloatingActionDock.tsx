@@ -17,8 +17,9 @@ export default function FloatingActionDock() {
 
   if (isPortal) return null;
 
-  const institutePhone = '+919815502444';
-  const whatsappUrl = `https://wa.me/919815502444?text=${encodeURIComponent(
+  const institutePhone = '+917508420013';
+  const displayPhone = '075084 20013';
+  const whatsappUrl = `https://wa.me/917508420013?text=${encodeURIComponent(
     'Hello MSI Admissions Team, I want to enquire about courses, eligibility and admissions.'
   )}`;
 
@@ -78,7 +79,7 @@ export default function FloatingActionDock() {
           </a>
           {/* Tooltip on Desktop hover */}
           <div className="hidden group-hover:block absolute right-full top-1/2 -translate-y-1/2 mr-3 px-3 py-1.5 bg-[#10233F] text-white text-xs font-semibold rounded-lg shadow-xl whitespace-nowrap pointer-events-none animate-fadeIn">
-            Call: +91 98155 02444
+            Call: {displayPhone}
             <div className="absolute top-1/2 -translate-y-1/2 left-full w-0 h-0 border-y-4 border-y-transparent border-l-4 border-l-[#10233F]" />
           </div>
         </div>
