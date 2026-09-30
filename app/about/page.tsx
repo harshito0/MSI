@@ -90,8 +90,8 @@ export default function AboutPage() {
         {/* About body */}
         <div className="max-w-[1380px] mx-auto px-6 sm:px-10 lg:px-16 py-20 sm:py-24">
 
-          {/* Description */}
-          <Reveal direction="up" className="max-w-4xl mb-20">
+          {/* Description (First Section) */}
+          <Reveal direction="up" className="max-w-4xl mb-16">
             <span className="text-xs font-mono font-bold tracking-widest text-[#89190E] uppercase block mb-2">
               Institutional Profile
             </span>
@@ -105,6 +105,11 @@ export default function AboutPage() {
               With a specialised academic orientation towards law, legal education, entrance examinations, judiciary, and allied competitive domains, MSI has developed a comprehensive learning ecosystem that harmoniously integrates conceptual profundity, critical reasoning, contemporary awareness, strategic preparation, and sustained academic practice. Our pedagogy is deliberately structured to move beyond rote learning, encouraging students to interrogate concepts, decipher complexities, construct coherent arguments, and apply knowledge with precision in examination-oriented situations.
             </p>
           </Reveal>
+
+          {/* Leadership Showcase Section - Placed right after first section */}
+          <div className="mb-20">
+            <LeadershipShowcase />
+          </div>
 
           {/* Core Philosophy Banner */}
           <Reveal direction="up" className="mb-24">
@@ -199,9 +204,6 @@ export default function AboutPage() {
             </div>
           </Reveal>
 
-          {/* Leadership Showcase Section */}
-          <LeadershipShowcase />
-
           {/* Historical Timeline */}
           <Reveal direction="up" className="mb-24">
             <SectionHeading
@@ -209,19 +211,39 @@ export default function AboutPage() {
               title="Journey of Academic Distinction"
               className="mb-14"
             />
-            <div className="relative border-l-2 border-[#E8DCCB] ml-4 sm:ml-32 pl-6 sm:pl-10 space-y-12">
+            <div className="relative max-w-4xl mx-auto space-y-8 sm:space-y-12">
+              {/* Continuous vertical line for desktop (center of 48px column at 140px + 24px = 164px) */}
+              <div className="hidden sm:block absolute left-[163px] top-3 bottom-6 w-[2px] bg-[#E8DCCB]" />
+              {/* Continuous vertical line for mobile (center of 28px column at 14px) */}
+              <div className="sm:hidden absolute left-[13px] top-3 bottom-6 w-[2px] bg-[#E8DCCB]" />
+
               {milestones.map((m, mIdx) => (
-                <Reveal key={mIdx} direction="right" delay={mIdx * 80}>
-                  <div className="relative group">
-                    <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-5 h-5 rounded-full bg-white border-4 border-[#89190E] group-hover:scale-125 transition-transform shadow-xs" />
-                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6">
-                      <span className="font-serif text-lg sm:text-xl font-bold text-[#89190E] flex-shrink-0 sm:-ml-28 sm:w-20 text-left sm:text-right">
+                <Reveal key={mIdx} direction="up" delay={mIdx * 80}>
+                  <div className="grid grid-cols-[28px_1fr] sm:grid-cols-[140px_48px_1fr] items-start group">
+                    {/* Left: Year / Era label (Desktop) */}
+                    <div className="hidden sm:block text-right pr-5 pt-0.5">
+                      <span className="font-serif text-lg sm:text-xl font-bold text-[#89190E] block leading-tight">
                         {m.year}
                       </span>
-                      <div>
-                        <h4 className="font-serif text-xl font-bold text-[#10233F] group-hover:text-[#89190E] transition-colors">{m.title}</h4>
-                        <p className="text-sm text-[#526174] mt-1 max-w-2xl leading-relaxed">{m.desc}</p>
-                      </div>
+                    </div>
+
+                    {/* Middle: Node Circle on Line */}
+                    <div className="flex items-center justify-center pt-1 z-10">
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white border-2 sm:border-4 border-[#89190E] group-hover:scale-125 transition-transform shadow-xs flex-shrink-0" />
+                    </div>
+
+                    {/* Right: Title & Description */}
+                    <div className="pl-3 sm:pl-6 pb-2">
+                      {/* Mobile Year Badge */}
+                      <span className="inline-block sm:hidden px-2.5 py-0.5 rounded-full bg-[#89190E]/10 text-[#89190E] text-[11px] font-mono font-bold tracking-wider mb-2 uppercase">
+                        {m.year}
+                      </span>
+                      <h4 className="font-serif text-xl font-bold text-[#10233F] group-hover:text-[#89190E] transition-colors leading-snug">
+                        {m.title}
+                      </h4>
+                      <p className="text-sm text-[#526174] mt-1.5 max-w-2xl leading-relaxed">
+                        {m.desc}
+                      </p>
                     </div>
                   </div>
                 </Reveal>

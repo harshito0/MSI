@@ -15,7 +15,6 @@ import {
   UserCheck,
   Globe,
   AlertCircle,
-  GraduationCap,
   UserPlus,
   Phone,
   BookOpen,
@@ -140,26 +139,11 @@ export default function StudentLoginPage() {
 
         <div className="flex items-center space-x-2 sm:space-x-3">
           <Link
-            href="/teacher/login"
-            className="flex items-center space-x-1.5 px-3 sm:px-4 py-2 rounded-xl bg-white border border-[#E8DCCB] hover:border-[#10233F] text-xs font-semibold text-[#10233F] transition-all shadow-xs"
-          >
-            <GraduationCap className="w-3.5 h-3.5 text-[#89190E]" />
-            <span>Faculty Portal</span>
-          </Link>
-
-          <Link
-            href="/super-admin"
-            className="flex items-center space-x-1.5 px-3 sm:px-4 py-2 rounded-xl bg-[#FFF3DD] border border-[#EFC988] text-xs font-bold text-[#89190E] transition-all shadow-xs"
-          >
-            <span>Super Admin</span>
-          </Link>
-
-          <Link
             href="/"
-            className="flex items-center space-x-1.5 px-3 sm:px-4 py-2 rounded-xl bg-white border border-[#E8DCCB] hover:border-[#89190E] text-xs font-semibold text-[#526174] hover:text-[#89190E] transition-all shadow-xs"
+            className="flex items-center space-x-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-white border border-[#E8DCCB] hover:border-[#89190E] text-xs font-semibold text-[#526174] hover:text-[#89190E] transition-all shadow-xs"
           >
             <Globe className="w-3.5 h-3.5 text-[#89190E]" />
-            <span className="hidden sm:inline">Website</span>
+            <span>Back to Website</span>
           </Link>
         </div>
       </header>

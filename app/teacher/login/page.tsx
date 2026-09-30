@@ -174,12 +174,6 @@ export default function TeacherLoginPage() {
             <span>Student Portal</span>
           </Link>
 
-          <Link
-            href="/super-admin"
-            className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-[#FFF3DD] border border-[#EFC988] text-xs font-bold text-[#89190E] transition-all shadow-xs"
-          >
-            <span>Super Admin</span>
-          </Link>
 
           <Link
             href="/"

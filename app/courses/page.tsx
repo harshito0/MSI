@@ -568,6 +568,85 @@ export default function CoursesPage() {
                 </TiltCard>
               </div>
             ))}
+
+            {/* Final Slide: Have Doubts / Enquiry Card */}
+            <div className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] flex-shrink-0 snap-start">
+              <TiltCard className="rounded-3xl h-full" intensity={4} glare shine>
+                <div className="bg-gradient-to-br from-[#10233F] via-[#162D4F] to-[#89190E] text-white rounded-3xl p-6 sm:p-7 border border-[#EFC988]/30 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between h-full relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#EFC988]/10 rounded-full blur-2xl pointer-events-none" />
+
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#EFC988] bg-white/10 border border-[#EFC988]/30 px-3 py-1 rounded-full flex items-center space-x-1.5">
+                        <HelpCircle className="w-3.5 h-3.5 text-[#EFC988]" />
+                        <span>Academic Guidance</span>
+                      </span>
+                      <span className="text-[11px] font-mono text-emerald-400 font-semibold flex items-center">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5" />
+                        Advisors Online
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif text-xl sm:text-2xl font-bold text-white mb-2 leading-snug">
+                      Have Doubts or Questions?
+                    </h3>
+                    <p className="text-xs text-white/80 leading-relaxed mb-4">
+                      Not sure which legal batch matches your target exam? Speak with our senior faculty and admission counselors for direct 1-on-1 guidance.
+                    </p>
+
+                    <div className="space-y-2 mb-6 bg-white/5 border border-white/10 rounded-2xl p-3.5 text-xs text-white/90">
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#EFC988] flex-shrink-0" />
+                        <span>Syllabus & Eligibility Clarification</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#EFC988] flex-shrink-0" />
+                        <span>Weekend vs. Regular Batch Selection</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#EFC988] flex-shrink-0" />
+                        <span>Fee Concessions & Demo Lecture Access</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-white/15 space-y-2.5">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedCourse('General Course Enquiry & Academic Counseling');
+                        setIsEnquiryOpen(true);
+                      }}
+                      className="w-full h-11 rounded-xl bg-[#EFC988] hover:bg-[#ffe3ab] text-[#10233F] font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-all shadow-md cursor-pointer active:scale-98"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Submit Batch Enquiry</span>
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <a
+                        href="tel:07508420013"
+                        className="h-10 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs flex items-center justify-center space-x-1.5 transition-all cursor-pointer"
+                        title="Call Admissions Desk"
+                      >
+                        <Phone className="w-3.5 h-3.5 text-[#EFC988]" />
+                        <span>Call Desk</span>
+                      </a>
+                      <a
+                        href="https://wa.me/917508420013?text=Hello%20MSI%20Admissions%20Team%2C%20I%20have%20doubts%20regarding%20course%20selection%20and%20enquiry."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="h-10 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold text-xs flex items-center justify-center space-x-1.5 transition-all shadow-sm cursor-pointer"
+                        title="Chat on WhatsApp"
+                      >
+                        <Phone className="w-3.5 h-3.5" />
+                        <span>WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </TiltCard>
+            </div>
           </div>
 
           {/* Bottom Next/Prev Pagination Bar */}
@@ -592,6 +671,63 @@ export default function CoursesPage() {
                 <span>Next Programs</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
+            </div>
+          </div>
+
+          {/* Bottom Enquiry & Doubt Resolution Banner */}
+          <div className="mt-8 rounded-3xl bg-[#FFF9EF] border-2 border-[#E8DCCB] p-6 sm:p-8 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div className="flex items-start sm:items-center space-x-4 z-10">
+              <div className="w-14 h-14 rounded-2xl bg-[#89190E] text-[#EFC988] flex items-center justify-center flex-shrink-0 shadow-md">
+                <HelpCircle className="w-7 h-7" />
+              </div>
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#89190E]">
+                    Have Any Doubts or Questions?
+                  </span>
+                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                    Free Consultation
+                  </span>
+                </div>
+                <h4 className="font-serif text-xl sm:text-2xl font-bold text-[#10233F] mt-1">
+                  Confused about which program is right for you?
+                </h4>
+                <p className="text-xs sm:text-sm text-[#526174] mt-1 max-w-2xl leading-relaxed">
+                  Speak directly with our senior law faculty and admissions team for personal guidance on batches, syllabus roadmap, fee structure, and demo classes.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto z-10">
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCourse('General Course Enquiry & Academic Counseling');
+                  setIsEnquiryOpen(true);
+                }}
+                className="flex-1 sm:flex-none px-6 py-3.5 rounded-xl bg-[#89190E] hover:bg-[#6e140b] text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center space-x-2 transition-all shadow-md shadow-[#89190E]/20 hover:shadow-lg cursor-pointer active:scale-98"
+              >
+                <Send className="w-4 h-4" />
+                <span>Enquire Now</span>
+              </button>
+
+              <a
+                href="https://wa.me/917508420013?text=Hello%20MSI%20Admissions%20Team%2C%20I%20have%20doubts%20regarding%20course%20selection%20and%20enquiry."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 sm:flex-none px-5 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-all shadow-md shadow-emerald-500/20 cursor-pointer"
+              >
+                <Phone className="w-4 h-4" />
+                <span>WhatsApp Us</span>
+              </a>
+
+              <a
+                href="tel:07508420013"
+                className="flex-1 sm:flex-none px-4 py-3.5 rounded-xl bg-white hover:bg-[#FFF3DD] border border-[#E8DCCB] text-[#10233F] font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-all cursor-pointer"
+              >
+                <Phone className="w-4 h-4 text-[#89190E]" />
+                <span>075084 20013</span>
+              </a>
             </div>
           </div>
 

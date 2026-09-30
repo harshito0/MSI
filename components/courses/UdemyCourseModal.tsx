@@ -364,7 +364,10 @@ export default function UdemyCourseModal({
                     </h4>
                     <p className="text-xs text-[#526174]">{course.instructorTitle}</p>
                     <div className="flex items-center space-x-3 text-xs mt-1">
-                      <span className="text-emerald-700 font-bold">● Super Admin Verified</span>
+                      <span className="text-emerald-700 font-bold flex items-center space-x-1">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Verified Faculty</span>
+                      </span>
                       <span className="text-[#526174] font-mono">4.9 ★ Instructor Rating</span>
                     </div>
                   </div>
@@ -432,7 +435,7 @@ export default function UdemyCourseModal({
                   <button
                     type="button"
                     onClick={handleEnroll}
-                    className="w-full py-3.5 rounded-2xl bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-all shadow-lg shadow-[#89190E]/30 btn-chamfered active:scale-98 cursor-pointer"
+                    className="w-full py-3.5 px-6 rounded-xl bg-[#89190E] hover:bg-[#6e140b] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-all shadow-lg shadow-[#89190E]/25 hover:shadow-xl hover:shadow-[#89190E]/35 active:scale-[0.98] cursor-pointer"
                   >
                     <span>Enroll Now (Instant Access)</span>
                     <ArrowRight className="w-4 h-4" />

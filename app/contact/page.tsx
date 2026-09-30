@@ -28,14 +28,6 @@ const officeHours = [
   { day: 'Sunday', hours: 'Closed', note: 'Helpline: 075084 20013' },
 ];
 
-const extensions = [
-  { dept: 'Central Admissions Cell', ext: 'Ext. 101 / 102' },
-  { dept: 'Corporate Placement Cell', ext: 'Ext. 204' },
-  { dept: 'Office of the Registrar', ext: 'Ext. 105' },
-  { dept: 'Hostels & Campus Warden', ext: 'Ext. 310' },
-  { dept: 'Scholarships & Accounts Wing', ext: 'Ext. 112' },
-  { dept: 'Library & Academic Resources', ext: 'Ext. 218' },
-];
 
 export default function ContactPage() {
   const router = useRouter();
@@ -189,35 +181,6 @@ export default function ContactPage() {
 
               {/* Right Sidebar */}
               <div className="lg:col-span-5 space-y-6">
-                {/* Extensions */}
-                <div className="bg-white rounded-3xl p-8 border border-[#E8DCCB] shadow-md">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#89190E] block mb-1">Quick Directory</span>
-                  <h3 className="font-serif text-2xl font-bold text-[#10233F] mb-5">Institutional Extensions</h3>
-                  <div className="divide-y divide-[#E8DCCB]/60 text-xs sm:text-sm">
-                    {extensions.map((ext, i) => (
-                      <div key={i} className="py-3 flex justify-between items-center">
-                        <div>
-                          <span className="font-bold text-[#10233F] block">{ext.dept}</span>
-                          <span className="text-[#526174]">{ext.ext}</span>
-                        </div>
-                        <button
-                          onClick={() => setIsEnquiryOpen(true)}
-                          className="text-xs text-[#89190E] font-bold hover:underline flex-shrink-0 ml-3"
-                        >
-                          Connect →
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                  <button
-                    onClick={() => setIsEnquiryOpen(true)}
-                    className="w-full mt-5 h-11 bg-[#FFF3DD] hover:bg-[#89190E] hover:text-white text-[#89190E] rounded-xl font-bold text-xs transition-all flex items-center justify-center space-x-1.5"
-                  >
-                    <span>Schedule Campus Walkthrough</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
                 {/* Office Hours */}
                 <div className="bg-white rounded-3xl p-8 border border-[#E8DCCB] shadow-md">
                   <div className="flex items-center space-x-3 mb-5">
@@ -240,6 +203,15 @@ export default function ContactPage() {
                       </div>
                     ))}
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsEnquiryOpen(true)}
+                    className="w-full mt-5 h-11 bg-[#FFF3DD] hover:bg-[#89190E] hover:text-white text-[#89190E] rounded-xl font-bold text-xs transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs"
+                  >
+                    <span>Schedule Campus Walkthrough</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
             </div>
