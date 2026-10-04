@@ -186,12 +186,12 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/gallery" className="hover:text-[#EFC988] transition-colors flex items-center group">
-                  <span className="group-hover:translate-x-1 transition-transform">Campus Gallery</span>
+                  <span className="group-hover:translate-x-1 transition-transform">Institute Gallery</span>
                 </Link>
               </li>
               <li>
                 <Link href="/blog" className="hover:text-[#EFC988] transition-colors flex items-center group">
-                  <span className="group-hover:translate-x-1 transition-transform">Campus News & Research</span>
+                  <span className="group-hover:translate-x-1 transition-transform">Institute News & Research</span>
                 </Link>
               </li>
               <li>

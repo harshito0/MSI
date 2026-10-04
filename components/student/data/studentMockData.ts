@@ -445,7 +445,7 @@ export const RECORDED_VIDEOS: RecordedVideo[] = [
     duration: '58m',
     uploadDate: '12 Sep 2025',
     videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-    thumbnail: '/images/gallery/campus-1.webp',
+    thumbnail: '/images/tour/tour-frame-1.webp',
     topics: ['Main Idea & Title Selection', "Author's Tone & Attitude", 'Fact vs Opinion Distinctions'],
   },
   {
@@ -456,7 +456,7 @@ export const RECORDED_VIDEOS: RecordedVideo[] = [
     duration: '2h 10m',
     uploadDate: '05 Sep 2025',
     videoUrl: '',
-    thumbnail: '/images/gallery/campus-2.webp',
+    thumbnail: '/images/tour/tour-frame-2.webp',
     isLocked: true, // Requires Judiciary Add-on
     topics: ['CrPC Section 154-173', 'Cognizable Offences', 'Trial Procedures Before Sessions Court'],
   },

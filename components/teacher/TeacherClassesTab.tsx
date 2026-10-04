@@ -94,7 +94,7 @@ export default function TeacherClassesTab({
           <h3 className="font-serif text-base sm:text-lg font-bold text-[#10233F]">
             Scheduled Class Sessions & Attendance Registers ({schedules.length})
           </h3>
-          <span className="text-xs text-[#526174]">Synced with Campus Timetable</span>
+          <span className="text-xs text-[#526174]">Synced with Institute Timetable</span>
         </div>
 
         <div className="space-y-4 mt-4">

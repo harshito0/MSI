@@ -123,8 +123,8 @@ function ThankYouContent() {
               </span>
             </div>
             <div>
-              <span className="text-[#526174] block">Campus Location:</span>
-              <span className="font-semibold text-[#10233F]">Kharar Campus, Mohali</span>
+              <span className="text-[#526174] block">Institute Location:</span>
+              <span className="font-semibold text-[#10233F]">Kharar Institute, Mohali</span>
             </div>
           </div>
         </div>
@@ -198,7 +198,7 @@ function ThankYouContent() {
               Demo Class & Visit
             </h3>
             <p className="text-xs text-[#526174] leading-relaxed">
-              Receive free guest access to our live offline or online batch and book a guided campus tour at our Kharar institution.
+              Receive free guest access to our live offline or online batch and book a guided institute tour at our Kharar institution.
             </p>
           </div>
         </div>

@@ -64,7 +64,7 @@ export default function BlogPreview() {
           <SectionHeading
             eyebrow="Scholarly Thought & Stories"
             title="From the MSI Gazette"
-            subtitle="Research findings, competition victories, and campus updates from our faculty and students."
+            subtitle="Research findings, competition victories, and institute updates from our faculty and students."
             align="left"
             className="max-w-xl"
           />

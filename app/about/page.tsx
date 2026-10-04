@@ -12,6 +12,7 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import TiltCard from '@/components/ui/TiltCard';
 import LeadershipShowcase from '@/components/about/LeadershipShowcase';
+import VideoModal from '@/components/modals/VideoModal';
 import {
   Award,
   Compass,
@@ -26,10 +27,13 @@ import {
   Sparkles,
   BookCheck,
   ShieldCheck,
+  Play,
+  ExternalLink,
 } from 'lucide-react';
 
 export default function AboutPage() {
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
 
   const milestones = [
     { year: 'Genesis', title: 'Founding Vision of Excellence', desc: 'Conceived by visionary founder Mr. Shamsher Gahlawat to establish an educational ecosystem where knowledge, skill, character, and opportunity converge.' },
@@ -62,7 +66,7 @@ export default function AboutPage() {
           eyebrow="Intellectually Driven & Professionally Oriented"
           title="Redefining Competitive Legal Education"
           subtitle="Dedicated to cultivating academic excellence, competitive competence, and disciplined ambition with a specialized focus on Law, CLAT UG, and Judicial Services."
-          bgImage="/images/hero-1.webp"
+          bgImage="/images/tour/tour-frame-2.webp"
           className="pt-24 sm:pt-28"
         />
 
@@ -172,6 +176,95 @@ export default function AboutPage() {
             </div>
           </Reveal>
 
+          {/* Authentic MSI Institute Facility Showcase */}
+          <Reveal direction="up" className="mb-24">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+              <div>
+                <span className="text-xs font-mono font-bold tracking-widest text-[#89190E] uppercase block mb-2">
+                  Infrastructure & Environment
+                </span>
+                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#10233F]">
+                  Inside MSI Institute • Monga City Centre
+                </h2>
+                <p className="text-sm sm:text-base text-[#526174] mt-2 max-w-xl">
+                  Explore our dedicated judicial chambers, modern reception, and state-of-the-art learning suites in Kharar, Mohali.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <a
+                  href="https://youtu.be/6qZ2zcsjidQ"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-11 px-5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs flex items-center space-x-1.5 transition-all shadow-md"
+                >
+                  <Play className="w-3.5 h-3.5 fill-white" />
+                  <span>Watch on YouTube</span>
+                  <ExternalLink className="w-3 h-3 ml-1" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setIsVideoOpen(true)}
+                  className="h-11 px-5 rounded-xl bg-white hover:bg-[#FFF3DD] text-[#89190E] border border-[#89190E]/40 font-bold text-xs flex items-center space-x-1.5 transition-all cursor-pointer"
+                >
+                  <span>360° Tour Preview</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  title: 'Official Reception & Golden Seal',
+                  subtitle: 'Monga City Centre, Kharar',
+                  image: '/images/tour/tour-frame-1.webp',
+                  desc: 'Handcrafted wooden wall panel with official MSI Group of Institutes seal welcoming candidates and parents.',
+                },
+                {
+                  title: 'Executive Director & Judicial Chamber',
+                  subtitle: 'Judicial Research Sanctum',
+                  image: '/images/tour/tour-frame-2.webp',
+                  desc: 'Equipped with Lady Justice emblem, national flags, comprehensive Bare Acts, and reference treatises.',
+                },
+                {
+                  title: 'Student Review & Mentorship Suites',
+                  subtitle: 'Scholarly Dialogue & Focus',
+                  image: '/images/tour/tour-frame-4.webp',
+                  desc: 'Real MSI achievers sharing their structured journey toward national law universities and judicial service ranks.',
+                },
+              ].map((card, cIdx) => (
+                <div
+                  key={cIdx}
+                  className="group rounded-3xl overflow-hidden bg-white border border-[#E8DCCB] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+                >
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-black">
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <span className="absolute bottom-3 left-4 text-xs font-bold text-white/90 bg-[#10233F]/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
+                      {card.subtitle}
+                    </span>
+                  </div>
+                  <div className="p-6 flex flex-col flex-grow justify-between">
+                    <div>
+                      <h3 className="font-serif text-lg font-bold text-[#10233F] group-hover:text-[#89190E] transition-colors mb-2">
+                        {card.title}
+                      </h3>
+                      <p className="text-xs text-[#526174] leading-relaxed">
+                        {card.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
           {/* 4 Core Pillars */}
           <Reveal direction="up" className="mb-24">
             <SectionHeading
@@ -276,6 +369,7 @@ export default function AboutPage() {
       <Footer />
 
       <EnquiryModal isOpen={isEnquiryOpen} onClose={() => setIsEnquiryOpen(false)} />
+      <VideoModal isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
     </div>
   );
 }

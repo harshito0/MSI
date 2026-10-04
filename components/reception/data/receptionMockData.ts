@@ -76,7 +76,7 @@ export const RECEPTION_STAFF_PROFILES: ReceptionStaff[] = [
     id: 'staff-03',
     name: 'Col. H. S. Dhillon (Retd.)',
     role: 'Super Admin',
-    location: 'Directorate of Campus Security & Admin',
+    location: 'Directorate of Institute Security & Admin',
     email: 'cso.dhillon@msi-institutes.edu.in',
     badgeId: 'MSI-ADM-00',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
@@ -144,7 +144,7 @@ export const VISITOR_PURPOSES = [
   'Guest Lecture / Seminar Speaker',
   'Official Inspection (Govt / Bar Council)',
   'Vendor / IT Equipment Delivery',
-  'Campus Tour & Facilities Inspection',
+  'Institute Tour & Facilities Inspection',
   'Job Interview / Faculty Recruitment',
   'Alumni Interaction',
   'Maintenance / Electrical Inspection',
@@ -181,7 +181,7 @@ export const INITIAL_VISITORS: Visitor[] = [
     remarks: 'Accompanied by son for CLAT 2-Year Integrated Foundation Batch.',
     pastVisits: [
       { date: '12 Aug 2025', purpose: 'Prospectus Collection', hostPerson: 'Ms. Simranjeet Kaur', department: 'Admissions & Counseling Wing' },
-      { date: '28 Aug 2025', purpose: 'Campus Tour & Hostel Check', hostPerson: 'Mr. Arvind Malhotra', department: 'Admissions & Counseling Wing' },
+      { date: '28 Aug 2025', purpose: 'Institute Tour & Facility Check', hostPerson: 'Mr. Arvind Malhotra', department: 'Admissions & Counseling Wing' },
     ],
   },
   {

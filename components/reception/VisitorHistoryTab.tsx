@@ -73,7 +73,7 @@ export default function VisitorHistoryTab({ visitors }: VisitorHistoryTabProps) 
       `"${v.hostPerson}"`,
       `"${v.purpose}"`,
       v.entryTime,
-      v.exitTime || 'STILL ON CAMPUS',
+      v.exitTime || 'STILL IN INSTITUTE',
       v.status,
       `"${v.govtIdType} (${v.govtIdNumber || ''})"`,
       v.gateNumber,
@@ -105,7 +105,7 @@ export default function VisitorHistoryTab({ visitors }: VisitorHistoryTabProps) 
             Visitor Archives & Regulatory Logbook
           </h2>
           <p className="text-xs text-[#526174] mt-0.5">
-            Audit-grade record of all incoming campus traffic, repeat visits, and gate exit clearances.
+            Audit-grade record of all incoming institute traffic, repeat visits, and gate exit clearances.
           </p>
         </div>
 
@@ -261,7 +261,7 @@ export default function VisitorHistoryTab({ visitors }: VisitorHistoryTabProps) 
                     <div className="flex items-center space-x-1 text-[#526174] mt-0.5">
                       <span>Out:</span>
                       <span className={visitor.exitTime ? 'font-bold text-[#10233F]' : 'text-emerald-600 font-semibold'}>
-                        {visitor.exitTime || 'Still on Campus'}
+                        {visitor.exitTime || 'Still in Institute'}
                       </span>
                     </div>
                   </td>

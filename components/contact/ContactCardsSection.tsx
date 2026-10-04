@@ -57,7 +57,7 @@ export default function ContactCardsSection({ onOpenEnquiry }: ContactCardsSecti
           We&apos;re here to help!
         </h2>
         <p className="text-sm sm:text-base text-[#526174] mt-2.5 max-w-xl mx-auto leading-relaxed">
-          Reach our central admissions cell, academic governance directorate, or plan a walkthrough at our campus.
+          Reach our central admissions cell, academic governance directorate, or plan a walkthrough at our institute.
         </p>
       </Reveal>
 

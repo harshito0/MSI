@@ -45,7 +45,7 @@ export default function SuperAdminTab({ visitors }: SuperAdminTabProps) {
               <span>Chief Security Officer • Command Dashboard</span>
             </div>
             <h2 className="font-serif text-xl sm:text-2xl font-bold">
-              Super Admin Campus Security Overview
+              Super Admin Institute Security Overview
             </h2>
             <p className="text-xs text-white/80 mt-1 max-w-xl">
               Real-time situational awareness, multi-gate sync, dwell duration analysis, and statutory emergency evacuation headcounts.
@@ -97,7 +97,7 @@ export default function SuperAdminTab({ visitors }: SuperAdminTabProps) {
 
         <div className="p-5 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
           <span className="text-xs font-bold uppercase tracking-wider text-[#526174]">
-            Peak Campus Traffic
+            Peak Institute Traffic
           </span>
           <div className="flex items-baseline space-x-2 mt-2">
             <span className="font-serif text-2xl font-bold text-[#10233F]">
@@ -182,7 +182,7 @@ export default function SuperAdminTab({ visitors }: SuperAdminTabProps) {
                   1. Mobile Number Verification
                 </span>
                 <span className="text-[11px] text-[#526174] block mt-0.5">
-                  100% statutory mandate for non-student campus entrants.
+                  100% statutory mandate for non-student institute entrants.
                 </span>
               </div>
 
@@ -228,10 +228,10 @@ export default function SuperAdminTab({ visitors }: SuperAdminTabProps) {
                 Statutory Emergency Compliance Section
               </span>
               <h3 className="font-serif font-bold text-lg text-[#10233F]">
-                Active Campus Evacuation Muster Roll
+                Active Institute Evacuation Muster Roll
               </h3>
               <p className="text-xs text-[#526174]">
-                Complete roster of all external visitors currently inside campus boundaries.
+                Complete roster of all external visitors currently inside institute boundaries.
               </p>
             </div>
           </div>

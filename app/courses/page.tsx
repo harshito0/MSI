@@ -427,7 +427,7 @@ export default function CoursesPage() {
         </PageHero>
 
         {/* ------------------------------------------------------------------
-            1. ON-CAMPUS & CLASSROOM 9 FLAGSHIP BATCHES (Horizontal Slider)
+            1. OFFLINE & CLASSROOM 9 FLAGSHIP BATCHES (Horizontal Slider)
             ------------------------------------------------------------------ */}
         <section id="classroom-batches" className="max-w-[1380px] mx-auto px-6 sm:px-10 lg:px-16 pt-16 pb-12">
           
@@ -1029,7 +1029,7 @@ export default function CoursesPage() {
             <div className="bg-white rounded-3xl p-6 sm:p-7 border-2 border-[#E8DCCB] hover:border-[#89190E] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-[#89190E] bg-[#FFF3DD] px-3 py-1 rounded-full">
-                  Campus Essentials
+                  Institute Essentials
                 </span>
                 <h3 className="font-serif text-xl font-bold text-[#10233F] mt-3 mb-1">
                   MSI Merchandise Combo Kit
@@ -1040,8 +1040,8 @@ export default function CoursesPage() {
                 </div>
                 <ul className="space-y-1.5 text-xs text-[#526174] mb-5">
                   {[
-                    'MSI Ergonomic Campus Backpack',
-                    'Official MSI Campus T-Shirt',
+                    'MSI Ergonomic Institute Backpack',
+                    'Official MSI Institute T-Shirt',
                     'MSI Executive Diary & Notebook',
                     'MSI Water Bottle / Insulated Sipper',
                     'MSI Signature Pen & Study Planner',

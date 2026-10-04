@@ -62,7 +62,7 @@ export default function VideoPlayerModal({ video, onClose }: VideoPlayerModalPro
                     <Play className="w-8 h-8 text-[#EFC988]" />
                   </div>
                   <p className="font-medium text-sm text-white">Stream Unavailable Offline</p>
-                  <p className="text-xs text-white/50 mt-1">Please connect to campus network</p>
+                  <p className="text-xs text-white/50 mt-1">Please connect to institute network</p>
                 </div>
               )}
             </div>

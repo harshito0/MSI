@@ -43,7 +43,7 @@ export default function ResultsPage() {
     { name: 'Amanjot Singh', branch: 'Higher Judicial Services (ADJ)', category: 'judiciary', company: 'District & Sessions Court, Mohali', package: 'Selected', role: 'Additional District Judge', year: '2024', image: '/images/avatars/avatar-4.webp' },
     { name: 'Priya Mehta', branch: 'AILET / CLAT Regular Cohort', category: 'clat', company: 'National Law University Jodhpur', package: 'AIR 78', role: 'B.A. LL.B. (Hons)', year: '2024', image: '/images/avatars/avatar-5.webp' },
     { name: 'Navneet Brar', branch: 'PCS J Punjab Civil Judge', category: 'judiciary', company: 'Punjab Civil Courts', package: 'Selected', role: 'Civil Judge / JMFC', year: '2023', image: '/images/avatars/avatar-2.webp' },
-    { name: 'Gurpreet Singh', branch: 'PU Law 3-Year Entrance Batch', category: 'pu-law', company: 'Panjab University Campus, Chd', package: 'Rank 12', role: '3-Year LL.B. Department of Laws', year: '2024', image: '/images/avatars/avatar-3.webp' },
+    { name: 'Gurpreet Singh', branch: 'PU Law 3-Year Entrance Batch', category: 'pu-law', company: 'Panjab University, Chd', package: 'Rank 12', role: '3-Year LL.B. Department of Laws', year: '2024', image: '/images/avatars/avatar-3.webp' },
     { name: 'Jasmeen Sandhu', branch: 'CLAT 2-Year Foundation', category: 'clat', company: 'RGNUL Patiala', package: 'NLU Admit', role: 'B.A. LL.B. (Hons)', year: '2024', image: '/images/avatars/avatar-4.webp' },
     { name: 'Maninder Virk', branch: 'Judicial Services Comprehensive', category: 'judiciary', company: 'Haryana Judicial Services (HCS J)', package: 'Selected', role: 'Civil Judge / Judicial Magistrate', year: '2024', image: '/images/avatars/avatar-1.webp' },
   ];

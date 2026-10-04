@@ -915,7 +915,7 @@ export default function TeacherLiveStreamStudio({
                       >
                         <option value="Semester V (CLAT UG)">Semester V (CLAT UG & Judiciary Cohort)</option>
                         <option value="Semester III (Constitutional Law)">Semester III (Constitutional Law)</option>
-                        <option value="All Enrolled Batches">All Enrolled Student Cohorts (Campus Broadcast)</option>
+                        <option value="All Enrolled Batches">All Enrolled Student Cohorts (Institute Broadcast)</option>
                       </select>
                     </div>
                   </div>

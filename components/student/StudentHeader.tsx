@@ -140,7 +140,7 @@ export default function StudentHeader({
         <Link
           href="/"
           className="hidden md:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-[#E8DCCB] hover:border-[#89190E] text-xs font-semibold text-[#526174] hover:text-[#89190E] bg-[#FFF9EF]/50 transition-colors"
-          title="Return to Main Campus Website"
+          title="Return to Main Institute Website"
         >
           <Globe className="w-3.5 h-3.5" />
           <span>Main Website</span>

@@ -138,41 +138,50 @@ export default function ScreenLoader({
       {/* CENTRAL VISUAL: ROTATING RINGS + MSI CREST + COUNTER       */}
       {/* ══════════════════════════════════════════════════════════ */}
       <main className="relative z-10 flex flex-col items-center justify-center text-center my-auto px-6">
-        {/* Animated Concentric Golden Orbital Rings */}
-        <div className="relative w-44 h-44 sm:w-52 sm:h-52 flex items-center justify-center mb-8">
+        {/* Animated Concentric Golden Orbital Rings & Official MSI Logo */}
+        <div className="relative w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center mb-8">
           {/* Outer Dashed Rotating Ring */}
           <div
-            className="absolute inset-0 rounded-full border border-dashed border-[#EFC988]/40 animate-spin"
-            style={{ animationDuration: '24s' }}
+            className="absolute -inset-2.5 rounded-full border-2 border-dashed border-[#EFC988]/50 animate-astrolabe pointer-events-none"
           />
 
           {/* Middle Fine Ring with Compass Ticks */}
           <div
-            className="absolute inset-3 rounded-full border border-[#89190E]/60 animate-spin"
-            style={{ animationDuration: '18s', animationDirection: 'reverse' }}
+            className="absolute inset-1 rounded-full border border-[#89190E]/80 animate-astrolabe-reverse pointer-events-none"
           />
 
           {/* Inner Glowing Ring */}
-          <div className="absolute inset-6 rounded-full border-2 border-[#EFC988]/80 shadow-[0_0_25px_rgba(239,201,136,0.35)]" />
+          <div className="absolute inset-4 rounded-full border border-[#EFC988]/60 animate-aura-pulse pointer-events-none" />
 
-          {/* Central MSI Crest Seal */}
-          <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden shadow-2xl p-1.5 bg-[#0B1526]/80 backdrop-blur-md border border-[#EFC988]/60 transition-transform duration-500 hover:scale-105">
-            <Image
-              src="/images/msi-crest.png"
-              alt="MSI Group of Institutes Crest"
-              fill
-              priority
-              className="object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
-              sizes="(max-width: 640px) 112px, 128px"
-            />
+          {/* Cardinal Diamond Jewel Points */}
+          <span className="absolute -top-3 left-1/2 -translate-x-1/2 w-2 h-2 rotate-45 bg-[#EFC988] shadow-[0_0_10px_#EFC988]" />
+          <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-2 h-2 rotate-45 bg-[#EFC988] shadow-[0_0_10px_#EFC988]" />
+          <span className="absolute top-1/2 -left-3 -translate-y-1/2 w-2 h-2 rotate-45 bg-[#89190E] shadow-[0_0_10px_#89190E]" />
+          <span className="absolute top-1/2 -right-3 -translate-y-1/2 w-2 h-2 rotate-45 bg-[#89190E] shadow-[0_0_10px_#89190E]" />
+
+          {/* Central Official MSI Logo */}
+          <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full p-1 bg-gradient-to-br from-[#EFC988] via-[#89190E] to-[#10233F] shadow-[0_0_40px_rgba(239,201,136,0.4)] animate-logo-float">
+            <div className="relative w-full h-full rounded-full overflow-hidden bg-[#0A1322] border-2 border-[#EFC988]">
+              <Image
+                src="/images/msi-official-logo.png"
+                alt="MSI Group of Institutes Official Logo"
+                fill
+                priority
+                className="object-contain p-0.5 filter drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
+                sizes="(max-width: 640px) 144px, 176px"
+              />
+              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-full">
+                <div className="w-[180%] h-full bg-gradient-to-r from-transparent via-white/50 to-transparent transform -skew-x-25 animate-sheen-sweep" />
+              </div>
+            </div>
           </div>
 
           {/* Orbiting Satellite Dot */}
           <div
-            className="absolute inset-0 rounded-full animate-spin pointer-events-none"
+            className="absolute -inset-2.5 rounded-full animate-spin pointer-events-none"
             style={{ animationDuration: '6s' }}
           >
-            <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#EFC988] shadow-[0_0_12px_#EFC988]" />
+            <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#EFC988] shadow-[0_0_12px_#EFC988] animate-pulse" />
           </div>
         </div>
 

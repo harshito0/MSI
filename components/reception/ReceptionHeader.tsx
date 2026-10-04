@@ -101,7 +101,7 @@ export default function ReceptionHeader({
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
           </span>
           <span className="text-xs font-semibold text-[#10233F]">
-            Inside Campus:
+            Inside Institute:
           </span>
           <span className="font-mono text-xs font-bold text-[#89190E] bg-white px-2 py-0.5 rounded-md border border-[#E8DCCB]">
             {activeVisitorCount} Visitors

@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import {
-  FileText,
   BookOpen,
   Scale,
   Dumbbell,
@@ -13,6 +12,7 @@ import {
   Sparkles,
   ArrowRight,
   Award,
+  ExternalLink,
 } from 'lucide-react';
 
 interface Facility {
@@ -22,6 +22,8 @@ interface Facility {
   title: string;
   subtitle: string;
   image: string;
+  videoUrl?: string;
+  youtubeUrl?: string;
   description: string;
   features: string[];
   statLabel: string;
@@ -37,16 +39,35 @@ export default function CampusExperienceTabs({
   onOpenVideo,
   onOpenEnquiry,
 }: CampusExperienceTabsProps) {
-  const [activeTab, setActiveTab] = useState<string>('judicial-cell');
+  const [activeTab, setActiveTab] = useState<string>('institute-tour');
 
   const facilities: Facility[] = [
+    {
+      id: 'institute-tour',
+      name: 'Institute Tour & Entrance',
+      icon: Landmark,
+      title: 'MSI Institute Entrance & Academic Chambers',
+      subtitle: 'Monga City Centre, Kharar – Mohali',
+      image: '/images/tour/tour-frame-1.webp',
+      videoUrl: '/videos/msi-tour-loop.mp4',
+      youtubeUrl: 'https://youtu.be/6qZ2zcsjidQ',
+      description:
+        'Step inside the state-of-the-art MSI Institute headquarters located across the 1st, 2nd, and 3rd floors of Monga City Centre in Kharar, Mohali. Featuring executive consultation chambers, modern smart classrooms, and dedicated discussion pods.',
+      features: [
+        'Grand reception, executive consultation suites & smart lecture halls',
+        'Centrally air-conditioned judicial study chambers & quiet zones',
+        'Conveniently connected on the Chandigarh-Kharar Highway',
+      ],
+      statLabel: 'Aspirants Trained',
+      statValue: '15,000+',
+    },
     {
       id: 'judicial-cell',
       name: 'Judicial Examination Cell',
       icon: Award,
       title: 'Judicial Exam & Speed-Testing Arena',
       subtitle: 'Rigorous Simulation for PCS J & High Court Aspirants',
-      image: '/images/hero-2.webp',
+      image: '/images/tour/tour-frame-2.webp',
       description:
         'Equipped with dedicated timed test terminals, daily judgment writing workstations, Bare Act concordances, and automated OMR evaluation systems tailored for PCS J, CLAT and PU Law.',
       features: [
@@ -75,29 +96,12 @@ export default function CampusExperienceTabs({
       statValue: '10,000+',
     },
     {
-      id: 'campus',
-      name: 'Institute Headquarters',
-      icon: Landmark,
-      title: 'Modern Learning Facility at Monga City Centre',
-      subtitle: 'Centrally Located in Kharar – Mohali',
-      image: '/images/hero-1.webp',
-      description:
-        'Spread across the 1st, 2nd, and 3rd floors of Monga City Centre in Kharar, Mohali, featuring smart air-conditioned classrooms, dedicated student discussion pods, and a vibrant academic atmosphere.',
-      features: [
-        'Air-conditioned smart lecture halls with interactive AV displays',
-        'Dedicated quiet zones for self-study and peer group debates',
-        'Conveniently connected across Kharar, Mohali, and Chandigarh',
-      ],
-      statLabel: 'Aspirants Trained',
-      statValue: '15,000+',
-    },
-    {
       id: 'mootcourt',
       name: 'Moot Court Hall',
       icon: Scale,
       title: 'National Standard Simulated High Court',
       subtitle: 'Nurturing India’s Next Generation of Jurists',
-      image: '/images/hero-2.webp',
+      image: '/images/tour/tour-frame-4.webp',
       description:
         'Designed to mirror the Supreme Court of India, giving law students real-world advocacy experience, national moot competition hosting, and clinical legal aid sessions.',
       features: [
@@ -120,7 +124,7 @@ export default function CampusExperienceTabs({
       features: [
         'Multi-sport indoor stadium with synthetic flooring',
         'Professional athletic coaching & inter-university tournaments',
-        'Physiotherapy & wellness center on campus',
+        'Physiotherapy & wellness center at the institute',
       ],
       statLabel: 'Annual Sports Medals',
       statValue: '60+',
@@ -136,7 +140,7 @@ export default function CampusExperienceTabs({
         <div className="inline-flex items-center space-x-3 mb-3">
           <span className="h-[2px] w-8 bg-[#EFC988] rounded-full" />
           <span className="text-xs sm:text-sm font-bold tracking-[0.25em] text-[#89190E] uppercase">
-            Campus Ecosystem & Life
+            Institute Ecosystem & Life
           </span>
           <span className="h-[2px] w-8 bg-[#EFC988] rounded-full" />
         </div>
@@ -144,7 +148,7 @@ export default function CampusExperienceTabs({
           Spaces Crafted for Boundless Ambition
         </h2>
         <p className="mt-4 text-[#526174] text-base sm:text-lg">
-          Take a deep dive into our specialized laboratories, majestic libraries, and athletic spaces designed to stimulate minds and build holistic leaders.
+          Take a deep dive into our specialized laboratories, majestic libraries, and academic spaces designed to stimulate minds and build holistic leaders.
         </p>
       </div>
 
@@ -157,7 +161,7 @@ export default function CampusExperienceTabs({
             <button
               key={facility.id}
               onClick={() => setActiveTab(facility.id)}
-              className={`flex items-center space-x-2.5 px-5 py-3 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-300 flex-shrink-0 active:scale-95 ${
+              className={`flex items-center space-x-2.5 px-5 py-3 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-300 flex-shrink-0 active:scale-95 cursor-pointer ${
                 isActive
                   ? 'bg-[#89190E] text-white shadow-lg shadow-[#89190E]/25 -translate-y-0.5'
                   : 'bg-white text-[#10233F] hover:bg-[#FFF3DD] border border-[#E8DCCB] hover:border-[#89190E]/40'
@@ -172,34 +176,88 @@ export default function CampusExperienceTabs({
 
       {/* Active Tab Content Card */}
       <div className="bg-white rounded-3xl border border-[#E8DCCB] shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 transition-all duration-500">
-        {/* Left Visual Image Showcase (7 cols) */}
-        <div className="relative lg:col-span-7 h-[360px] sm:h-[460px] lg:h-[520px] overflow-hidden group">
-          <Image
-            key={currentFacility.id}
-            src={currentFacility.image}
-            alt={currentFacility.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105 animate-fadeIn"
-            sizes="(max-width: 1024px) 100vw, 60vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#10233F]/80 via-transparent to-transparent pointer-events-none" />
+        {/* Left Visual Media Showcase (7 cols) */}
+        <div className="relative lg:col-span-7 h-[360px] sm:h-[460px] lg:h-[520px] overflow-hidden group bg-black">
+          {currentFacility.videoUrl ? (
+            <div
+              className="relative w-full h-full cursor-pointer group"
+              onClick={() => window.open(currentFacility.youtubeUrl || 'https://youtu.be/6qZ2zcsjidQ', '_blank')}
+              title="Click to watch full video on YouTube"
+            >
+              <video
+                key={currentFacility.id}
+                src={currentFacility.videoUrl}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#10233F]/85 via-transparent to-black/30 pointer-events-none" />
 
-          {/* Floating Live Badge */}
-          <div className="absolute top-6 left-6 z-20 flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white text-xs font-bold text-[#10233F]">
-            <Sparkles className="w-3.5 h-3.5 text-[#89190E]" />
-            <span>{currentFacility.name}</span>
-          </div>
+              {/* 10s Loop Live Indicator Badge */}
+              <div className="absolute top-6 left-6 z-20 flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#10233F]/90 backdrop-blur-md border border-[#EFC988]/40 text-xs font-bold text-white shadow-md">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500 -ml-4.5" />
+                <span>10s Institute Video Loop</span>
+              </div>
+
+              {/* Direct YouTube Link Badge in Top Right */}
+              <a
+                href={currentFacility.youtubeUrl || 'https://youtu.be/6qZ2zcsjidQ'}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="absolute top-6 right-6 z-20 flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-lg transition-transform hover:scale-105"
+              >
+                <Play className="w-3 h-3 fill-white" />
+                <span>Watch on YouTube</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+
+              {/* Center Play Button Overlay on Hover */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity">
+                <div className="w-16 h-16 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-2xl border-2 border-white/60 group-hover:scale-110 group-hover:bg-red-600 transition-all duration-300">
+                  <Play className="w-7 h-7 fill-white ml-1" />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
+              <Image
+                key={currentFacility.id}
+                src={currentFacility.image}
+                alt={currentFacility.title}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105 animate-fadeIn"
+                sizes="(max-width: 1024px) 100vw, 60vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#10233F]/80 via-transparent to-transparent pointer-events-none" />
+
+              {/* Floating Facility Badge */}
+              <div className="absolute top-6 left-6 z-20 flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white text-xs font-bold text-[#10233F]">
+                <Sparkles className="w-3.5 h-3.5 text-[#89190E]" />
+                <span>{currentFacility.name}</span>
+              </div>
+            </>
+          )}
 
           {/* Virtual Tour Play Button */}
-          <button
-            onClick={onOpenVideo}
-            className="absolute bottom-6 left-6 z-20 flex items-center space-x-2.5 px-5 py-2.5 rounded-xl bg-white/95 hover:bg-white text-[#89190E] text-xs sm:text-sm font-semibold shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95"
-          >
-            <div className="w-6 h-6 rounded-full bg-[#89190E] text-white flex items-center justify-center">
-              <Play className="w-3 h-3 fill-white ml-0.5" />
-            </div>
-            <span>Watch 360° Video Tour</span>
-          </button>
+          <div className="absolute bottom-6 left-6 z-20 flex items-center space-x-2">
+            <button
+              onClick={() => window.open(currentFacility.youtubeUrl || 'https://youtu.be/6qZ2zcsjidQ', '_blank')}
+              className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-semibold shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <Play className="w-3.5 h-3.5 fill-white" />
+              <span>Watch on YouTube</span>
+            </button>
+            <button
+              onClick={onOpenVideo}
+              className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-white/95 hover:bg-white text-[#10233F] text-xs sm:text-sm font-semibold shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <span>Virtual Tour Modal</span>
+            </button>
+          </div>
 
           {/* Floating Metric Pill */}
           <div className="absolute bottom-6 right-6 z-20 bg-[#10233F]/90 backdrop-blur-md border border-white/20 px-4 py-2 rounded-2xl text-white text-right hidden sm:block">
@@ -240,17 +298,20 @@ export default function CampusExperienceTabs({
           <div className="pt-6 border-t border-[#E8DCCB] flex flex-wrap items-center gap-3">
             <button
               onClick={onOpenEnquiry}
-              className="h-11 px-6 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs sm:text-sm font-semibold transition-all btn-hover-lift flex items-center space-x-2"
+              className="h-11 px-6 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white text-xs sm:text-sm font-semibold transition-all btn-hover-lift flex items-center space-x-2 cursor-pointer"
             >
-              <span>Schedule Campus Visit</span>
+              <span>Schedule Institute Visit</span>
               <ArrowRight className="w-4 h-4" />
             </button>
-            <button
-              onClick={onOpenVideo}
-              className="h-11 px-5 rounded-xl bg-white hover:bg-[#FFF3DD] text-[#89190E] border border-[#89190E]/40 text-xs sm:text-sm font-semibold transition-all"
+            <a
+              href="https://youtu.be/6qZ2zcsjidQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-11 px-5 rounded-xl bg-white hover:bg-[#FFF3DD] text-[#89190E] border border-[#89190E]/40 text-xs sm:text-sm font-semibold transition-all inline-flex items-center space-x-1.5"
             >
-              Explore Virtually
-            </button>
+              <span>Open Video Tour</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
           </div>
         </div>
       </div>

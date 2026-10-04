@@ -47,7 +47,7 @@ export default function ReceptionSidebar({
     },
     {
       id: 'active-visitors' as ReceptionModuleTab,
-      label: 'Active on Campus',
+      label: 'Active in Institute',
       subtitle: 'Currently inside premises',
       icon: Users,
       countBadge: activeCount,
@@ -178,12 +178,12 @@ export default function ReceptionSidebar({
             Ext: 104 / 0172-5002100
           </span>
           <span className="text-[10px] text-[#526174] block mt-0.5">
-            Campus Quick Response Security
+            Institute Quick Response Security
           </span>
         </div>
 
         <span className="text-[10px] text-[#526174] text-center block font-mono">
-          VMS v2.4 • MSI Kharar Campus
+          VMS v2.4 • MSI Kharar Institute
         </span>
       </div>
     </div>

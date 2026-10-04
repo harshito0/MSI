@@ -64,7 +64,7 @@ export default function ActiveVisitorsTab({
         <div className="p-5 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-[#526174]">
-              Active On Campus
+              Active In Institute
             </span>
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
           </div>
@@ -82,7 +82,7 @@ export default function ActiveVisitorsTab({
         <div className="p-5 rounded-3xl bg-white border border-[#E8DCCB] shadow-xs">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-[#526174]">
-              Average Campus Dwell
+              Average Institute Dwell
             </span>
             <Clock className="w-4 h-4 text-[#89190E]" />
           </div>
@@ -167,7 +167,7 @@ export default function ActiveVisitorsTab({
           <p className="text-xs text-[#526174] mt-1">
             {searchTerm || selectedDept !== 'ALL'
               ? 'Try changing your search keywords or department filter.'
-              : 'All registered visitors have departed campus.'}
+              : 'All registered visitors have departed the institute.'}
           </p>
         </div>
       ) : (

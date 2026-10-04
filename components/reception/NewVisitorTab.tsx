@@ -469,7 +469,7 @@ export default function NewVisitorTab({
             {/* Purpose */}
             <div className="md:col-span-2">
               <label className="block text-xs font-bold uppercase tracking-wider text-[#10233F] mb-1.5">
-                Purpose of Campus Visit <span className="text-rose-600">*</span>
+                Purpose of Institute Visit <span className="text-rose-600">*</span>
               </label>
               <select
                 value={purpose}

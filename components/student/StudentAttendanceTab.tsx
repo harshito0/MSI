@@ -178,7 +178,7 @@ export default function StudentAttendanceTab({
               </h3>
             </div>
             <p className="text-xs text-[#526174] mt-0.5">
-              Synced with campus RFID biometric turnstiles and faculty electronic registers.
+              Synced with institute RFID biometric turnstiles and faculty electronic registers.
             </p>
           </div>
 

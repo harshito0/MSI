@@ -134,7 +134,7 @@ export default function HomePage() {
                 id: 'pu-law',
                 num: '03',
                 title: 'PU Law Entrance — 3-Yr & 5-Yr LL.B',
-                level: 'Panjab University Campus & Regional Wings',
+                level: 'Panjab University & Regional Wings',
                 badge: 'STATE RANKER CHOICE',
                 badgeVariant: 'navy',
                 icon: Award,
@@ -324,7 +324,7 @@ export default function HomePage() {
           </Reveal>
         </section>
 
-        {/* Campus Life & Facilities Interactive Tabs */}
+        {/* Institute Life & Facilities Interactive Tabs */}
         <CampusExperienceTabs
           onOpenVideo={() => setIsVideoOpen(true)}
           onOpenEnquiry={() => setIsEnquiryOpen(true)}

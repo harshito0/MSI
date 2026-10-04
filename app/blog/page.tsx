@@ -139,11 +139,11 @@ export default function BlogPage() {
         <PageHero
           breadcrumbs={[
             { label: 'Home', href: '/' },
-            { label: 'Campus News & Journal' },
+            { label: 'Institute News & Journal' },
           ]}
           eyebrow="Scholarly Thought & Stories"
           title="MSI Gazette & Research Insights"
-          subtitle="Read essays, research findings, competition victories, and campus updates written by MSI faculty and student leaders."
+          subtitle="Read essays, research findings, competition victories, and institute updates written by MSI faculty and student leaders."
           bgImage="/images/hero-3.webp"
           className="pt-24 sm:pt-28"
         />
@@ -281,7 +281,7 @@ export default function BlogPage() {
                 </div>
                 <h3 className="font-serif text-2xl sm:text-3xl font-bold mb-3">Stay Informed with MSI Insights</h3>
                 <p className="text-white/60 text-sm mb-8">
-                  Subscribe to our monthly newsletter for research highlights, placement reports, and campus news delivered to your inbox.
+                  Subscribe to our monthly newsletter for research highlights, placement reports, and institute news delivered to your inbox.
                 </p>
 
                 {newsletterSubmitted ? (

@@ -142,13 +142,13 @@ export default function ReceptionLoginPage() {
               <Building2 className="w-6 h-6" />
             </div>
             <span className="text-[10px] font-mono tracking-widest text-[#89190E] uppercase font-bold">
-              Campus Security & VMS Desk
+              Institute Security & VMS Desk
             </span>
             <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#10233F] mt-1">
               Reception Desk Login
             </h1>
             <p className="text-xs text-[#526174] mt-1.5">
-              Sign in to manage visitor admissions, verify mobile OTPs, capture photos & issue campus passes.
+              Sign in to manage visitor admissions, verify mobile OTPs, capture photos & issue visitor passes.
             </p>
           </div>
 
@@ -288,7 +288,7 @@ export default function ReceptionLoginPage() {
           {/* Security & Regulatory Footnote */}
           <div className="mt-6 pt-5 border-t border-[#E8DCCB] flex items-center justify-center space-x-2 text-[11px] text-[#526174]">
             <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-            <span>Official MSI Campus Physical Security & Surveillance Division</span>
+            <span>Official MSI Institute Physical Security & Surveillance Division</span>
           </div>
 
         </div>

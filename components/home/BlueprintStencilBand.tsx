@@ -95,7 +95,7 @@ const PROGRAMMES: CoachingProgramme[] = [
     categoryCode: 'STATE ENTRANCE',
     icon: BookOpen,
     title: 'PU Law Entrance — 3-Yr & 5-Yr LL.B',
-    level: 'Panjab University Campus & Regional Wings',
+    level: 'Panjab University & Regional Wings',
     badge: 'PU Dept of Laws Specialized',
     badgeVariant: 'gold',
     desc: 'Specialized syllabus training for Department of Laws, Panjab University Chandigarh, UILS, and regional university centers.',

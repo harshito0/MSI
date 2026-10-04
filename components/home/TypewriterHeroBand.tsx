@@ -211,7 +211,7 @@ export default function TypewriterHeroBand({ onOpenEnquiry }: TypewriterHeroBand
                 className="hud-bracket p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-colors block cursor-pointer"
               >
                 <MapPin className="w-4 h-4 text-[#EFC988] mb-2" />
-                <p className="mono-accent text-[9px] text-white/40 uppercase tracking-widest mb-1">Campus</p>
+                <p className="mono-accent text-[9px] text-white/40 uppercase tracking-widest mb-1">Institute</p>
                 <p className="text-xs text-white font-bold leading-tight truncate">
                   Monga City Centre, Sec 115
                 </p>

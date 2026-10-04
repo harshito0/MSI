@@ -69,7 +69,7 @@ export default function HeroContent({
           <span className="w-7 h-7 rounded-full bg-[#89190E] flex items-center justify-center text-white flex-shrink-0 transition-transform duration-200 group-hover:scale-110">
             <Play className="w-3.5 h-3.5 fill-white ml-0.5 text-white" />
           </span>
-          <span>Watch Campus Tour</span>
+          <span>Watch Institute Tour</span>
         </button>
       </div>
 

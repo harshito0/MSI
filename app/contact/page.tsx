@@ -62,7 +62,7 @@ export default function ContactPage() {
           ]}
           eyebrow="Get in Touch"
           title="Contact & Admissions Portal"
-          subtitle="Have questions regarding program eligibility, scholarships, or campus facilities? Our admissions counselors are available Monday through Saturday."
+          subtitle="Have questions regarding program eligibility, scholarships, or institute facilities? Our admissions counselors are available Monday through Saturday."
           bgImage="/images/hero-1.webp"
           className="pt-24 sm:pt-28"
         >
@@ -209,7 +209,7 @@ export default function ContactPage() {
                     onClick={() => setIsEnquiryOpen(true)}
                     className="w-full mt-5 h-11 bg-[#FFF3DD] hover:bg-[#89190E] hover:text-white text-[#89190E] rounded-xl font-bold text-xs transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs"
                   >
-                    <span>Schedule Campus Walkthrough</span>
+                    <span>Schedule Institute Walkthrough</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -232,7 +232,7 @@ export default function ContactPage() {
                   <div className="w-16 h-16 rounded-2xl bg-[#89190E] flex items-center justify-center mx-auto mb-4 animate-pulse-beacon">
                     <Navigation className="w-8 h-8" />
                   </div>
-                  <h3 className="font-serif text-2xl font-bold mb-2">Find Us at MSI Campus</h3>
+                  <h3 className="font-serif text-2xl font-bold mb-2">Find Us at MSI Institute</h3>
                   <p className="text-white/80 text-sm mb-6 max-w-xl mx-auto leading-relaxed">
                     1st, 2nd & 3rd Floor, Monga City Centre, SCO 12-13, Kharar - Landran Rd, Sector 115, Sahibzada Ajit Singh Nagar, Punjab 140307
                   </p>

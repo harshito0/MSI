@@ -88,7 +88,7 @@ export default function HeroSlider({
       onTouchEnd={handleTouchEnd}
       onKeyDown={handleKeyDown}
       tabIndex={0}
-      aria-label="MSI Campus Highlights Carousel"
+      aria-label="MSI Institute Highlights Carousel"
       aria-roledescription="carousel"
     >
       {/* Background Slides with Smooth Crossfade & Slow Scale */}

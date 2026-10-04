@@ -150,7 +150,7 @@ export default function ScheduleClassModal({
 
           <div>
             <label className="block font-bold uppercase tracking-wider text-[#10233F] mb-1">
-              Campus Hall / Laboratory Venue
+              Institute Hall / Laboratory Venue
             </label>
             <input
               type="text"

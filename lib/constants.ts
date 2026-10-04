@@ -24,15 +24,15 @@ export interface HeroSlide {
 export const HERO_SLIDES: HeroSlide[] = [
   {
     id: 1,
-    image: '/images/hero-1.webp',
-    alt: 'MSI Group of Institutes – premier law coaching campus in Kharar, Mohali',
-    badge: 'MSI Law Campus — Kharar',
+    image: '/images/tour/tour-frame-1.webp',
+    alt: 'MSI Group of Institutes – premier law coaching institute in Kharar, Mohali',
+    badge: 'MSI Law Institute — Kharar',
     tagline: 'Shaping Legal Brilliance',
   },
   {
     id: 2,
-    image: '/images/hero-2.webp',
-    alt: 'Students in PCS J and CLAT coaching sessions at MSI Institutes',
+    image: '/images/tour/tour-frame-2.webp',
+    alt: 'Executive Director Boardroom & Judicial Study Chambers at MSI Institutes',
     badge: 'Judiciary & Law Entrance Coaching',
     tagline: 'Creating Confident Legal Professionals',
   },

@@ -135,7 +135,7 @@ export default function VisitorPassModal({
                     MAHARAJA SURAJMAL INSTITUTE
                   </h2>
                   <span className="text-[10px] sm:text-[11px] font-bold tracking-widest text-[#89190E] uppercase block">
-                    Institutional Campus • Kharar, Mohali, Punjab
+                    MSI Institute • Kharar, Mohali, Punjab
                   </span>
                   <span className="text-[9px] text-[#526174] font-medium block">
                     Approved by Bar Council of India & AICTE
@@ -298,7 +298,7 @@ export default function VisitorPassModal({
             <div className="mt-4 pt-3 border-t border-[#E8DCCB] text-[9px] text-[#526174] text-center leading-relaxed">
               • Badge must be visibly pinned to outer clothing while inside MSI premises.
               • Restricted strictly to authorized host department.
-              • Return badge at Security Gate upon departure to finalize official campus checkout.
+              • Return badge at Security Gate upon departure to finalize official institute checkout.
             </div>
           </div>
         </div>
