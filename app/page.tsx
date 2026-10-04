@@ -61,7 +61,7 @@ export default function HomePage() {
         <StatsSection />
 
         {/* ✦ ChainGPT-Inspired: Giant Stencil Scroll + HUD Grid Cards */}
-        <BlueprintStencilBand />
+        <BlueprintStencilBand onOpenEnquiry={() => setIsEnquiryOpen(true)} />
 
         {/* Why Choose MSI — 8-Card Feature Grid */}
         <WhyMSISection />

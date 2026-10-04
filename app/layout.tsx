@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import FloatingActionDock from "@/components/ui/FloatingActionDock";
+import CustomCursor from "@/components/ui/CustomCursor";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -106,6 +107,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${jakarta.variable} scroll-smooth`}>
       <body className="min-h-screen flex flex-col font-sans bg-[#FFF9EF] text-[#10233F] antialiased selection:bg-[#EFC988] selection:text-[#89190E]">
+        <CustomCursor />
         {children}
         <FloatingActionDock />
       </body>
