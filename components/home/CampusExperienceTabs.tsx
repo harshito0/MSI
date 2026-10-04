@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import {
-  Cpu,
+  FileText,
   BookOpen,
   Scale,
   Dumbbell,
@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   Sparkles,
   ArrowRight,
+  Award,
 } from 'lucide-react';
 
 interface Facility {
@@ -36,59 +37,59 @@ export default function CampusExperienceTabs({
   onOpenVideo,
   onOpenEnquiry,
 }: CampusExperienceTabsProps) {
-  const [activeTab, setActiveTab] = useState<string>('robotics');
+  const [activeTab, setActiveTab] = useState<string>('judicial-cell');
 
   const facilities: Facility[] = [
     {
-      id: 'robotics',
-      name: 'Robotics & AI Center',
-      icon: Cpu,
-      title: 'State-of-the-Art Robotics & AI Innovation Hub',
-      subtitle: 'Where Futuristic Ideas Take Shape',
+      id: 'judicial-cell',
+      name: 'Judicial Examination Cell',
+      icon: Award,
+      title: 'Judicial Exam & Speed-Testing Arena',
+      subtitle: 'Rigorous Simulation for PCS J & High Court Aspirants',
       image: '/images/hero-2.webp',
       description:
-        'Equipped with autonomous robotics workstations, IoT edge devices, GPU-powered computer vision rigs, and rapid-prototyping 3D printers for interdisciplinary research.',
+        'Equipped with dedicated timed test terminals, daily judgment writing workstations, Bare Act concordances, and automated OMR evaluation systems tailored for PCS J, CLAT and PU Law.',
       features: [
-        'Dedicated GPU clusters for deep learning models',
-        'Industry 4.0 automation & drone simulation testing',
-        'Patented student inventions & startup incubator support',
+        'Simulated judicial exam environments with negative marking',
+        'Dedicated judgment drafting & answer writing booths',
+        'Weekly mock ranking & comparative performance feedback',
       ],
-      statLabel: 'Research Projects Funded',
-      statValue: '45+',
+      statLabel: 'Judicial & Law Selections',
+      statValue: '300+',
     },
     {
       id: 'library',
-      name: 'Central Academic Library',
+      name: 'Central Law Library',
       icon: BookOpen,
-      title: 'Scholarly Sanctuary with 100,000+ Volumes',
-      subtitle: 'The Heart of Intellectual Curiosity',
+      title: 'Scholarly Sanctuary with Legal Reference Volumes',
+      subtitle: 'The Heart of Legal Research & Precedents',
       image: '/images/hero-3.webp',
       description:
-        'A multi-level architectural landmark featuring acoustic study pods, digital subscription access to IEEE, LexisNexis, JSTOR, and round-the-clock research assistance.',
+        'A comprehensive legal library featuring Bare Acts, SCC Online, AIR archives, constitutional digests, and quiet reading zones for uninterrupted examination preparation.',
       features: [
-        'Comprehensive digital catalog with remote database access',
-        'Quiet collaborative discussion rooms with AV displays',
-        'Rare manuscript preservation & legal archives',
+        'Complete repository of Supreme Court & High Court judgments',
+        'Quiet collaborative discussion rooms with digital legal databases',
+        'Subject-wise reference notes and past 15-year question banks',
       ],
-      statLabel: 'Digital & Print Journals',
-      statValue: '12,000+',
+      statLabel: 'Legal Volumes & Journals',
+      statValue: '10,000+',
     },
     {
       id: 'campus',
-      name: 'Main Green Campus',
+      name: 'Institute Headquarters',
       icon: Landmark,
-      title: 'Lush 15-Acre Eco-Friendly University Grounds',
-      subtitle: 'A Vibrant Community in the Heart of Delhi',
+      title: 'Modern Learning Facility at Monga City Centre',
+      subtitle: 'Centrally Located in Kharar – Mohali',
       image: '/images/hero-1.webp',
       description:
-        'Sprawling lawns, solar-powered infrastructure, open-air amphitheaters for debate and theatre, high-speed Wi-Fi, and welcoming student recreational squares.',
+        'Spread across the 1st, 2nd, and 3rd floors of Monga City Centre in Kharar, Mohali, featuring smart air-conditioned classrooms, dedicated student discussion pods, and a vibrant academic atmosphere.',
       features: [
-        '100% solar powered academic blocks with green certification',
-        'Amphitheater for annual cultural fests & hackathons',
-        'On-campus health center, modern hostels, and dining halls',
+        'Air-conditioned smart lecture halls with interactive AV displays',
+        'Dedicated quiet zones for self-study and peer group debates',
+        'Conveniently connected across Kharar, Mohali, and Chandigarh',
       ],
-      statLabel: 'Campus Community',
-      statValue: '16,000+',
+      statLabel: 'Aspirants Trained',
+      statValue: '15,000+',
     },
     {
       id: 'mootcourt',

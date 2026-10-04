@@ -22,7 +22,7 @@ import {
 interface FacultyMember {
   id: number;
   name: string;
-  department: 'engineering' | 'law' | 'management';
+  department: 'judiciary' | 'entrance' | 'general';
   role: string;
   degree: string;
   experience: string;
@@ -34,13 +34,13 @@ interface FacultyMember {
 
 export default function FacultyPage() {
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
-  const [activeDept, setActiveDept] = useState<'all' | 'engineering' | 'law' | 'management'>('all');
+  const [activeDept, setActiveDept] = useState<'all' | 'judiciary' | 'entrance' | 'general'>('all');
 
   const facultyMembers: FacultyMember[] = [
     {
       id: 1,
       name: 'Dr. Ekta Gahlawat',
-      department: 'law',
+      department: 'judiciary',
       role: 'Faculty – Legal Studies, MSI Group of Institutes',
       degree: 'Ph.D. in Law, LL.M. (Constitutional Jurisprudence & Torts)',
       experience: '14+ Years',
@@ -52,7 +52,7 @@ export default function FacultyPage() {
     {
       id: 2,
       name: 'Mr. Anurag Dwivedi',
-      department: 'law',
+      department: 'general',
       role: 'Faculty – General Knowledge & Current Affairs',
       degree: 'M.A. International Relations (JNU), M.Phil. Public Policy',
       experience: '12+ Years',
@@ -64,7 +64,7 @@ export default function FacultyPage() {
     {
       id: 3,
       name: 'Ms. Riya Hooda',
-      department: 'law',
+      department: 'entrance',
       role: 'Faculty – Logical Reasoning (CLAT & AILET)',
       degree: 'M.Sc. Mathematics, Certified Analytical Reasoning Specialist',
       experience: '10+ Years',
@@ -76,7 +76,7 @@ export default function FacultyPage() {
     {
       id: 4,
       name: 'Ms. Shikha Singh',
-      department: 'law',
+      department: 'entrance',
       role: 'English Faculty, MSI Group of Institutes',
       degree: 'M.A. English Literature (Delhi University), UGC-NET Qualified',
       experience: '9+ Years',
@@ -88,7 +88,7 @@ export default function FacultyPage() {
     {
       id: 5,
       name: 'Dr. Vikramaditya Sharma',
-      department: 'law',
+      department: 'judiciary',
       role: 'Senior Professor of Procedural Law & Judicial Studies',
       degree: 'Ph.D. Constitutional Jurisprudence (DU), LL.M (Gold Medalist)',
       experience: '18+ Years',
@@ -100,7 +100,7 @@ export default function FacultyPage() {
     {
       id: 6,
       name: 'Adv. Rajesh Kumar',
-      department: 'law',
+      department: 'judiciary',
       role: 'Head — Judiciary & PCS J Coaching Division',
       degree: 'LL.M., Panjab University Chandigarh',
       experience: '20+ Years',
@@ -127,7 +127,7 @@ export default function FacultyPage() {
           ]}
           eyebrow="Scholarly Mentorship"
           title="Our Distinguished Faculty"
-          subtitle="Learn from acclaimed researchers, former judicial clerks, and corporate veterans who bring cutting-edge real-world insight into every classroom."
+          subtitle="Learn from seasoned advocates, former judicial mentors, and entrance exam specialists dedicated to your legal career."
           bgImage="/images/hero-3.webp"
           className="pt-24 sm:pt-28"
         />
@@ -137,10 +137,10 @@ export default function FacultyPage() {
           <div className="max-w-[1380px] mx-auto px-6 sm:px-10 lg:px-16 py-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
               {[
-                { target: 200, suffix: '+', label: 'Faculty Members', sub: 'Full & adjunct combined' },
-                { target: 1000, suffix: '+', label: 'Research Papers', sub: 'Peer-reviewed journals' },
-                { target: 18, suffix: ' Avg. Years', label: 'Teaching Experience', sub: 'Per faculty member' },
-                { target: 45, suffix: '+', label: 'Patents Filed', sub: 'Industry innovations' },
+                { target: 50, suffix: '+', label: 'Expert Tutors', sub: 'Certified legal professors' },
+                { target: 30, suffix: '+', label: 'Courses Offered', sub: 'Judiciary, CLAT & UGC NET' },
+                { target: 20, suffix: '+ Avg. Years', label: 'Teaching Experience', sub: 'Per faculty specialist' },
+                { target: 300, suffix: '+', label: 'Successful Selections', sub: 'Across Punjab & National exams' },
               ].map((s, i) => (
                 <div key={i}>
                   <div className="font-serif text-3xl sm:text-4xl font-bold text-[#89190E]">
@@ -160,13 +160,18 @@ export default function FacultyPage() {
           <Reveal direction="up" className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
             <SectionHeading
               eyebrow="Faculty Directory"
-              title="Filter by Department"
+              title="Filter by Specialization"
               align="left"
               className="max-w-sm"
             />
             <div className="flex items-center space-x-2 bg-white p-2 rounded-2xl border border-[#E8DCCB] shadow-xs overflow-x-auto w-max">
-              {(['all', 'engineering', 'law', 'management'] as const).map((dept) => {
-                const labels: Record<string, string> = { all: 'All Faculty', engineering: 'Engineering', law: 'Law', management: 'Management' };
+              {(['all', 'judiciary', 'entrance', 'general'] as const).map((dept) => {
+                const labels: Record<string, string> = {
+                  all: 'All Faculty',
+                  judiciary: 'Judiciary & Procedural Law',
+                  entrance: 'CLAT & Law Entrance',
+                  general: 'General Studies & Reasoning',
+                };
                 return (
                   <button
                     key={dept}

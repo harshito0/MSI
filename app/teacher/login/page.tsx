@@ -41,7 +41,7 @@ export default function TeacherLoginPage() {
   const [qualifications, setQualifications] = useState('');
   const [specialization, setSpecialization] = useState('');
   const [experienceYears, setExperienceYears] = useState('8');
-  const [stream, setStream] = useState<'Law' | 'JEE'>('Law');
+  const [stream, setStream] = useState<'Law' | 'Entrance'>('Law');
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -91,11 +91,11 @@ export default function TeacherLoginPage() {
         email: signupEmail,
         phone: signupPhone || '+91 98000 00000',
         avatarUrl: '/images/faculty/faculty-3.webp',
-        department: stream === 'Law' ? 'School of Law & Judicial Studies' : 'Department of Engineering',
+        department: stream === 'Law' ? 'School of Law & Judicial Studies' : 'Department of Law Entrance & Foundation',
         designation: 'Assistant Professor / Visiting Faculty',
-        qualifications: qualifications || 'LL.M / M.Tech Graduate',
+        qualifications: qualifications || 'LL.M / Law Graduate',
         experienceYears: Number(experienceYears) || 5,
-        stream,
+        stream: 'Law',
         bio: `Specialist in ${specialization} with ${experienceYears} years academic and judicial coaching experience.`,
         specialization,
         sampleLectureTitle: `Fundamental Doctrines in ${specialization}`,
@@ -438,11 +438,11 @@ export default function TeacherLoginPage() {
                       </label>
                       <select
                         value={stream}
-                        onChange={(e) => setStream(e.target.value as 'Law' | 'JEE')}
+                        onChange={(e) => setStream(e.target.value as 'Law' | 'Entrance')}
                         className="w-full px-2.5 py-2.5 rounded-xl border border-[#E8DCCB] bg-[#FFF9EF]/40 text-xs font-semibold text-[#10233F]"
                       >
-                        <option value="Law">Law & Judiciary</option>
-                        <option value="JEE">Engineering</option>
+                        <option value="Law">Judicial Services (PCS J / ADJ)</option>
+                        <option value="Entrance">CLAT & Law Entrance</option>
                       </select>
                     </div>
 

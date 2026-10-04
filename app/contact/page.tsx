@@ -146,12 +146,12 @@ export default function ContactPage() {
                         onChange={(e) => setFormData({ ...formData, program: e.target.value })}
                         className="w-full h-11 px-4 bg-[#FFF9EF] border border-[#E8DCCB] rounded-xl text-sm focus:outline-none focus:border-[#89190E] focus:ring-1 focus:ring-[#89190E]/20 transition-all"
                       >
-                        <option value="B.Tech Computer Science & AI">B.Tech Computer Science & AI</option>
-                        <option value="B.Tech Robotics & Automation">B.Tech Robotics & Automation</option>
-                        <option value="B.A. LL.B. (5 Year Integrated)">B.A. LL.B. (5 Year Integrated)</option>
-                        <option value="B.B.A. LL.B. Corporate Honors">B.B.A. LL.B. Corporate Honors</option>
-                        <option value="MBA Strategic Leadership">MBA Strategic Leadership</option>
-                        <option value="BBA International Business">BBA International Business</option>
+                        <option value="PCS J — Punjab Civil Judge Coaching">PCS J — Punjab Civil Judge Coaching</option>
+                        <option value="CLAT & AILET — Law Entrance Coaching">CLAT & AILET — Law Entrance Coaching</option>
+                        <option value="PU Law Entrance Exam Coaching">PU Law Entrance Exam Coaching</option>
+                        <option value="CLAT — 5 Year Integrated Law (NLUs)">CLAT — 5 Year Integrated Law (NLUs)</option>
+                        <option value="UGC NET — Law (Paper 1 & Paper 2)">UGC NET — Law (Paper 1 & Paper 2)</option>
+                        <option value="AIBE & Judicial Foundation">AIBE & Judicial Foundation</option>
                       </select>
                     </div>
                   </div>

@@ -13,7 +13,7 @@ import { ArrowRight, Clock, Calendar, Mail, BookOpen, Send, CheckCircle2 } from 
 interface Article {
   id: number;
   title: string;
-  category: 'tech' | 'law' | 'management' | 'campus';
+  category: 'judiciary' | 'clat' | 'pu-law' | 'legal-insights';
   categoryLabel: string;
   date: string;
   readTime: string;
@@ -26,82 +26,82 @@ interface Article {
 
 export default function BlogPage() {
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<'all' | 'tech' | 'law' | 'management' | 'campus'>('all');
+  const [activeCategory, setActiveCategory] = useState<'all' | 'judiciary' | 'clat' | 'pu-law' | 'legal-insights'>('all');
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
 
   const articles: Article[] = [
     {
       id: 1,
-      title: 'Innovations in AI: How MSI Undergrads Built an Autonomous Drone Swarm Rig',
-      category: 'tech',
-      categoryLabel: 'Technology & AI',
+      title: 'Cracking PCS (Judicial Services): Strategy, Judgment Writing & High Court Precedents',
+      category: 'judiciary',
+      categoryLabel: 'Judicial Services',
       date: 'September 2026',
-      readTime: '5 min read',
-      excerpt: 'Exploring the interdisciplinary lab projects driven by computer science and robotics students in our high-performance computing facility.',
-      author: 'Dr. Rajeshwar Sharma',
-      authorRole: 'Dean of Engineering',
+      readTime: '6 min read',
+      excerpt: 'A comprehensive roadmap for mastering Civil Law, Criminal Procedure, BNSS 2023, and scoring high in Mains judgment writing.',
+      author: 'Adv. Rajesh Kumar',
+      authorRole: 'Head — Judiciary & PCS J Division',
       avatar: '/images/avatars/avatar-3.webp',
       featured: true,
     },
     {
       id: 2,
       title: 'National Moot Court Victory: MSI Law Delegation Triumphs on Constitutional Rights',
-      category: 'law',
+      category: 'legal-insights',
       categoryLabel: 'Legal Jurisprudence',
       date: 'August 2026',
       readTime: '6 min read',
       excerpt: 'An inside look at our 5-year integrated law students formulating appellate arguments before a simulated 5-judge Supreme Court bench.',
-      author: 'Prof. Ananya Mukherjee',
-      authorRole: 'Director, School of Law',
+      author: 'Dr. Ekta Gahlawat',
+      authorRole: 'Faculty – Legal Studies, MSI',
       avatar: '/images/avatars/avatar-2.webp',
     },
     {
       id: 3,
-      title: 'Navigating Venture Incubation: How 3 Student Startups Secured Seed Grants',
-      category: 'management',
-      categoryLabel: 'Business & Startups',
+      title: 'Mastering CLAT & Law Entrance: Tackling Passage-Based Reasoning & High-Yield Legal GK',
+      category: 'clat',
+      categoryLabel: 'CLAT & NLUs',
       date: 'August 2026',
-      readTime: '4 min read',
-      excerpt: 'From fintech solutions to circular economy logistics, MSI business students showcase how experiential mentorship converts into venture backing.',
-      author: 'Dr. Vikramaditya Sen',
-      authorRole: 'Head of Management',
+      readTime: '5 min read',
+      excerpt: 'Proven test strategies for scoring high in Critical Reasoning, Passage Mapping, and Static GK for NLU admissions.',
+      author: 'Ms. Riya Hooda',
+      authorRole: 'Faculty – Logical Reasoning',
       avatar: '/images/avatars/avatar-5.webp',
     },
     {
       id: 4,
-      title: 'Sustainable Campus Architecture: The Zero-Waste Blueprint at MSI',
-      category: 'campus',
-      categoryLabel: 'Campus & Ecology',
+      title: 'Panjab University (PU) Law Entrance: 10-Year Paper Breakdown & High-Yield Strategy',
+      category: 'pu-law',
+      categoryLabel: 'PU Law Entrance',
       date: 'July 2026',
-      readTime: '4 min read',
-      excerpt: 'How our student-led green council spearheaded solar energy generation, rainwater harvesting, and biodiversity preservation in West Delhi.',
-      author: 'Aarav Singhania',
-      authorRole: 'Student Council President',
+      readTime: '5 min read',
+      excerpt: 'Detailed analysis of Panjab University 3-Year & 5-Year Law entrance exam patterns, cutoff trends, and high-frequency topics.',
+      author: 'Mr. Anurag Dwivedi',
+      authorRole: 'Faculty – General Knowledge & Current Affairs',
       avatar: '/images/avatars/avatar-1.webp',
     },
     {
       id: 5,
-      title: 'The Future of IP and Generative AI: Legal Challenges in Modern Copyright Law',
-      category: 'law',
-      categoryLabel: 'Legal Jurisprudence',
+      title: 'The New Criminal Laws (BNS, BNSS, BSA 2023): What Judicial & CLAT Aspirants Must Master',
+      category: 'judiciary',
+      categoryLabel: 'Judicial Services',
       date: 'July 2026',
       readTime: '7 min read',
-      excerpt: 'Examining global judicial precedents and copyright ownership dilemmas created by multimodal artificial intelligence models.',
-      author: 'Prof. Harishankar Dixit',
-      authorRole: 'Cyber Law Specialist',
+      excerpt: 'Examining key statutory shifts from IPC, CrPC, and Indian Evidence Act to the newly enacted Bharatiya Nyaya and Suraksha Sanhitas.',
+      author: 'Dr. Vikramaditya Sharma',
+      authorRole: 'Senior Professor of Procedural Law',
       avatar: '/images/avatars/avatar-4.webp',
     },
     {
       id: 6,
-      title: 'FinTech Revolution: Why Quantitative Analytics is the #1 Corporate Skill for 2027',
-      category: 'management',
-      categoryLabel: 'Business & Startups',
+      title: 'How to Approach Reading Comprehension in CLAT: Speed Mapping & Contextual Vocabulary',
+      category: 'clat',
+      categoryLabel: 'CLAT & NLUs',
       date: 'June 2026',
       readTime: '5 min read',
-      excerpt: 'How our MBA curriculum integrates live Bloomberg terminal simulations, algorithmic risk testing, and blockchain frameworks.',
-      author: 'Dr. Meenakshi Sundaram',
-      authorRole: 'FinTech Chair',
+      excerpt: 'Mastering the 450-word passage format with active annotation, eliminative reasoning, and argument structure breakdown.',
+      author: 'Ms. Shikha Singh',
+      authorRole: 'English Faculty, MSI',
       avatar: '/images/avatars/avatar-2.webp',
     },
   ];
@@ -124,10 +124,10 @@ export default function BlogPage() {
 
   const filters = [
     { key: 'all', label: 'All Articles' },
-    { key: 'tech', label: 'Technology & AI' },
-    { key: 'law', label: 'Legal Insights' },
-    { key: 'management', label: 'Business & Startups' },
-    { key: 'campus', label: 'Campus Life' },
+    { key: 'judiciary', label: 'Judicial Services' },
+    { key: 'clat', label: 'CLAT & NLUs' },
+    { key: 'pu-law', label: 'PU Law Entrance' },
+    { key: 'legal-insights', label: 'Legal Jurisprudence' },
   ] as const;
 
   return (

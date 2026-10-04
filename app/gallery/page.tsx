@@ -30,10 +30,10 @@ export default function GalleryPage() {
 
   const galleryItems: GalleryItem[] = [
     { id: 1, title: 'Main Academic Campus Steps', category: 'campus', image: '/images/hero-1.webp', tagline: 'Lush Campus Community', desc: 'Students gathering between lecture hours on the central academic quadrangle.', span: 'wide' },
-    { id: 2, title: 'Robotics & Autonomous Systems Lab', category: 'labs', image: '/images/hero-2.webp', tagline: 'Tech & AI Innovation', desc: 'Computer science and robotics students testing robotic prototypes and sensor rigs.' },
+    { id: 2, title: 'Digital Judicial Library & Legal Research Lab', category: 'labs', image: '/images/hero-2.webp', tagline: 'Legal Research & Bare Acts', desc: 'Aspirants referencing landmark Supreme Court rulings, AIR digests, and Bare Acts.' },
     { id: 3, title: 'Central Academic Library', category: 'library', image: '/images/hero-3.webp', tagline: 'Scholarly Sanctuary', desc: 'Sprawling reading halls and digital legal databases accommodating over 500 scholars.' },
-    { id: 4, title: 'Collaborative Study Squares', category: 'campus', image: '/images/hero-1.webp', tagline: 'Student Life & Dialogue', desc: 'Peer discussions and research groups outside the Department of Business Studies.' },
-    { id: 5, title: 'Mechatronics & IoT Prototyping', category: 'labs', image: '/images/hero-2.webp', tagline: 'Industry 4.0 Center', desc: 'Hands-on experimentation with industrial automation workstations and microcontrollers.', span: 'wide' },
+    { id: 4, title: 'Collaborative Study Squares', category: 'campus', image: '/images/hero-1.webp', tagline: 'Student Life & Dialogue', desc: 'Peer discussions and mock debate groups at Monga City Centre institute campus.' },
+    { id: 5, title: 'Judicial Exam Hall & Speed-Test Center', category: 'labs', image: '/images/hero-2.webp', tagline: 'Real Exam Simulation', desc: 'Timed OMR test simulations, answer drafting drills, and performance evaluation.', span: 'wide' },
     { id: 6, title: 'National Moot Court Preparation', category: 'events', image: '/images/hero-3.webp', tagline: 'Advocacy & Jurisprudence', desc: 'Law students conducting mock appellate court arguments with faculty jurists.' },
   ];
 
@@ -86,7 +86,7 @@ export default function GalleryPage() {
   const filters = [
     { key: 'all', label: 'All Spaces' },
     { key: 'campus', label: 'Campus Grounds' },
-    { key: 'labs', label: 'Robotics & Tech Labs' },
+    { key: 'labs', label: 'Legal Research & Test Labs' },
     { key: 'library', label: 'Central Library' },
     { key: 'events', label: 'Moot Courts & Events' },
   ] as const;
@@ -104,7 +104,7 @@ export default function GalleryPage() {
           ]}
           eyebrow="Visual Journey"
           title="Life at MSI Group of Institutes"
-          subtitle="Explore world-class campus infrastructure, cutting-edge engineering labs, moot courts, and our vibrant student community."
+          subtitle="Explore world-class institute infrastructure, legal research labs, moot court simulation halls, and our vibrant student community."
           bgImage="/images/hero-2.webp"
           className="pt-24 sm:pt-28"
         >

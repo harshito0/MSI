@@ -10,7 +10,7 @@ interface Achiever {
   name: string;
   course: string;
   year: string;
-  category: 'engineering' | 'law' | 'management';
+  category: 'judiciary' | 'clat' | 'ugc-net';
   company: string;
   packageText: string;
   role: string;
@@ -20,7 +20,7 @@ interface Achiever {
 }
 
 export default function AchieversTestimonials() {
-  const [selectedFilter, setSelectedFilter] = useState<'all' | 'engineering' | 'law' | 'management'>('all');
+  const [selectedFilter, setSelectedFilter] = useState<'all' | 'judiciary' | 'clat' | 'ugc-net'>('all');
 
   const achievers: Achiever[] = [
     {
@@ -28,7 +28,7 @@ export default function AchieversTestimonials() {
       name: 'Harpreet Kaur',
       course: 'PCS J (Judiciary) Coaching',
       year: 'Batch of 2024',
-      category: 'law',
+      category: 'judiciary',
       company: 'Punjab & Haryana High Court',
       packageText: 'Civil Judge (JD) Selected',
       role: 'Civil Judge / Judicial Magistrate',
@@ -42,7 +42,7 @@ export default function AchieversTestimonials() {
       name: 'Rahul Sharma',
       course: 'CLAT / Law Entrance Coaching',
       year: 'Batch of 2024',
-      category: 'law',
+      category: 'clat',
       company: 'National Law University Delhi',
       packageText: 'CLAT AIR 142',
       role: 'B.A. LL.B. — NLU Delhi',
@@ -56,7 +56,7 @@ export default function AchieversTestimonials() {
       name: 'Simran Bhatia',
       course: 'UGC NET (Law) Coaching',
       year: 'Batch of 2023',
-      category: 'law',
+      category: 'ugc-net',
       company: 'UGC NET — Law',
       packageText: 'JRF Qualified',
       role: 'UGC NET JRF — Law',
@@ -70,7 +70,7 @@ export default function AchieversTestimonials() {
       name: 'Amanjot Singh',
       course: 'Judicial Services (ADJ) Coaching',
       year: 'Batch of 2024',
-      category: 'law',
+      category: 'judiciary',
       company: 'District & Sessions Court, Mohali',
       packageText: 'ADJ Selected',
       role: 'Additional District Judge',
@@ -84,7 +84,7 @@ export default function AchieversTestimonials() {
       name: 'Priya Mehta',
       course: 'AILET / LSAT India Coaching',
       year: 'Batch of 2024',
-      category: 'law',
+      category: 'clat',
       company: 'NLU Jodhpur',
       packageText: 'AILET Rank 78',
       role: 'B.A. LL.B. — NLU Jodhpur',
@@ -98,7 +98,7 @@ export default function AchieversTestimonials() {
       name: 'Navneet Brar',
       course: 'PCS J (Judiciary) Coaching',
       year: 'Batch of 2023',
-      category: 'law',
+      category: 'judiciary',
       company: 'Punjab Civil Courts',
       packageText: 'Civil Judge Selected',
       role: 'Civil Judge / JMFC',
@@ -145,9 +145,9 @@ export default function AchieversTestimonials() {
               All Courses
             </button>
             <button
-              onClick={() => setSelectedFilter('law')}
+              onClick={() => setSelectedFilter('judiciary')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                selectedFilter === 'law'
+                selectedFilter === 'judiciary'
                   ? 'bg-[#89190E] text-white shadow-sm'
                   : 'text-[#526174] hover:text-[#10233F]'
               }`}
@@ -155,9 +155,9 @@ export default function AchieversTestimonials() {
               PCS J / Judiciary
             </button>
             <button
-              onClick={() => setSelectedFilter('engineering')}
+              onClick={() => setSelectedFilter('clat')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                selectedFilter === 'engineering'
+                selectedFilter === 'clat'
                   ? 'bg-[#89190E] text-white shadow-sm'
                   : 'text-[#526174] hover:text-[#10233F]'
               }`}
@@ -165,9 +165,9 @@ export default function AchieversTestimonials() {
               CLAT / AILET
             </button>
             <button
-              onClick={() => setSelectedFilter('management')}
+              onClick={() => setSelectedFilter('ugc-net')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                selectedFilter === 'management'
+                selectedFilter === 'ugc-net'
                   ? 'bg-[#89190E] text-white shadow-sm'
                   : 'text-[#526174] hover:text-[#10233F]'
               }`}

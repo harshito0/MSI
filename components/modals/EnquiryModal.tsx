@@ -133,12 +133,12 @@ export default function EnquiryModal({ isOpen, onClose, initialCourse }: Enquiry
             >
               <option value="PCS J — Punjab Civil Judge Coaching">PCS J — Punjab Civil Judge Coaching</option>
               <option value="CLAT & AILET — Law Entrance Coaching">CLAT & AILET — Law Entrance Coaching</option>
+              <option value="PU Law Entrance Exam Coaching">PU Law Entrance Exam Coaching</option>
               <option value="UGC NET — Law (Paper 1 & Paper 2)">UGC NET — Law (Paper 1 & Paper 2)</option>
               <option value="HPS J — Himachal Pradesh Judicial Services">HPS J — Himachal Pradesh Judicial Services</option>
               <option value="LLM Entrance Coaching (NLU & State Universities)">LLM Entrance Coaching (NLU & State Universities)</option>
-              <option value="B.A. LL.B. / B.B.A. LL.B. (5 Year Integrated)">B.A. LL.B. / B.B.A. LL.B. (5 Year Integrated)</option>
-              <option value="B.Tech — Computer Science & Engineering">B.Tech — Computer Science & Engineering</option>
-              <option value="MBA — Strategic Leadership & Management">MBA — Strategic Leadership & Management</option>
+              <option value="CLAT — 5 Year Integrated Law (NLUs)">CLAT — 5 Year Integrated Law (NLUs)</option>
+              <option value="AIBE & Judicial Foundation">AIBE & Judicial Foundation</option>
             </select>
           </div>
 

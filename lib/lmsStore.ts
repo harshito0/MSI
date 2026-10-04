@@ -40,7 +40,7 @@ export interface UdemyCourse {
   headline: string;
   description: string;
   category: 'Judiciary' | 'Law Entrance' | 'Criminal Law' | 'Constitutional Law' | 'Cyber Law' | 'Postgraduate';
-  department: 'law' | 'management' | 'engineering';
+  department: 'law';
   badge?: 'Bestseller' | 'Highest Rated' | 'Hot & New' | 'Recommended';
   rating: number;
   reviewCount: number;

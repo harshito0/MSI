@@ -254,7 +254,7 @@ export default function SuperAdminPage() {
               <span className="text-xs text-[#526174]">Total Registered</span>
             </div>
             <span className="text-[11px] text-[#526174] block mt-1">
-              Law & Engineering Academic Divisions
+              Judiciary & Law Entrance Divisions
             </span>
           </div>
 

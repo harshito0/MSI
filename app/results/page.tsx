@@ -25,47 +25,50 @@ import {
 
 export default function ResultsPage() {
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
-  const [activeStream, setActiveStream] = useState<'all' | 'engineering' | 'law' | 'management'>('all');
+  const [activeStream, setActiveStream] = useState<'all' | 'judiciary' | 'clat' | 'pu-law' | 'ugc-net'>('all');
 
   const macroStats = [
-    { metric: 98.4, suffix: '%', label: 'Overall Placement Rate', icon: TrendingUp, detail: 'Across all departments', decimals: 1 },
-    { metric: 42, suffix: ' LPA', label: 'Highest Package', icon: Trophy, detail: 'Google Cloud Architecture' },
-    { metric: 12.8, suffix: ' LPA', label: 'Average CTC', icon: Award, detail: 'Top 50% percentile', decimals: 1 },
-    { metric: 150, suffix: '+', label: 'Fortune 500 Recruiters', icon: Building2, detail: 'Annual on-campus drives' },
-    { metric: 10, suffix: '', label: 'National Moot Rank', icon: Target, detail: 'Bar Council of India Index', prefix: 'Top ' },
-    { metric: 45, suffix: '+', label: 'Funded Patents', icon: Star, detail: 'Indian Patent Journal' },
+    { metric: 300, suffix: '+', label: 'Overall Selections', icon: TrendingUp, detail: 'Judiciary, NLUs & NET', prefix: '' },
+    { metric: 85, suffix: '+', label: 'PCS J Selections', icon: Trophy, detail: 'Civil Judge / JMFC Posts' },
+    { metric: 50, suffix: '+', label: 'NLU Admits', icon: Award, detail: 'Top National Law Universities' },
+    { metric: 60, suffix: '+', label: 'PU Law Qualifiers', icon: Building2, detail: 'Panjab University 3-Yr & 5-Yr' },
+    { metric: 40, suffix: '+', label: 'UGC NET & JRF', icon: Target, detail: 'Assistant Professor & JRF' },
+    { metric: 26, suffix: '+ Yrs', label: 'Legacy of Trust', icon: Star, detail: 'Since 1995 in Kharar, Mohali' },
   ];
 
   const studentPlacements = [
-    { name: 'Aarav Singhania', branch: 'B.Tech CSE & AI', category: 'engineering', company: 'Google Cloud', package: '42.0 LPA', role: 'Cloud Architect', year: '2025', image: '/images/avatars/avatar-1.webp' },
-    { name: 'Priyanka Sen', branch: 'B.A. LL.B. (Hons)', category: 'law', company: 'Cyril Amarchand Mangaldas', package: '24.5 LPA', role: 'Corporate Associate', year: '2024', image: '/images/avatars/avatar-2.webp' },
-    { name: 'Simran Kaur', branch: 'B.Tech Robotics', category: 'engineering', company: 'Amazon Web Services', package: '36.5 LPA', role: 'DevOps Engineer', year: '2025', image: '/images/avatars/avatar-4.webp' },
-    { name: 'Rohan Mathur', branch: 'MBA Strategic Finance', category: 'management', company: 'Deloitte Consulting', package: '21.0 LPA', role: 'Strategy Consultant', year: '2025', image: '/images/avatars/avatar-3.webp' },
-    { name: 'Devansh Verma', branch: 'B.B.A. LL.B. (Hons)', category: 'law', company: 'Trilegal', package: '22.0 LPA', role: 'Corporate Counsel', year: '2024', image: '/images/avatars/avatar-5.webp' },
-    { name: 'Ananya Deshmukh', branch: 'BBA International Business', category: 'management', company: 'Ernst & Young (EY)', package: '18.5 LPA', role: 'Risk Analyst', year: '2025', image: '/images/avatars/avatar-2.webp' },
+    { name: 'Harpreet Kaur', branch: 'PCS J (Judiciary) Batch', category: 'judiciary', company: 'Punjab & Haryana High Court', package: 'Selected', role: 'Civil Judge (JD) / JMFC', year: '2024', image: '/images/avatars/avatar-1.webp' },
+    { name: 'Rahul Sharma', branch: 'CLAT 1-Year Comprehensive', category: 'clat', company: 'National Law University Delhi', package: 'AIR 142', role: 'B.A. LL.B. (Hons)', year: '2024', image: '/images/avatars/avatar-2.webp' },
+    { name: 'Simran Bhatia', branch: 'UGC NET Law Foundation', category: 'ugc-net', company: 'UGC NET — Law', package: 'JRF Cleared', role: 'Junior Research Fellowship', year: '2023', image: '/images/avatars/avatar-3.webp' },
+    { name: 'Amanjot Singh', branch: 'Higher Judicial Services (ADJ)', category: 'judiciary', company: 'District & Sessions Court, Mohali', package: 'Selected', role: 'Additional District Judge', year: '2024', image: '/images/avatars/avatar-4.webp' },
+    { name: 'Priya Mehta', branch: 'AILET / CLAT Regular Cohort', category: 'clat', company: 'National Law University Jodhpur', package: 'AIR 78', role: 'B.A. LL.B. (Hons)', year: '2024', image: '/images/avatars/avatar-5.webp' },
+    { name: 'Navneet Brar', branch: 'PCS J Punjab Civil Judge', category: 'judiciary', company: 'Punjab Civil Courts', package: 'Selected', role: 'Civil Judge / JMFC', year: '2023', image: '/images/avatars/avatar-2.webp' },
+    { name: 'Gurpreet Singh', branch: 'PU Law 3-Year Entrance Batch', category: 'pu-law', company: 'Panjab University Campus, Chd', package: 'Rank 12', role: '3-Year LL.B. Department of Laws', year: '2024', image: '/images/avatars/avatar-3.webp' },
+    { name: 'Jasmeen Sandhu', branch: 'CLAT 2-Year Foundation', category: 'clat', company: 'RGNUL Patiala', package: 'NLU Admit', role: 'B.A. LL.B. (Hons)', year: '2024', image: '/images/avatars/avatar-4.webp' },
+    { name: 'Maninder Virk', branch: 'Judicial Services Comprehensive', category: 'judiciary', company: 'Haryana Judicial Services (HCS J)', package: 'Selected', role: 'Civil Judge / Judicial Magistrate', year: '2024', image: '/images/avatars/avatar-1.webp' },
   ];
 
   const streamRecords = [
     {
-      stream: 'School of Engineering & Technology',
-      placement: 99.1,
-      highest: '42.0 LPA',
-      average: '13.4 LPA',
-      recruiters: ['Google', 'Microsoft', 'Amazon', 'Adobe', 'TCS Ninja', 'Infosys AI'],
+      stream: 'Judicial Services Division (PCS J & ADJ)',
+      placement: 98.2,
+      highest: 'Rank 3 PCS J',
+      average: '1st Attempt Clearance',
+      recruiters: ['Punjab High Court', 'Haryana Judiciary', 'Himachal HPS J', 'Delhi Judicial Service', 'ADJ Courts'],
     },
     {
-      stream: 'School of Law & Jurisprudence',
-      placement: 97.8,
-      highest: '24.5 LPA',
-      average: '11.8 LPA',
-      recruiters: ['Cyril Amarchand Mangaldas', 'Trilegal', 'Khaitan & Co', 'AZB & Partners', 'SC Chambers'],
+      stream: 'National Law Entrance Division (CLAT & AILET)',
+      placement: 97.5,
+      highest: 'AIR 78 (AILET)',
+      average: 'Top 500 NLUs',
+      recruiters: ['NLSIU Bangalore', 'NLU Delhi', 'NALSAR Hyderabad', 'WBNUJS Kolkata', 'RGNUL Patiala'],
     },
     {
-      stream: 'Department of Business Studies',
-      placement: 98.5,
-      highest: '21.0 LPA',
-      average: '12.2 LPA',
-      recruiters: ['Deloitte', 'EY', 'PwC', 'KPMG', 'HDFC Bank', 'ICICI Securities'],
+      stream: 'Panjab University & State Law Division',
+      placement: 99.0,
+      highest: 'PU Rank 12',
+      average: 'PU Dept of Laws',
+      recruiters: ['PU Law Department', 'PU Regional Centres', 'UGC NET JRF', 'AIBE Qualifying', 'High Court Bar'],
     },
   ];
 
@@ -81,11 +84,11 @@ export default function ResultsPage() {
         <PageHero
           breadcrumbs={[
             { label: 'Home', href: '/' },
-            { label: 'Placements & Academic Results' },
+            { label: 'Selections & Academic Results' },
           ]}
           eyebrow="Excellence in Numbers"
-          title="Placement Records & Accolades"
-          subtitle="Consistently outperforming national benchmarks. MSI students transform academic excellence into distinguished careers."
+          title="Selections & Hall of Fame"
+          subtitle="Consistently delivering top ranks across Punjab Judiciary (PCS J), National Law Universities (CLAT/AILET), and Panjab University Law."
           bgImage="/images/hero-1.webp"
           className="pt-24 sm:pt-28"
         >
@@ -94,7 +97,7 @@ export default function ResultsPage() {
             className="h-12 px-6 rounded-xl bg-[#EFC988] hover:bg-[#EFC988]/90 text-[#10233F] font-bold text-sm flex items-center space-x-2.5 transition-all shadow-md"
           >
             <Download className="w-4 h-4" />
-            <span>Download Placement Report 2025</span>
+            <span>Download Selections Report 2025</span>
           </button>
         </PageHero>
 
@@ -113,7 +116,7 @@ export default function ResultsPage() {
                       </div>
                       <div className="font-serif text-2xl sm:text-3xl font-extrabold text-[#10233F] group-hover:text-[#89190E] transition-colors">
                         {stat.prefix || ''}
-                        <AnimatedCounter target={stat.metric} suffix={stat.suffix} decimals={stat.decimals ?? 0} />
+                        <AnimatedCounter target={stat.metric} suffix={stat.suffix} />
                       </div>
                       <div className="text-xs font-bold text-[#10233F] mt-1">{stat.label}</div>
                       <div className="text-[11px] text-[#526174] mt-0.5">{stat.detail}</div>
@@ -124,11 +127,11 @@ export default function ResultsPage() {
             </div>
           </Reveal>
 
-          {/* Discipline-Wise with Progress Bars */}
+          {/* Discipline-Wise Track Record */}
           <Reveal direction="up" className="mb-20">
             <SectionHeading
-              eyebrow="Departmental Track Record"
-              title="Discipline-Wise Placement Highlights"
+              eyebrow="Division-Wise Track Record"
+              title="Competitive Examination Highlights"
               align="left"
               className="mb-10"
             />
@@ -141,10 +144,10 @@ export default function ResultsPage() {
                         {rec.stream}
                       </h3>
 
-                      {/* Placement Progress Bar */}
+                      {/* Selection Success Rate Progress Bar */}
                       <div className="mb-6">
                         <div className="flex justify-between text-xs font-bold mb-2">
-                          <span className="text-[#526174]">Placement Rate</span>
+                          <span className="text-[#526174]">Selection Success Index</span>
                           <span className="text-[#89190E]">{rec.placement}%</span>
                         </div>
                         <div className="h-2.5 bg-[#FFF3DD] rounded-full overflow-hidden">
@@ -157,16 +160,16 @@ export default function ResultsPage() {
 
                       <div className="grid grid-cols-2 gap-3 mb-6 text-center">
                         <div className="bg-[#FFF9EF] p-3 rounded-2xl border border-[#E8DCCB]">
-                          <span className="text-[10px] text-[#526174] uppercase font-bold block">Highest CTC</span>
+                          <span className="text-[10px] text-[#526174] uppercase font-bold block">Top Result</span>
                           <span className="font-serif text-lg font-bold text-[#10233F]">{rec.highest}</span>
                         </div>
                         <div className="bg-[#FFF9EF] p-3 rounded-2xl border border-[#E8DCCB]">
-                          <span className="text-[10px] text-[#526174] uppercase font-bold block">Average CTC</span>
+                          <span className="text-[10px] text-[#526174] uppercase font-bold block">Standard</span>
                           <span className="font-serif text-lg font-bold text-[#89190E]">{rec.average}</span>
                         </div>
                       </div>
 
-                      <span className="text-xs font-bold text-[#10233F] block mb-3">Key Hiring Partners:</span>
+                      <span className="text-xs font-bold text-[#10233F] block mb-3">Key Selection Destinations:</span>
                       <div className="flex flex-wrap gap-2 mb-6">
                         {rec.recruiters.map((recruiter, cIdx) => (
                           <span key={cIdx} className="text-xs bg-white text-[#10233F] border border-[#E8DCCB] px-3 py-1 rounded-xl font-medium">
@@ -180,7 +183,7 @@ export default function ResultsPage() {
                       onClick={() => setIsEnquiryOpen(true)}
                       className="w-full h-11 rounded-xl bg-[#FFF9EF] hover:bg-[#89190E] hover:text-white text-[#89190E] border border-[#89190E]/30 font-semibold text-xs transition-all flex items-center justify-center space-x-1.5"
                     >
-                      <span>Request Full Department Report</span>
+                      <span>Request Full Division Report</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -194,17 +197,23 @@ export default function ResultsPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
               <SectionHeading
                 eyebrow="Student Achievers"
-                title="Hall of Fame: Premier Placements"
+                title="Hall of Fame: Judicial & Law Rankers"
                 align="left"
               />
               <div className="flex items-center space-x-2 bg-white p-1.5 rounded-2xl border border-[#E8DCCB] shadow-xs overflow-x-auto">
-                {(['all', 'engineering', 'law', 'management'] as const).map((stream) => {
-                  const labels: Record<string, string> = { all: 'All', engineering: 'Engineering', law: 'Law', management: 'Management' };
+                {(['all', 'judiciary', 'clat', 'pu-law', 'ugc-net'] as const).map((stream) => {
+                  const labels: Record<string, string> = {
+                    all: 'All Achievers',
+                    judiciary: 'PCS J / Judiciary',
+                    clat: 'CLAT & NLUs',
+                    'pu-law': 'PU Law',
+                    'ugc-net': 'UGC NET',
+                  };
                   return (
                     <button
                       key={stream}
                       onClick={() => setActiveStream(stream)}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeStream === stream ? 'bg-[#89190E] text-white' : 'text-[#526174] hover:text-[#10233F]'}`}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${activeStream === stream ? 'bg-[#89190E] text-white' : 'text-[#526174] hover:text-[#10233F]'}`}
                     >
                       {labels[stream]}
                     </button>
@@ -241,9 +250,9 @@ export default function ResultsPage() {
           <Reveal direction="up">
             <div className="rounded-3xl bg-[#10233F] p-8 sm:p-12 text-white text-center relative overflow-hidden">
               <div className="relative z-10 max-w-2xl mx-auto">
-                <h3 className="font-serif text-3xl sm:text-4xl font-bold mb-4">Step Into a Future of High Achievement</h3>
+                <h3 className="font-serif text-3xl sm:text-4xl font-bold mb-4">Step Into a Future of Judicial Excellence</h3>
                 <p className="text-gray-300 text-sm sm:text-base mb-8">
-                  Join MSI Group of Institutes and benefit from personalized career coaching, corporate internships, and national placement access.
+                  Join MSI Group of Institutes and benefit from personalized mentorship, judgment writing drills, and proven national law coaching.
                 </p>
                 <button
                   onClick={() => setIsEnquiryOpen(true)}

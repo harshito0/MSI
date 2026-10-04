@@ -37,35 +37,35 @@ const jakarta = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "MSI Group of Institutes | Education for a Brighter Tomorrow",
+    default: "MSI Group of Institutes | Crafting Legal Brilliance, Creating a Better Nation",
     template: "%s | MSI Group of Institutes",
   },
   description:
-    "At MSI, we empower students with quality education, strong values, and the guidance to build a successful future. Shape your tomorrow with world-class academic programs in Engineering, Law, and Management.",
+    "MSI Group of Institutes is Kharar & Mohali's premier law coaching institute for PCS (Judicial Services), CLAT (UG & PG), PU Law Entrance, AILET, AIBE, and UGC NET Law. Over 300+ selections since 1995.",
   keywords: [
     "MSI Group of Institutes",
-    "MSI",
-    "Maharaja Surajmal Institute",
-    "B.Tech Computer Science Delhi",
-    "Law School India",
-    "MBA Delhi",
-    "Quality Education",
-    "Admissions 2026",
-    "Higher Education India",
-    "NAAC A+ University",
+    "MSI Law Institute",
+    "PCS J Coaching Mohali",
+    "CLAT Coaching Kharar",
+    "PU Law Entrance Coaching",
+    "Judicial Services Coaching Punjab",
+    "AILET Coaching",
+    "UGC NET Law Coaching",
+    "Law Entrance Institute Mohali",
+    "Best Law Coaching Chandigarh",
   ],
   authors: [{ name: "MSI Group of Institutes" }],
   creator: "MSI Group of Institutes",
   publisher: "MSI Group of Institutes",
-  metadataBase: new URL("https://www.msi-institutes.edu.in"),
+  metadataBase: new URL("https://msiinstitutes.com"),
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://www.msi-institutes.edu.in",
+    url: "https://msiinstitutes.com",
     siteName: "MSI Group of Institutes",
-    title: "MSI Group of Institutes | Education for a Brighter Tomorrow",
+    title: "MSI Group of Institutes | Crafting Legal Brilliance, Creating a Better Nation",
     description:
-      "At MSI, we empower students with quality education, strong values, and the guidance to build a successful future. Shape your tomorrow with world-class academic programs.",
+      "Premier coaching institute for PCS (Judicial Services), CLAT (UG & PG), PU Law Entrance, AILET, and UGC NET Law in Kharar, Mohali.",
     images: [
       {
         url: "/images/msi-crest.png",
@@ -78,9 +78,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@MSIInstitutes",
-    title: "MSI Group of Institutes | Education for a Brighter Tomorrow",
+    title: "MSI Group of Institutes | Crafting Legal Brilliance, Creating a Better Nation",
     description:
-      "Premium higher education in Engineering, Law, and Management. NAAC A+ accredited. 98.4% placement rate.",
+      "Premier coaching institute for PCS (Judicial Services), CLAT (UG & PG), PU Law Entrance, AILET, and UGC NET Law in Kharar, Mohali.",
     images: ["/images/msi-crest.png"],
   },
   icons: {
