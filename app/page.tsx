@@ -34,6 +34,7 @@ import {
   Scale,
   Send,
   Phone,
+  Clock,
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -72,171 +73,209 @@ export default function HomePage() {
         {/* Corporate Alliances & Infinite Recruiter Marquee */}
         <RecruiterMarquee />
 
-        {/* Academic Excellence Overview Section — Horizontal Program Cards */}
+        {/* Best Selling Courses Section */}
         <section className="py-24 px-6 sm:px-10 lg:px-16 max-w-[1380px] mx-auto select-none">
           <Reveal direction="up" className="text-center max-w-2xl mx-auto mb-14">
             <div className="inline-flex items-center space-x-3 mb-3">
               <span className="h-[2px] w-8 bg-[#EFC988] rounded-full" />
               <span className="text-xs sm:text-sm font-bold tracking-[0.25em] text-[#89190E] uppercase">
-                Academic Disciplines
+                Top Enrolled Programmes
               </span>
               <span className="h-[2px] w-8 bg-[#EFC988] rounded-full" />
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#10233F] tracking-tight">
-              Pioneering Programs for Modern Minds
+              Best Selling Courses
             </h2>
             <p className="mt-4 text-[#526174] text-base sm:text-lg">
-              Industry-aligned curricula, world-class faculties, and immersive research opportunities across disciplines.
+              Our most enrolled, result-proven judicial and law entrance programmes designed to get you selected.
             </p>
           </Reveal>
 
-          {/* Horizontal program cards — upgraded with blueprint-card + HUD styling */}
-          {[
-            {
-              icon: Scale,
-              badge: 'Judiciary Coaching',
-              num: '01',
-              title: 'PCS J — Punjab Civil Judge',
-              desc: 'Expert coaching for Punjab & Haryana Judicial Services with daily judgment writing, mock tests & personal faculty attention.',
-              programs: ['Civil Judge (JD) Coaching', 'JMFC — Judicial Magistrate Prep', 'ADJ & Sessions Court Preparation'],
-              accentColor: '#89190E',
-              bgBlob: 'bg-[#89190E]/5',
-              statLabel: '100+', statSub: 'PCS J Selections',
-            },
-            {
-              icon: GraduationCap,
-              badge: 'Law Entrance',
-              num: '02',
-              title: 'CLAT & AILET Coaching',
-              desc: 'Structured preparation for all 24 NLUs — CLAT, AILET, SLAT, LSAT India — with full syllabus coverage and weekly mock tests.',
-              programs: ['CLAT — Common Law Admission Test', 'AILET — NLU Delhi Entrance', 'SLAT & LSAT India Coaching'],
-              accentColor: '#10233F',
-              bgBlob: 'bg-[#EFC988]/10',
-              statLabel: '150+', statSub: 'NLU Admissions',
-            },
-            {
-              icon: Award,
-              badge: 'Postgraduate Law',
-              num: '03',
-              title: 'UGC NET & LLM Entrance',
-              desc: 'Complete UGC NET Law (Paper 1 + Paper 2) coaching and LLM entrance preparation for NLU, PU, DU and state universities.',
-              programs: ['UGC NET Law — JRF Focused', 'LLM Entrance (CLAT PG, PU, DU)', 'HPS J — Himachal Pradesh Judiciary'],
-              accentColor: '#89190E',
-              bgBlob: 'bg-[#89190E]/4',
-              statLabel: '50+', statSub: 'NET/JRF Cleared',
-            },
-          ].map((card, cIdx) => {
-            const Icon = card.icon;
-            return (
-              <Reveal key={cIdx} direction="up" delay={cIdx * 80}>
-                <div className="blueprint-card rounded-3xl mb-6 overflow-hidden group">
-                  {/* Blueprint dot grid on hover */}
-                  <div className="absolute inset-0 blueprint-dot-grid opacity-0 group-hover:opacity-40 transition-opacity duration-400 pointer-events-none rounded-3xl" />
+          {/* 3 Best Selling Course Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch mb-10">
+            {[
+              {
+                id: 'pcs-j',
+                num: '01',
+                title: 'PCS J — Punjab & Haryana Judiciary',
+                level: 'Civil Judge (Junior Division) / JMFC',
+                badge: '#1 BESTSELLER',
+                badgeVariant: 'crimson',
+                icon: Scale,
+                accent: '#89190E',
+                duration: '1-Year Regular / Weekend',
+                stat: '100+ Selections',
+                desc: 'Flagship judicial coaching with daily Bare Act deconstructions, procedural codes, and intensive evaluated Mains judgment drafting.',
+                features: [
+                  'Comprehensive CPC, CrPC, BNSS 2023 & Evidence Mastery',
+                  'Daily High Court Judgment Drafting & Answer Checking',
+                  'Mock Interview Panels with Senior Advocates & Ex-Judges',
+                ],
+              },
+              {
+                id: 'clat-ailet',
+                num: '02',
+                title: 'CLAT & AILET — 5-Year Integrated Law',
+                level: 'Class 11, 12 & Droppers Cohort',
+                badge: 'TOP ENROLLED',
+                badgeVariant: 'gold',
+                icon: GraduationCap,
+                accent: '#10233F',
+                duration: '1-Year / 2-Year / Crash',
+                stat: 'AIR Top 100 Ranks',
+                desc: 'Targeted preparation for all 24 National Law Universities with rigorous passage-based analytics, critical reasoning, and speed strategy.',
+                features: [
+                  'Passage-First Speed Mapping & Logical Reasoning Drills',
+                  'Weekly Legal GK, Constitutional Updates & Current Affairs',
+                  '100+ Proctored All-India Simulated Mock Tests with AIR',
+                ],
+              },
+              {
+                id: 'pu-law',
+                num: '03',
+                title: 'PU Law Entrance — 3-Yr & 5-Yr LL.B',
+                level: 'Panjab University Campus & Regional Wings',
+                badge: 'STATE RANKER CHOICE',
+                badgeVariant: 'navy',
+                icon: Award,
+                accent: '#89190E',
+                duration: '3-Month Intensive & Crash',
+                stat: 'Rank 12 PU State Top Ranker',
+                desc: 'Specialized syllabus training for Department of Laws, Panjab University Chandigarh, UILS, and regional university centers.',
+                features: [
+                  '15-Year Solved Sectional Previous Year Question Deconstructions',
+                  'Legal Aptitude, Indian Polity & Current Affairs Focus',
+                  'OMR Exam-Hall Simulation with High-Accuracy Elimination',
+                ],
+              },
+            ].map((course, idx) => {
+              const Icon = course.icon;
+              return (
+                <Reveal key={course.id} direction="up" delay={idx * 100} className="h-full">
+                  <div className="blueprint-card rounded-3xl p-7 sm:p-8 flex flex-col justify-between h-full bg-white shadow-sm hover:shadow-xl hover:border-[#89190E]/60 transition-all duration-300 relative overflow-hidden group">
+                    {/* Top Accent Strip */}
+                    <div
+                      className="absolute top-0 left-0 right-0 h-1.5"
+                      style={{
+                        background:
+                          course.badgeVariant === 'crimson'
+                            ? 'linear-gradient(90deg, #89190E, #EFC988)'
+                            : course.badgeVariant === 'gold'
+                            ? 'linear-gradient(90deg, #EFC988, #10233F)'
+                            : 'linear-gradient(90deg, #10233F, #89190E)',
+                      }}
+                    />
 
-                  {/* HUD number badge — top right corner like ChainGPT */}
-                  <div className="absolute top-5 right-5 z-10 flex items-center gap-1.5 opacity-40 group-hover:opacity-80 transition-opacity">
-                    <span className="w-1.5 h-1.5 rounded-sm" style={{ background: card.accentColor }} />
-                    <span className="grid-number-badge">{card.num}</span>
-                  </div>
+                    {/* Blueprint dot grid overlay */}
+                    <div className="absolute inset-0 blueprint-dot-grid opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none rounded-3xl" />
 
-                  {/* Animated bottom bar */}
-                  <div
-                    className="absolute bottom-0 left-0 h-[2px] transition-all duration-600 ease-out z-10"
-                    style={{ background: `linear-gradient(90deg, ${card.accentColor}, #EFC988)`, width: '0%' }}
-                    ref={el => {
-                      if (!el) return;
-                      const parent = el.parentElement;
-                      if (!parent) return;
-                      parent.addEventListener('mouseenter', () => (el.style.width = '100%'));
-                      parent.addEventListener('mouseleave', () => (el.style.width = '0%'));
-                    }}
-                  />
-
-                  <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 p-7 sm:p-8">
-                    {/* Icon block */}
-                    <div className="flex-shrink-0 flex flex-col items-center gap-3">
-                      <div
-                        className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-sm transition-all duration-350 group-hover:scale-110 group-hover:rotate-3 hud-bracket"
-                        style={{ backgroundColor: card.accentColor + '12', color: card.accentColor }}
-                      >
-                        <Icon className="w-10 h-10" />
-                      </div>
-                      <div
-                        className="text-center px-3 py-1.5 rounded-xl text-xs border"
-                        style={{ backgroundColor: card.accentColor + '10', borderColor: card.accentColor + '25' }}
-                      >
-                        <span className="font-serif font-extrabold block" style={{ color: card.accentColor }}>{card.statLabel}</span>
-                        <span className="mono-accent text-[9px] text-[#526174] font-medium">{card.statSub}</span>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <span className="mono-accent text-[10px] font-bold uppercase tracking-[0.2em] bg-[#FFF9EF] border border-[#E8DCCB] px-3.5 py-1 rounded-full" style={{ color: card.accentColor }}>
-                        {card.badge}
-                      </span>
-                      <h3 className="font-serif text-2xl sm:text-3xl font-bold mt-3 mb-2 group-hover:text-[#89190E] transition-colors text-[#10233F]">
-                        {card.title}
-                      </h3>
-                      <p className="text-[#526174] text-sm leading-relaxed mb-5">{card.desc}</p>
-                      <ul className="space-y-2">
-                        {card.programs.map((prog, pIdx) => (
-                          <li key={pIdx} className="flex items-center text-xs sm:text-sm text-[#10233F] font-medium">
-                            <CheckCircle2 className="w-4 h-4 mr-2 flex-shrink-0" style={{ color: card.accentColor }} />
-                            {prog}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* CTA — chamfered style with Enquire Now & WhatsApp */}
-                    <div className="flex-shrink-0 flex flex-wrap sm:flex-col gap-2.5 w-full sm:w-auto">
-                      <button
-                        onClick={() => {
-                          setSelectedCourse(card.title);
-                          setIsEnquiryOpen(true);
-                        }}
-                        className="btn-chamfered h-10 sm:h-11 px-4 font-bold text-xs bg-[#89190E] hover:bg-[#65130D] text-white flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm flex-1 sm:flex-none"
-                      >
-                        <Send className="w-3.5 h-3.5" />
-                        <span>Enquire Now</span>
-                      </button>
-
-                      <a
-                        href={`https://wa.me/919634299858?text=${encodeURIComponent(
-                          `Hello MSI Admissions Team, I want to enquire about ${card.title} batch details and curriculum.`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-chamfered h-10 sm:h-11 px-4 font-bold text-xs bg-[#25D366] hover:bg-[#20ba59] text-white flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm flex-1 sm:flex-none"
-                        title="Chat on WhatsApp"
-                      >
-                        <svg
-                          className="w-3.5 h-3.5 fill-white"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
+                    <div>
+                      {/* Header Row: Badge + Number */}
+                      <div className="flex items-center justify-between gap-2 mb-4">
+                        <span
+                          className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase ${
+                            course.badgeVariant === 'crimson'
+                              ? 'bg-[#89190E]/10 text-[#89190E] border border-[#89190E]/20'
+                              : course.badgeVariant === 'gold'
+                              ? 'bg-[#EFC988]/25 text-[#7A5A18] border border-[#EFC988]'
+                              : 'bg-[#10233F]/10 text-[#10233F] border border-[#10233F]/20'
+                          }`}
                         >
-                          <path d="M12.031 2C6.498 2 2 6.497 2 12.032c0 1.996.586 3.864 1.6 5.438L2 22l4.673-1.562a10.007 10.007 0 0 0 5.358 1.564h.005c5.531 0 10.029-4.498 10.029-10.032 0-2.68-1.043-5.2-2.935-7.093A9.96 9.96 0 0 0 12.031 2Zm0 18.361h-.004a8.318 8.318 0 0 1-4.24-1.163l-.304-.18-3.155 1.054 1.073-3.076-.197-.315a8.324 8.324 0 0 1-1.278-4.45c0-4.606 3.748-8.354 8.356-8.354 2.232 0 4.33.87 5.908 2.45a8.293 8.293 0 0 1 2.446 5.904c0 4.608-3.748 8.356-8.36 8.356Zm4.582-6.257c-.251-.126-1.487-.734-1.718-.817-.23-.084-.397-.126-.565.126-.168.251-.649.817-.796.985-.147.168-.293.189-.544.063-.251-.126-1.06-.391-2.02-1.246-.746-.665-1.25-1.488-1.397-1.74-.146-.251-.016-.387.11-.512.113-.112.251-.293.376-.44.126-.147.168-.252.252-.42.083-.168.042-.314-.021-.44-.063-.125-.565-1.362-.774-1.865-.204-.49-.411-.423-.565-.431l-.481-.008c-.168 0-.44.063-.67.314-.23.252-.88.86-.88 2.096 0 1.237.901 2.431 1.026 2.599.126.168 1.773 2.707 4.296 3.796.6.26 1.068.415 1.433.531.602.191 1.15.164 1.583.1.482-.072 1.487-.608 1.696-1.194.21-.587.21-1.09.147-1.195-.063-.105-.23-.167-.481-.293Z" />
-                        </svg>
-                        <span>WhatsApp</span>
-                      </a>
+                          <Sparkles className="w-3 h-3" />
+                          <span>{course.badge}</span>
+                        </span>
 
-                      <Link
-                        href="/courses"
-                        className="btn-chamfered h-10 sm:h-11 px-4 font-bold text-xs border border-[#E8DCCB] text-[#10233F] hover:border-[#89190E] hover:text-[#89190E] flex items-center justify-center gap-1 transition-all flex-1 sm:flex-none"
-                      >
-                        <span>Explore</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
+                        <span className="font-mono text-xs font-bold text-[#10233F]/40 tracking-wider">
+                          {course.num} // BESTSELLER
+                        </span>
+                      </div>
+
+                      {/* Icon & Title */}
+                      <div className="flex items-center gap-3.5 mb-3">
+                        <div
+                          className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+                          style={{
+                            backgroundColor: `${course.accent}12`,
+                            color: course.accent,
+                            border: `1px solid ${course.accent}25`,
+                          }}
+                        >
+                          <Icon className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#10233F] group-hover:text-[#89190E] transition-colors leading-tight">
+                            {course.title}
+                          </h3>
+                        </div>
+                      </div>
+
+                      {/* Level subhead */}
+                      <p className="text-xs font-bold text-[#89190E] mb-3 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#EFC988]" />
+                        <span>{course.level}</span>
+                      </p>
+
+                      <p className="text-xs sm:text-sm text-[#526174] leading-relaxed mb-5">
+                        {course.desc}
+                      </p>
+
+                      {/* Bullet Highlights */}
+                      <div className="space-y-2.5 pt-4 pb-5 border-t border-[#E8DCCB]/60">
+                        {course.features.map((feat, fIdx) => (
+                          <div key={fIdx} className="flex items-start gap-2.5 text-xs text-[#10233F] font-medium leading-snug">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                            <span>{feat}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Card Footer: Metric & Action Buttons */}
+                    <div className="pt-4 border-t border-[#E8DCCB]/60 mt-auto">
+                      <div className="flex items-center justify-between text-xs mb-4">
+                        <span className="text-[#526174] font-semibold flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 text-[#89190E]" />
+                          <span>{course.duration}</span>
+                        </span>
+                        <span className="font-bold text-[#89190E] bg-[#FFF3DD] px-2.5 py-0.5 rounded-md border border-[#EFC988]/50">
+                          {course.stat}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedCourse(course.title);
+                            setIsEnquiryOpen(true);
+                          }}
+                          className="h-10 px-3 rounded-xl bg-[#89190E] hover:bg-[#65130D] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
+                        >
+                          <Send className="w-3.5 h-3.5" />
+                          <span>Enquire Batch</span>
+                        </button>
+
+                        <a
+                          href={`https://wa.me/919634299858?text=${encodeURIComponent(
+                            `Hello MSI Admissions Team, I want to enquire about ${course.title} batch details.`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="h-10 px-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
+                        >
+                          <Phone className="w-3.5 h-3.5" />
+                          <span>WhatsApp</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Reveal>
-            );
-          })}
+                </Reveal>
+              );
+            })}
+          </div>
 
-          {/* Under Courses Banner (Enquire Now & WhatsApp) */}
-          <Reveal direction="up" className="mt-8">
+          {/* Under Courses Banner (Admissions Consultation) */}
+          <Reveal direction="up" className="mt-4">
             <div className="rounded-3xl bg-gradient-to-r from-[#10233F] via-[#162f55] to-[#10233F] p-6 sm:p-8 text-white border border-[#EFC988]/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
               <div>
                 <span className="text-xs uppercase font-bold tracking-widest text-[#EFC988] block mb-1">
@@ -252,6 +291,7 @@ export default function HomePage() {
 
               <div className="flex flex-wrap items-center gap-3">
                 <button
+                  type="button"
                   onClick={() => {
                     setSelectedCourse('Admissions General Enquiry');
                     setIsEnquiryOpen(true);
@@ -268,13 +308,7 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="h-11 px-5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs flex items-center space-x-1.5 transition-all shadow-md cursor-pointer"
                 >
-                  <svg
-                    className="w-4 h-4 fill-white"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M12.031 2C6.498 2 2 6.497 2 12.032c0 1.996.586 3.864 1.6 5.438L2 22l4.673-1.562a10.007 10.007 0 0 0 5.358 1.564h.005c5.531 0 10.029-4.498 10.029-10.032 0-2.68-1.043-5.2-2.935-7.093A9.96 9.96 0 0 0 12.031 2Zm0 18.361h-.004a8.318 8.318 0 0 1-4.24-1.163l-.304-.18-3.155 1.054 1.073-3.076-.197-.315a8.324 8.324 0 0 1-1.278-4.45c0-4.606 3.748-8.354 8.356-8.354 2.232 0 4.33.87 5.908 2.45a8.293 8.293 0 0 1 2.446 5.904c0 4.608-3.748 8.356-8.36 8.356Zm4.582-6.257c-.251-.126-1.487-.734-1.718-.817-.23-.084-.397-.126-.565.126-.168.251-.649.817-.796.985-.147.168-.293.189-.544.063-.251-.126-1.06-.391-2.02-1.246-.746-.665-1.25-1.488-1.397-1.74-.146-.251-.016-.387.11-.512.113-.112.251-.293.376-.44.126-.147.168-.252.252-.42.083-.168.042-.314-.021-.44-.063-.125-.565-1.362-.774-1.865-.204-.49-.411-.423-.565-.431l-.481-.008c-.168 0-.44.063-.67.314-.23.252-.88.86-.88 2.096 0 1.237.901 2.431 1.026 2.599.126.168 1.773 2.707 4.296 3.796.6.26 1.068.415 1.433.531.602.191 1.15.164 1.583.1.482-.072 1.487-.608 1.696-1.194.21-.587.21-1.09.147-1.195-.063-.105-.23-.167-.481-.293Z" />
-                  </svg>
+                  <Phone className="w-3.5 h-3.5" />
                   <span>WhatsApp</span>
                 </a>
 

@@ -258,7 +258,21 @@ export default function Footer() {
 
         {/* Copyright & Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
-          <p>© {new Date().getFullYear()} MSI Group of Institutes, Kharar. All rights reserved.</p>
+          <p className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1">
+            <span>© {new Date().getFullYear()} MSI Group of Institutes, Kharar. All rights reserved.</span>
+            <span className="text-white/30 hidden sm:inline">•</span>
+            <span>
+              Design and Developed by{' '}
+              <a
+                href="https://www.codekap.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#EFC988] hover:text-white font-semibold transition-colors underline-offset-2 hover:underline"
+              >
+                Codekap
+              </a>
+            </span>
+          </p>
 
           <div className="flex items-center space-x-6">
             <Link href="/about" className="hover:text-[#EFC988] transition-colors">
