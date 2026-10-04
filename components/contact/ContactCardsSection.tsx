@@ -24,13 +24,13 @@ interface ContactCardsSectionProps {
 export default function ContactCardsSection({ onOpenEnquiry }: ContactCardsSectionProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  const phoneDisplay = '075084 20013';
+  const phoneDisplay = '+91 79863 13013';
   const emailDisplay = 'info@msiinstitutes.com';
   const addressDisplay =
     '1st, 2nd and 3rd floor, Monga City Centre, Sco 12-13, Kharar - Landran Rd, Sector 115, Sahibzada Ajit Singh Nagar, Punjab 140307, India';
   const mapsUrl =
     'https://maps.google.com/?q=Monga+City+Centre+Kharar+Landran+Road+Sector+115+Sahibzada+Ajit+Singh+Nagar+Punjab+140307';
-  const whatsappUrl = `https://wa.me/917508420013?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/917986313013?text=${encodeURIComponent(
     'Hello MSI Admissions Team, I want to enquire about your coaching programs, batch timings and admissions.'
   )}`;
 
@@ -98,7 +98,7 @@ export default function ContactCardsSection({ onOpenEnquiry }: ContactCardsSecti
                 {/* Phone Display with Quick Copy & Call Action */}
                 <div className="p-3.5 rounded-2xl bg-[#FFF9EF] border border-[#E8DCCB] group-hover:border-[#EFC988] transition-colors flex items-center justify-between gap-2 mb-4">
                   <a
-                    href="tel:07508420013"
+                    href="tel:+917986313013"
                     className="font-serif text-lg sm:text-xl font-bold text-[#10233F] group-hover:text-[#89190E] transition-colors tracking-wide flex items-center gap-2 hover:underline"
                     title="Click to Call"
                   >
@@ -149,7 +149,7 @@ export default function ContactCardsSection({ onOpenEnquiry }: ContactCardsSecti
                 </a>
 
                 <a
-                  href="tel:07508420013"
+                  href="tel:+917986313013"
                   className="w-full sm:w-auto h-11 px-4 rounded-xl bg-[#FFF9EF] hover:bg-[#89190E] hover:text-white text-[#10233F] border border-[#E8DCCB] font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                   title="Direct Call"
                 >

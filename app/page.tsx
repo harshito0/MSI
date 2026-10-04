@@ -203,7 +203,7 @@ export default function HomePage() {
                       </button>
 
                       <a
-                        href={`https://wa.me/917508420013?text=${encodeURIComponent(
+                        href={`https://wa.me/919634299858?text=${encodeURIComponent(
                           `Hello MSI Admissions Team, I want to enquire about ${card.title} batch details and curriculum.`
                         )}`}
                         target="_blank"
@@ -263,7 +263,7 @@ export default function HomePage() {
                 </button>
 
                 <a
-                  href="https://wa.me/917508420013?text=Hello%20MSI%20Admissions%20Team%2C%20I%20want%20to%20enquire%20about%20your%20coaching%20programs."
+                  href="https://wa.me/919634299858?text=Hello%20MSI%20Admissions%20Team%2C%20I%20want%20to%20enquire%20about%20your%20coaching%20programs."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="h-11 px-5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs flex items-center space-x-1.5 transition-all shadow-md cursor-pointer"
@@ -279,11 +279,11 @@ export default function HomePage() {
                 </a>
 
                 <a
-                  href="tel:07508420013"
+                  href="tel:+917986313013"
                   className="h-11 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs flex items-center space-x-1.5 border border-white/20 transition-all cursor-pointer"
                 >
                   <Phone className="w-3.5 h-3.5" />
-                  <span>Call: 075084 20013</span>
+                  <span>Call: +91 79863 13013</span>
                 </a>
               </div>
             </div>

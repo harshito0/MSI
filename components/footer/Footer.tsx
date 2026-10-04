@@ -221,9 +221,15 @@ export default function Footer() {
               </div>
               <div className="flex items-center space-x-2.5">
                 <Phone className="w-4 h-4 text-[#EFC988] flex-shrink-0" />
-                <a href="tel:07508420013" className="hover:text-[#EFC988] transition-colors font-medium">
-                  075084 20013
-                </a>
+                <div className="flex flex-wrap items-center gap-x-2 text-sm font-medium">
+                  <a href="tel:+917986313013" className="hover:text-[#EFC988] transition-colors">
+                    +91 79863 13013
+                  </a>
+                  <span className="text-white/40">/</span>
+                  <a href="tel:+919634299858" className="hover:text-[#EFC988] transition-colors">
+                    +91 96342 99858
+                  </a>
+                </div>
               </div>
               <div className="flex items-center space-x-2.5">
                 <Mail className="w-4 h-4 text-[#EFC988] flex-shrink-0" />
@@ -233,13 +239,13 @@ export default function Footer() {
               </div>
               <div className="pt-2 flex flex-col gap-2">
                 <a
-                  href="https://wa.me/917508420013?text=Hello%20MSI%20Admissions%20Team%2C%20I%20want%20to%20enquire%20about%20your%20coaching%20programs."
+                  href="https://wa.me/919634299858?text=Hello%20MSI%20Admissions%20Team%2C%20I%20want%20to%20enquire%20about%20your%20coaching%20programs."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all text-xs font-semibold cursor-pointer w-fit"
                 >
                   <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
-                  <span>WhatsApp: 075084 20013</span>
+                  <span>WhatsApp: +91 96342 99858</span>
                 </a>
                 <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px]">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />

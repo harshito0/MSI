@@ -17,9 +17,9 @@ export default function FloatingActionDock() {
 
   if (isPortal) return null;
 
-  const institutePhone = '+917508420013';
-  const displayPhone = '075084 20013';
-  const whatsappUrl = `https://wa.me/917508420013?text=${encodeURIComponent(
+  const institutePhone = '+919634299858';
+  const displayPhone = '+91 96342 99858';
+  const whatsappUrl = `https://wa.me/919634299858?text=${encodeURIComponent(
     'Hello MSI Admissions Team, I want to enquire about courses, eligibility and admissions.'
   )}`;
 

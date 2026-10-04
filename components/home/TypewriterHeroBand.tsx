@@ -195,13 +195,13 @@ export default function TypewriterHeroBand({ onOpenEnquiry }: TypewriterHeroBand
             {/* Contact mini-cards — 2 col bento */}
             <div className="grid grid-cols-2 gap-3">
               <a
-                href="tel:07508420013"
+                href="tel:+917986313013"
                 className="hud-bracket p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-colors block cursor-pointer"
               >
                 <Phone className="w-4 h-4 text-[#EFC988] mb-2" />
                 <p className="mono-accent text-[9px] text-white/40 uppercase tracking-widest mb-1">Helpline</p>
                 <p className="text-xs text-white font-bold leading-tight">
-                  075084 20013
+                  +91 79863 13013
                 </p>
               </a>
               <a

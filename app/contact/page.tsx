@@ -25,7 +25,7 @@ import {
 const officeHours = [
   { day: 'Monday – Friday', hours: '9:00 AM – 6:00 PM', note: 'All Departments' },
   { day: 'Saturday', hours: '9:00 AM – 2:00 PM', note: 'Admissions only' },
-  { day: 'Sunday', hours: 'Closed', note: 'Helpline: 075084 20013' },
+  { day: 'Sunday', hours: 'Closed', note: 'Helpline: +91 96342 99858' },
 ];
 
 
@@ -260,7 +260,7 @@ export default function ContactPage() {
                 </div>
                 <div className="flex items-center space-x-2.5 text-[#526174]">
                   <Phone className="w-4 h-4 text-[#89190E] flex-shrink-0" />
-                  <span><span className="font-bold text-[#10233F]">Direct Desk:</span> 075084 20013 / info@msiinstitutes.com</span>
+                  <span><span className="font-bold text-[#10233F]">Direct Desk:</span> +91 79863 13013 / info@msiinstitutes.com</span>
                 </div>
               </div>
             </div>

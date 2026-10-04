@@ -553,7 +553,7 @@ export default function CoursesPage() {
                       </button>
 
                       <a
-                        href={`https://wa.me/917508420013?text=${encodeURIComponent(
+                        href={`https://wa.me/919634299858?text=${encodeURIComponent(
                           `Hello MSI Admissions Team, I want to enquire about ${course.name} batch details.`
                         )}`}
                         target="_blank"
@@ -625,7 +625,7 @@ export default function CoursesPage() {
 
                     <div className="grid grid-cols-2 gap-2">
                       <a
-                        href="tel:07508420013"
+                        href="tel:+917986313013"
                         className="h-10 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs flex items-center justify-center space-x-1.5 transition-all cursor-pointer"
                         title="Call Admissions Desk"
                       >
@@ -633,7 +633,7 @@ export default function CoursesPage() {
                         <span>Call Desk</span>
                       </a>
                       <a
-                        href="https://wa.me/917508420013?text=Hello%20MSI%20Admissions%20Team%2C%20I%20have%20doubts%20regarding%20course%20selection%20and%20enquiry."
+                        href="https://wa.me/919634299858?text=Hello%20MSI%20Admissions%20Team%2C%20I%20have%20doubts%20regarding%20course%20selection%20and%20enquiry."
                         target="_blank"
                         rel="noopener noreferrer"
                         className="h-10 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold text-xs flex items-center justify-center space-x-1.5 transition-all shadow-sm cursor-pointer"
@@ -712,7 +712,7 @@ export default function CoursesPage() {
               </button>
 
               <a
-                href="https://wa.me/917508420013?text=Hello%20MSI%20Admissions%20Team%2C%20I%20have%20doubts%20regarding%20course%20selection%20and%20enquiry."
+                href="https://wa.me/919634299858?text=Hello%20MSI%20Admissions%20Team%2C%20I%20have%20doubts%20regarding%20course%20selection%20and%20enquiry."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 sm:flex-none px-5 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-all shadow-md shadow-emerald-500/20 cursor-pointer"
@@ -722,11 +722,11 @@ export default function CoursesPage() {
               </a>
 
               <a
-                href="tel:07508420013"
+                href="tel:+917986313013"
                 className="flex-1 sm:flex-none px-4 py-3.5 rounded-xl bg-white hover:bg-[#FFF3DD] border border-[#E8DCCB] text-[#10233F] font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition-all cursor-pointer"
               >
                 <Phone className="w-4 h-4 text-[#89190E]" />
-                <span>075084 20013</span>
+                <span>+91 79863 13013</span>
               </a>
             </div>
           </div>
@@ -1403,7 +1403,7 @@ export default function CoursesPage() {
                 </button>
 
                 <a
-                  href="https://wa.me/917508420013?text=Hello%20MSI%20Admissions%20Team%2C%20I%20have%20questions%20about%20your%20courses."
+                  href="https://wa.me/919634299858?text=Hello%20MSI%20Admissions%20Team%2C%20I%20have%20questions%20about%20your%20courses."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="h-12 px-6 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm flex items-center space-x-2 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
