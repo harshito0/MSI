@@ -17,16 +17,10 @@ export default function HeroContent({
   return (
     <div className="relative z-20 flex flex-col justify-center max-w-[660px] pt-24 sm:pt-28 pb-12 lg:py-16 text-left select-none animate-fadeIn">
       {/* Floating Admissions Pill */}
-      <div className="inline-flex items-center flex-wrap sm:flex-nowrap gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E8DCCB] shadow-xs mb-4 max-w-full">
-        <div className="flex items-center space-x-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#89190E] animate-pulse-beacon flex-shrink-0" />
-          <span className="text-[11px] sm:text-xs font-bold text-[#89190E] uppercase tracking-wider">
-            Admissions Open — New Batch 2025
-          </span>
-        </div>
-        <span className="text-gray-300 hidden sm:inline">•</span>
-        <span className="text-[11px] sm:text-xs font-semibold text-[#10233F]">
-          Est. 1995 | 300+ Selections
+      <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E8DCCB] shadow-xs mb-4 w-max max-w-full">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#89190E] animate-pulse-beacon flex-shrink-0" />
+        <span className="text-[11px] sm:text-xs font-bold text-[#89190E] uppercase tracking-wider">
+          Admissions Open — New Batch 2025
         </span>
       </div>
 
